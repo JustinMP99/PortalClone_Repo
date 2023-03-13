@@ -1,0 +1,65 @@
+FPS TEST TASKS
+
+TO DO:
+
+
+
+2) rework portal placement and make sure portal camera rotation and position still work
+   - player should be able to shoot portals again
+   - Portals camera should move and rotate properly no matter the orientation
+
+3) Add the ability to move through the portals
+   - The player should be able to move through the portal
+   - objects should be able to move through the portal
+
+4) Adjust FPS looking
+   - Looking around feels awkward and barely works on controller
+   - make looking around smoother
+   
+5) player should be able to pick up and move cubes or other objects  
+	- Object should move in when player gets to a wall
+	
+
+
+6) Level select
+   - Currently aiming for 5 levels, 10 if possible
+
+7) Add controller/button support to main menu
+
+8) Add a Level Select option to the main menu
+
+9) Add the ability to save and load the game
+	- Player should be able to load saves from the main menu
+	- While playing the Player should be able to pause and save or load 
+
+10)
+
+
+   
+ 
+
+
+COMPLETED:
+
+- Player Movement
+- Portals show Render texture
+- Player pause/resume the game
+- Player can return to the main menu
+- Player can start the game from the Main Menu
+- Portal code is now in the proper places (Portal Camera is now updated in the portal script of each portal
+
+
+Portal Implementation
+
+1) Get the players angle from the portal, then rotate the camera that angle.
+
+
+2) The camera should be the same distance the player is from the portal
+
+
+3) Scale the render texture to the cameras resolution
+
+
+
+
+
