@@ -174,7 +174,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
-
     #region PlayerMovement Functions
 
     public void PlayerJump(InputAction.CallbackContext obj)
@@ -186,9 +185,19 @@ public class PlayerController : MonoBehaviour
     
     public void PlayerMove(Vector2 directions)
     {
-        //Debug.Log("Moving Player");
-        //rb.MovePosition(rb.position + (Direction * Speed * Time.deltaTime));
-        this.transform.Translate(Direction);
+
+        if (Direction != Vector3.zero)
+        {
+            //get the target angle
+            //pass in X first then Y Because we want to turn from the players forward not unitys
+            float Target = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + FPSCamera.transform.eulerAngles.y;
+            //set the movement direction
+            Vector3 movementDir = Quaternion.Euler(0.0f, Target, 0.0f) * Vector3.forward;
+
+            rb.MovePosition(rb.position + (movementDir * Speed * Time.deltaTime));
+
+              
+        }
     }
 
     public void FireLeftPortal()
@@ -666,7 +675,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         //Movement
-        if (Direction != Vector3.zero )
+        if (Direction != Vector3.zero)
         {
             //get the target angle
             //pass in X first then Y Because we want to turn from the players forward not unitys
@@ -675,8 +684,7 @@ public class PlayerController : MonoBehaviour
             Vector3 movementDir = Quaternion.Euler(0.0f, Target, 0.0f) * Vector3.forward;
 
             rb.MovePosition(rb.position + (movementDir * Speed * Time.deltaTime));
-            
-            //this.transform.Translate(Direction);   
+  
         }
 
         //ObjectHolding
