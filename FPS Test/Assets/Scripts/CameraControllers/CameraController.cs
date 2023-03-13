@@ -45,7 +45,7 @@ public class CameraController : MonoBehaviour
         Look.Enable();
 
         //capture mouse position in MousePosition vector
-        Look.performed += ctx => MousePosition = ctx.ReadValue<Vector2>().normalized * Sensitivity;
+        Look.performed += ctx => MousePosition = ctx.ReadValue<Vector2>() * Sensitivity;
         Look.canceled += ctx2 => MousePosition = ctx2.ReadValue<Vector2>();
     }
 
