@@ -20,12 +20,18 @@ public class StartScreenUIManager : MonoBehaviour
     public Slider FOVSlider;
     [SerializeField]
     private TMP_Text FieldOfViewNumText;
-
+    [SerializeField]
+    private GameObject[] StartSelectorImages;
+    [SerializeField]
+    private GameObject[] SettingsSelectorImages;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        StartSelectorImages[0].SetActive(true);
+        SettingsSelectorImages[0].SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -38,6 +44,7 @@ public class StartScreenUIManager : MonoBehaviour
 
 
     #region Set Active State Functions
+
     public void SetStartUIState(bool state)
     {
 
@@ -49,6 +56,19 @@ public class StartScreenUIManager : MonoBehaviour
     {
 
         SettingsUI.SetActive(state);
+
+    }
+
+    public void SetStartSelectorImageState(bool state, int ImageNum)
+    {
+
+        StartSelectorImages[ImageNum].SetActive(state);
+
+    }
+    public void SetSettingSelectorImageState(bool state, int ImageNum)
+    {
+
+        SettingsSelectorImages[ImageNum].SetActive(state);
 
     }
 
@@ -67,6 +87,7 @@ public class StartScreenUIManager : MonoBehaviour
 
     }
 
+    
 
 
     #endregion

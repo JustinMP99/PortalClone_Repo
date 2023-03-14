@@ -588,6 +588,76 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""MainMenu"",
+            ""id"": ""7dc4f22f-30e0-4485-b009-cbeefa900db5"",
+            ""actions"": [
+                {
+                    ""name"": ""Select_Up"",
+                    ""type"": ""Button"",
+                    ""id"": ""1baae8dc-4fed-4b88-ab89-38fa5047b49a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select_Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""aadc1d0f-1d9b-4b18-b9a5-87ddddb225de"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a0e1955a-f321-443b-807a-094aefb8b8d5"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select_Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ff2b253-3897-4516-aae2-8355a2adffb5"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select_Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""360ec138-077b-4251-b19c-557dbc840565"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select_Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92448c1a-f489-40a0-9475-b16b9ec3fbae"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select_Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -668,6 +738,10 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
         m_PauseMenuUI_Pause_MoveDown = m_PauseMenuUI.FindAction("Pause_MoveDown", throwIfNotFound: true);
         m_PauseMenuUI_Pause_Select = m_PauseMenuUI.FindAction("Pause_Select", throwIfNotFound: true);
         m_PauseMenuUI_Pause_Return = m_PauseMenuUI.FindAction("Pause_Return", throwIfNotFound: true);
+        // MainMenu
+        m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
+        m_MainMenu_Select_Up = m_MainMenu.FindAction("Select_Up", throwIfNotFound: true);
+        m_MainMenu_Select_Down = m_MainMenu.FindAction("Select_Down", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -889,6 +963,60 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
         }
     }
     public PauseMenuUIActions @PauseMenuUI => new PauseMenuUIActions(this);
+
+    // MainMenu
+    private readonly InputActionMap m_MainMenu;
+    private List<IMainMenuActions> m_MainMenuActionsCallbackInterfaces = new List<IMainMenuActions>();
+    private readonly InputAction m_MainMenu_Select_Up;
+    private readonly InputAction m_MainMenu_Select_Down;
+    public struct MainMenuActions
+    {
+        private @PlayerInputActionMaps m_Wrapper;
+        public MainMenuActions(@PlayerInputActionMaps wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Select_Up => m_Wrapper.m_MainMenu_Select_Up;
+        public InputAction @Select_Down => m_Wrapper.m_MainMenu_Select_Down;
+        public InputActionMap Get() { return m_Wrapper.m_MainMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MainMenuActions set) { return set.Get(); }
+        public void AddCallbacks(IMainMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MainMenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MainMenuActionsCallbackInterfaces.Add(instance);
+            @Select_Up.started += instance.OnSelect_Up;
+            @Select_Up.performed += instance.OnSelect_Up;
+            @Select_Up.canceled += instance.OnSelect_Up;
+            @Select_Down.started += instance.OnSelect_Down;
+            @Select_Down.performed += instance.OnSelect_Down;
+            @Select_Down.canceled += instance.OnSelect_Down;
+        }
+
+        private void UnregisterCallbacks(IMainMenuActions instance)
+        {
+            @Select_Up.started -= instance.OnSelect_Up;
+            @Select_Up.performed -= instance.OnSelect_Up;
+            @Select_Up.canceled -= instance.OnSelect_Up;
+            @Select_Down.started -= instance.OnSelect_Down;
+            @Select_Down.performed -= instance.OnSelect_Down;
+            @Select_Down.canceled -= instance.OnSelect_Down;
+        }
+
+        public void RemoveCallbacks(IMainMenuActions instance)
+        {
+            if (m_Wrapper.m_MainMenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMainMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MainMenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MainMenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MainMenuActions @MainMenu => new MainMenuActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -950,5 +1078,10 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
         void OnPause_MoveDown(InputAction.CallbackContext context);
         void OnPause_Select(InputAction.CallbackContext context);
         void OnPause_Return(InputAction.CallbackContext context);
+    }
+    public interface IMainMenuActions
+    {
+        void OnSelect_Up(InputAction.CallbackContext context);
+        void OnSelect_Down(InputAction.CallbackContext context);
     }
 }

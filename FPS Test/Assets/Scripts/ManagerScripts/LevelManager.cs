@@ -35,7 +35,7 @@ public class LevelManager : MonoBehaviour
     private RenderTexture RightViewTexture;
 
     //Other
-    bool OriginalMethod = true;
+    //bool OriginalMethod = true;
 
     // Start is called before the first frame update
     void Start()
