@@ -248,7 +248,7 @@ public class PlayerController : MonoBehaviour
     
     public void FireRightPortal()
     {
-        Debug.Log("BUTTON PRESSED");
+        
         //bit shift the layermask
         int layermask = 1 << 8;
         //int layermask = 10;

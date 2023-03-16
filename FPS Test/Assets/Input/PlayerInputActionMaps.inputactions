@@ -572,7 +572,7 @@
             "id": "7dc4f22f-30e0-4485-b009-cbeefa900db5",
             "actions": [
                 {
-                    "name": "Select_Up",
+                    "name": "Start_Select_Up",
                     "type": "Button",
                     "id": "1baae8dc-4fed-4b88-ab89-38fa5047b49a",
                     "expectedControlType": "Button",
@@ -581,9 +581,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Select_Down",
+                    "name": "Start_Select_Down",
                     "type": "Button",
                     "id": "aadc1d0f-1d9b-4b18-b9a5-87ddddb225de",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Start_Select",
+                    "type": "Button",
+                    "id": "c2532e3e-fe01-44df-8572-d84837199208",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -598,7 +607,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Select_Up",
+                    "action": "Start_Select_Up",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -609,7 +618,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Select_Up",
+                    "action": "Start_Select_Up",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -620,7 +629,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Select_Down",
+                    "action": "Start_Select_Down",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -631,7 +640,97 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Select_Down",
+                    "action": "Start_Select_Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df46da1c-d282-4ee2-83ee-5b69d85523ec",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start_Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "540be18f-a6a2-4eeb-abe3-aa32f5cee989",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Start_Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "SettingsMenu",
+            "id": "2b2599db-f953-40f6-b15e-ad113485f204",
+            "actions": [
+                {
+                    "name": "Settings_Select_Up",
+                    "type": "Button",
+                    "id": "30622591-acdb-4757-b8d1-d654a15f1bda",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Settings_Select_Down",
+                    "type": "Button",
+                    "id": "8e3d23e4-2799-4146-83cc-dfc8f467c91d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Settings_Select",
+                    "type": "Button",
+                    "id": "9970553e-7bde-4a29-b25c-f30c0df66b40",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fb755c89-04d6-47e1-8c39-3f90392b7a34",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Settings_Select_Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4deb528b-ea24-4220-9379-5309f7efdae9",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Settings_Select_Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b7bc75f-ea9d-4263-af72-eb659ef5f8fa",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Settings_Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

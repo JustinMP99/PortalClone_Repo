@@ -2,6 +2,23 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+//
+//
+//
+//
+//
+//
+//
+//// </summary>
+
+
+
+
+
+
+
+
 public class StartScreenButtonManager : MonoBehaviour
 {
 
@@ -13,29 +30,56 @@ public class StartScreenButtonManager : MonoBehaviour
     private int CurrentMenuIter = 0;
     private int MaxMenuIter = 0;
 
-    private bool InStart = true;
-    private bool InSettings = false;
+    private bool InStartMenu = true;
+    private bool InSettingsMenu = false;
+    private bool InChooseSaveMenu = false;
+    private bool InSaveSelectedMenu = false;
 
 
     #region ActionMap Variables
     public PlayerInputActionMaps PlayerControl;
 
-    private InputAction Select_Up;
-    private InputAction Select_Down;
-    private InputAction Select;
+    private InputAction Start_Select_Up;
+    private InputAction Start_Select_Down;
+    private InputAction Start_Select;
 
+    private InputAction Settings_Select_Up;
+    private InputAction Settings_Select_Down;
+    private InputAction Settings_Select;
 
     #endregion
 
 
 
+    void Awake()
+    {
+        PlayerControl = new PlayerInputActionMaps();
+    }
+
     private void OnEnable()
     {
-        
+        Start_Select_Up = PlayerControl.MainMenu.Start_Select_Up;
+        Start_Select_Up.performed += MoveMainMenuSelectorUp;
+        Start_Select_Up.Enable();
+
+        Start_Select_Down = PlayerControl.MainMenu.Start_Select_Down;
+        Start_Select_Down.performed += MoveMainMenuSelectorDown;
+        Start_Select_Down.Enable();
+
+        Start_Select = PlayerControl.MainMenu.Start_Select;
+        Start_Select.performed += MainMenuSelect;
+        Start_Select.Enable();
+
     }
+
+
     private void OnDisable()
     {
-        
+
+        Start_Select_Up.Disable();
+        Start_Select_Down.Disable();
+        Start_Select.Disable();
+
     }
 
 
@@ -66,13 +110,22 @@ public class StartScreenButtonManager : MonoBehaviour
 
 
     //Load into the first level
-    public void StartButton()
+    public void ChooseSave()
     {
-        //Load the first Level
-        SceneManager.LoadScene("TestLevel");
+       
 
 
     }
+
+    public void NewGameFunction()
+    {
+
+        //Load the first Level
+        SceneManager.LoadScene("TestLevel");
+
+    }
+
+
 
     public void QuitGame()
     {
@@ -82,50 +135,103 @@ public class StartScreenButtonManager : MonoBehaviour
     }
 
 
-    public void MoveSelectorUp()
+
+
+    #region Main Menu Input
+
+    public void MoveMainMenuSelectorUp(InputAction.CallbackContext obj)
     {
         //if CurrentMenuIter equals Zero
         if (GetCurrentMenuIter() == 0)
         {
             //set Previous selector off
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(false, CurrentMenuIter);
+            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
             //set CurrentMenuIter Value to the MaxMenuIter value
             SetCurrentMenuIter(GetMaxMenuIter() - 1);
             //set new Selector on
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(true, CurrentMenuIter);
+            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
         }
         else
         {
             //set previous selector off
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(false, CurrentMenuIter);
+            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
             //subtract 1 from the currentMenuIter
             SetCurrentMenuIter(GetCurrentMenuIter() - 1);
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(true, CurrentMenuIter);
+            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
         }
 
 
     }
 
-    public void MoveSelectorDown()
+    public void MoveMainMenuSelectorDown(InputAction.CallbackContext obj)
     {
 
         if (GetCurrentMenuIter() == (GetMaxMenuIter() - 1))
         {
             //set Previous selector off
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(false, CurrentMenuIter);
+            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
             //set CurrentMenuIter Value
             SetCurrentMenuIter(0);
             //set new Selector on
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(true, CurrentMenuIter);
+            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
         }
         else
         {
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(false, CurrentMenuIter);
+            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
             SetCurrentMenuIter(GetCurrentMenuIter() + 1);
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(true, CurrentMenuIter);
+            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
         }
     }
 
+    public void MainMenuSelect(InputAction.CallbackContext obj)
+    {
+
+        switch (CurrentMenuIter)
+        {
+            case 0:
+
+                NewGameFunction();
+                break;
+
+            case 1:
+
+
+                break;
+
+
+            case 2:
+                QuitGame();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public void MainMenuSetSelector(int MenuIter)
+    {
+        UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
+        CurrentMenuIter = MenuIter;
+        UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
+    }
+
+    #endregion
+
+    #region Menu Transition Functions
+
+    //Go to Save Select Screen
+
+    public void GoToChooseSaveSelect()
+    {
+        //disable ---START---, ---SAVE SELECTED---
+        UIManagerScript.SetStartMenuState(false);
+
+        UIManagerScript.SetSelectedSaveMenu(false);
+
+        //Enable Save Selected Menu
+        UIManagerScript.SetChooseSaveMenuState(true);
+
+    }
 
 
 
@@ -139,27 +245,40 @@ public class StartScreenButtonManager : MonoBehaviour
         MaxMenuIter = 5;
 
         //Deactivate the start UI
-        UIManagerScript.SetStartUIState(false);
-        //Activate the settings UI
-        UIManagerScript.SetSettingsUIState(true);
+        UIManagerScript.SetStartMenuState(false);
+        //Deactivate Start Selector Images
+        
 
-        InStart = false;
-        InSettings = true;
+        //Activate the settings UI
+        UIManagerScript.SetSettingsMenuState(true);
+
+        InStartMenu = false;
+        InSettingsMenu = true;
 
     }
 
     public void ReturnToStart()
     {
+        //set CurrentMenuIter
+        CurrentMenuIter = 0;
+        //Set MaxMenuIter
+        MaxMenuIter = 3;
         //Activate the start UI
-        UIManagerScript.SetStartUIState(true);
+        UIManagerScript.SetStartMenuState(true);
         //Deactivate the settings UI
-        UIManagerScript.SetSettingsUIState(false);
+        UIManagerScript.SetSettingsMenuState(false);
 
-        InStart = true;
-        InSettings = false;
+        UIManagerScript.SetStartSelectorImageState(true,  0);
+        UIManagerScript.SetStartSelectorImageState(false, 1);
+        UIManagerScript.SetStartSelectorImageState(false, 2);
+
+        InStartMenu = true;
+        InSettingsMenu = false;
 
     }
 
+
+    #endregion
 
     #region Setters
 

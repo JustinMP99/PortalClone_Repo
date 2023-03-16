@@ -19,6 +19,8 @@ public class StartScreenSettings : MonoBehaviour
     void Update()
     {
         
+
+
     }
 
     #region Setter Functions

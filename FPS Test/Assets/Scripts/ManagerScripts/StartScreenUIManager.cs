@@ -12,25 +12,121 @@ public class StartScreenUIManager : MonoBehaviour
 
     [SerializeField]
     private TMP_Text GameTitle_TMP;
+
+
+
+
+    #region Start Menu Variables
+    [Header("START MENU VARIABLES")]
+
     [SerializeField]
-    private GameObject StartUI;
+    private GameObject StartMenu;
     [SerializeField]
-    private GameObject SettingsUI,
+    private GameObject StartMenuBackground;
+
+    [SerializeField]
+    //The parent object of the StartSelectorImages
+    private GameObject StartSelectors;
+    [SerializeField]
+    //Array of each StarSelectorImage
+    private GameObject[] StartSelectorImages;
+
+    #endregion
+
+
+
+    #region Settings Variables
+    [Header("SETTINGS VARIABLES")]
+    [SerializeField]
+    private GameObject SettingsMenu,
     GoBackButton;
+    [SerializeField]
+    private GameObject SettingsMenuBackground;
+
     public Slider FOVSlider;
+
     [SerializeField]
     private TMP_Text FieldOfViewNumText;
+
     [SerializeField]
-    private GameObject[] StartSelectorImages;
+    //The parent object of the SettingsSelectorImages
+    private GameObject SettingSelectors;
     [SerializeField]
     private GameObject[] SettingsSelectorImages;
+
+
+    #endregion
+
+
+
+
+    #region Select Save Variables
+    [Header ("SELECT SAVE VARIABLES")]
+
+
+    [SerializeField]
+    private GameObject ChooseSaveMenu;
+
+
+    [SerializeField]
+    private GameObject SaveOne;
+    [SerializeField]
+    private TMP_Text SaveOneLevelText;
+    [SerializeField]
+    private GameObject SaveOneImage;
+
+
+    [SerializeField]
+    private GameObject SaveTwo;
+    [SerializeField]
+    private TMP_Text SaveTwoLevelText;
+    [SerializeField]
+    private GameObject SaveTwoImage;
+
+
+    [SerializeField]
+    private GameObject SaveThree;
+    [SerializeField]
+    private TMP_Text SaveThreeLevelText;
+    [SerializeField]
+    private GameObject SaveThreeImage;
+
+    #endregion
+
+
+    #region Save Selected Menu Variables
+    [Header("SAVE SELECTED MENU VARIABLES")]
+
+    [SerializeField]
+    private GameObject SaveSelectedMenu;
+
+
+
+
+
+
+    #endregion
+
+
+
+
+
+
 
     // Start is called before the first frame update
     void Start()
     {
 
+        //check if a settings save file exists 
+
+        //if it does, load the default values into a game object
+
+        //if it doesnt, create the file with default values
+
+
+
         StartSelectorImages[0].SetActive(true);
-        SettingsSelectorImages[0].SetActive(false);
+        //SettingsSelectorImages[0].SetActive(false);
 
     }
 
@@ -43,28 +139,43 @@ public class StartScreenUIManager : MonoBehaviour
 
 
 
-    #region Set Active State Functions
+    #region Main Menu Set State Functions
 
-    public void SetStartUIState(bool state)
+    public void SetStartMenuState(bool state)
     {
 
-        StartUI.SetActive(state);
+        StartMenu.SetActive(state);
 
     }
 
-    public void SetSettingsUIState(bool state)
+    //Sets the state of the StartSelectorImages parent object
+    public void SetStartSelectorImages(bool state)
     {
-
-        SettingsUI.SetActive(state);
-
+        StartSelectors.SetActive(state);
     }
 
+    //Sets the state of individual StartSelectorImages using an array index and state bool
     public void SetStartSelectorImageState(bool state, int ImageNum)
     {
 
         StartSelectorImages[ImageNum].SetActive(state);
 
     }
+   
+
+    #endregion
+
+
+    #region Settings Menu Set State Functions
+
+    public void SetSettingsMenuState(bool state)
+    {
+
+        SettingsMenu.SetActive(state);
+
+    }
+
+
     public void SetSettingSelectorImageState(bool state, int ImageNum)
     {
 
@@ -72,7 +183,33 @@ public class StartScreenUIManager : MonoBehaviour
 
     }
 
+
+
     #endregion
+
+    #region Choose Save Menu State Functions
+
+    public void SetChooseSaveMenuState(bool state)
+    {
+        ChooseSaveMenu.SetActive(state);
+
+    }
+
+
+    #endregion
+
+    #region Save Selected Menu State Functions
+
+    public void SetSelectedSaveMenu(bool state)
+    {
+
+        SaveSelectedMenu.SetActive(state);
+
+    }
+
+
+    #endregion
+
 
     #region Set Value Functions
 
