@@ -21,16 +21,20 @@ using UnityEngine.SceneManagement;
 
 public class StartScreenButtonManager : MonoBehaviour
 {
+    
 
     public GameObject UIManager;
     private StartScreenUIManager UIManagerScript;
 
     public GameObject StartScreenSettings;
 
+    public GameObject PlayerDataObj;
+
+
     private int CurrentMenuIter = 0;
     private int MaxMenuIter = 0;
 
-    private bool InStartMenu = true;
+    private bool InStartMenu = false;
     private bool InSettingsMenu = false;
     private bool InChooseSaveMenu = false;
     private bool InSaveSelectedMenu = false;
@@ -59,15 +63,15 @@ public class StartScreenButtonManager : MonoBehaviour
     private void OnEnable()
     {
         Start_Select_Up = PlayerControl.MainMenu.Start_Select_Up;
-        Start_Select_Up.performed += MoveMainMenuSelectorUp;
+        Start_Select_Up.performed += MoveStartMenuSelectorUp;
         Start_Select_Up.Enable();
 
         Start_Select_Down = PlayerControl.MainMenu.Start_Select_Down;
-        Start_Select_Down.performed += MoveMainMenuSelectorDown;
+        Start_Select_Down.performed += MoveStartMenuSelectorDown;
         Start_Select_Down.Enable();
 
         Start_Select = PlayerControl.MainMenu.Start_Select;
-        Start_Select.performed += MainMenuSelect;
+        Start_Select.performed += StartMenuSelect;
         Start_Select.Enable();
 
     }
@@ -99,6 +103,10 @@ public class StartScreenButtonManager : MonoBehaviour
         //set MaxMenuIter
         MaxMenuIter = 3;
 
+        UIManagerScript.SetStartMenuState(true);
+        InStartMenu = true;
+
+
 
     }
 
@@ -110,22 +118,11 @@ public class StartScreenButtonManager : MonoBehaviour
 
 
     //Load into the first level
-    public void ChooseSave()
-    {
-       
-
-
-    }
-
     public void NewGameFunction()
     {
-
         //Load the first Level
         SceneManager.LoadScene("TestLevel");
-
     }
-
-
 
     public void QuitGame()
     {
@@ -139,7 +136,7 @@ public class StartScreenButtonManager : MonoBehaviour
 
     #region Main Menu Input
 
-    public void MoveMainMenuSelectorUp(InputAction.CallbackContext obj)
+    public void MoveStartMenuSelectorUp(InputAction.CallbackContext obj)
     {
         //if CurrentMenuIter equals Zero
         if (GetCurrentMenuIter() == 0)
@@ -163,7 +160,7 @@ public class StartScreenButtonManager : MonoBehaviour
 
     }
 
-    public void MoveMainMenuSelectorDown(InputAction.CallbackContext obj)
+    public void MoveStartMenuSelectorDown(InputAction.CallbackContext obj)
     {
 
         if (GetCurrentMenuIter() == (GetMaxMenuIter() - 1))
@@ -183,7 +180,7 @@ public class StartScreenButtonManager : MonoBehaviour
         }
     }
 
-    public void MainMenuSelect(InputAction.CallbackContext obj)
+    public void StartMenuSelect(InputAction.CallbackContext obj)
     {
 
         switch (CurrentMenuIter)
@@ -208,7 +205,7 @@ public class StartScreenButtonManager : MonoBehaviour
 
     }
 
-    public void MainMenuSetSelector(int MenuIter)
+    public void StartMenuSetSelector(int MenuIter)
     {
         UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
         CurrentMenuIter = MenuIter;
@@ -219,8 +216,18 @@ public class StartScreenButtonManager : MonoBehaviour
 
     #region Menu Transition Functions
 
-    //Go to Save Select Screen
+    public void ReturnToStartMenu()
+    {
+        UIManagerScript.SetChooseSaveMenuState(false);
+        UIManagerScript.SetStartMenuState(true);
 
+        InChooseSaveMenu = false;
+        InStartMenu = true;
+    }
+
+
+
+    //To Choose Save
     public void GoToChooseSaveSelect()
     {
         //disable ---START---, ---SAVE SELECTED---
@@ -231,12 +238,49 @@ public class StartScreenButtonManager : MonoBehaviour
         //Enable Save Selected Menu
         UIManagerScript.SetChooseSaveMenuState(true);
 
+        InStartMenu = false;
+        InSaveSelectedMenu = false;
+        InChooseSaveMenu = true;
+        
+        ////read save data
+        //for (int i = 0; i < 3; i++)
+        //{
+
+        //    //Read the save data of each save file
+        //    PlayerData temp = new PlayerData( Save_LoadScript.ReadSaveData(i));
+        //    Debug.Log(temp);
+        //    if (temp == null)
+        //    {
+        //        temp.LevelText = "No Level Data";
+        //    }
+        //    Debug.Log(temp.LevelText);
+        //    temp.LevelText = "No Level Data";
+        //    //Update UI
+        //    switch (i)
+        //    {
+        //        case 0:
+        //            UIManagerScript.SetSaveOneText(temp.LevelText);
+        //            break;
+
+        //        case 1:
+        //            UIManagerScript.SetSaveTwoText(temp.LevelText);
+        //            break;
+
+        //        case 2:
+        //            UIManagerScript.SetSaveThreeText(temp.LevelText);
+        //            break;
+        //        default:
+        //            break;
+        //    }
+
+        //}
+
     }
 
 
 
 
-
+    //DEPRECATED
     public void OpenSettings()
     {
         //set CurrentMenuIter
@@ -257,6 +301,8 @@ public class StartScreenButtonManager : MonoBehaviour
 
     }
 
+
+    //DEPTRECATED
     public void ReturnToStart()
     {
         //set CurrentMenuIter

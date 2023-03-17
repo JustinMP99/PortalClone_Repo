@@ -165,7 +165,6 @@ public class StartScreenUIManager : MonoBehaviour
 
     #endregion
 
-
     #region Settings Menu Set State Functions
 
     public void SetSettingsMenuState(bool state)
@@ -195,6 +194,28 @@ public class StartScreenUIManager : MonoBehaviour
 
     }
 
+
+    public void SetSaveOneText(string levelText)
+    {
+
+        SaveOneLevelText.text = levelText;
+
+    }
+
+    public void SetSaveTwoText(string levelText)
+    {
+
+        SaveTwoLevelText.text = levelText;
+
+    }
+
+
+    public void SetSaveThreeText(string levelText)
+    {
+
+        SaveThreeLevelText.text = levelText;
+
+    }
 
     #endregion
 

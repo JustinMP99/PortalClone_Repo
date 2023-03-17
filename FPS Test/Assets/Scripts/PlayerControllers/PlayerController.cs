@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     public void PortalFireCheck()
     {
 
-        if (LeftPortal.GetComponent<PortalScript>().HasBeenFired && RightPortal.GetComponent<PortalScript>().HasBeenFired)
+        if (LeftPortal.GetComponent<PortalScript>().HasBeenFired && RightPortal.GetComponent<PortalScript>().HasBeenFired || LeftPortal != null && RightPortal != null)
         {
             //update Render Texture
             //LEFT PORTAL
@@ -167,7 +167,6 @@ public class PlayerController : MonoBehaviour
                 LeftPortal.GetComponent<Renderer>().material.SetTexture("_MainTex", RightViewTexture);
                 LeftPortal.GetComponent<Renderer>().material.SetTexture("_BaseMap", RightViewTexture);
             }
-
         }
     }
 
@@ -380,17 +379,17 @@ public class PlayerController : MonoBehaviour
         if (GetCurrentMenuIter() == 0)
         {
             //set Previous selector off
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(false, CurrentMenuIter);
+            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
             //set CurrentMenuIter Value
             SetCurrentMenuIter(GetMaxMenuIter() - 1);
             //set new Selector on
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(true, CurrentMenuIter);
+            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         }
         else
         {
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(false, CurrentMenuIter);
+            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
             SetCurrentMenuIter(GetCurrentMenuIter() - 1);
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(true, CurrentMenuIter);
+            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         }
 
     }
@@ -400,17 +399,17 @@ public class PlayerController : MonoBehaviour
         if (GetCurrentMenuIter() == (GetMaxMenuIter() - 1))
         {
             //set Previous selector off
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(false, CurrentMenuIter);
+            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
             //set CurrentMenuIter Value
             SetCurrentMenuIter(0);
             //set new Selector on
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(true, CurrentMenuIter);
+            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         }
         else
         {
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(false, CurrentMenuIter);
+            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
             SetCurrentMenuIter(GetCurrentMenuIter() + 1);
-            UIManager.GetComponent<UIManager>().SetSelectorImageState(true, CurrentMenuIter);
+            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         }
 
 
@@ -448,7 +447,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
+    public void PauseMenuSetSelector(int MenuIter)
+    {
+        UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        CurrentMenuIter = MenuIter;
+        UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+    }
 
     #endregion
 

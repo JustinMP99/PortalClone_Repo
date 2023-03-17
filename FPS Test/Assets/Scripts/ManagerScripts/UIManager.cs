@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject GameUI;
     public GameObject PauseUI;
 
-    public GameObject [] SelectorImages;
+    public GameObject [] PauseSelectorImages;
         
     // Start is called before the first frame update
     void Start()
@@ -49,10 +49,10 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void SetSelectorImageState(bool state, int ImageNum)
+    public void SetPauseMenuSelectorState(bool state, int ImageNum)
     {
 
-        SelectorImages[ImageNum].SetActive(state);
+        PauseSelectorImages[ImageNum].SetActive(state);
 
     }
 
