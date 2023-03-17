@@ -241,39 +241,41 @@ public class StartScreenButtonManager : MonoBehaviour
         InStartMenu = false;
         InSaveSelectedMenu = false;
         InChooseSaveMenu = true;
-        
-        ////read save data
-        //for (int i = 0; i < 3; i++)
-        //{
 
-        //    //Read the save data of each save file
-        //    PlayerData temp = new PlayerData( Save_LoadScript.ReadSaveData(i));
-        //    Debug.Log(temp);
-        //    if (temp == null)
-        //    {
-        //        temp.LevelText = "No Level Data";
-        //    }
-        //    Debug.Log(temp.LevelText);
-        //    temp.LevelText = "No Level Data";
-        //    //Update UI
-        //    switch (i)
-        //    {
-        //        case 0:
-        //            UIManagerScript.SetSaveOneText(temp.LevelText);
-        //            break;
+        //read save data
+        for (int i = 0; i < 3; i++)
+        {
 
-        //        case 1:
-        //            UIManagerScript.SetSaveTwoText(temp.LevelText);
-        //            break;
+            //Read the save data of each save file
+            PlayerDataScript temp = new PlayerDataScript();
+            temp = Save_LoadScript.ReadSaveData(i);
+            Debug.Log(temp);
+            if (temp == null)
+            {
+                temp = new PlayerDataScript();
+                temp.LevelText = "No Level Data";
+            }
+            Debug.Log(temp.LevelText);
+            temp.LevelText = "No Level Data";
+            //Update UI
+            switch (i)
+            {
+                case 0:
+                    UIManagerScript.SetSaveOneText(temp.LevelText);
+                    break;
 
-        //        case 2:
-        //            UIManagerScript.SetSaveThreeText(temp.LevelText);
-        //            break;
-        //        default:
-        //            break;
-        //    }
+                case 1:
+                    UIManagerScript.SetSaveTwoText(temp.LevelText);
+                    break;
 
-        //}
+                case 2:
+                    UIManagerScript.SetSaveThreeText(temp.LevelText);
+                    break;
+                default:
+                    break;
+            }
+
+        }
 
     }
 

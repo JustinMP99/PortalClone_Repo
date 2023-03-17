@@ -5020,11 +5020,11 @@ MonoBehaviour:
   SaveOneLevelText: {fileID: 1852139666}
   SaveOneImage: {fileID: 1379663725}
   SaveTwo: {fileID: 1300760187}
-  SaveTwoLevelText: {fileID: 0}
-  SaveTwoImage: {fileID: 0}
+  SaveTwoLevelText: {fileID: 332788293}
+  SaveTwoImage: {fileID: 377819889}
   SaveThree: {fileID: 1725757844}
-  SaveThreeLevelText: {fileID: 0}
-  SaveThreeImage: {fileID: 0}
+  SaveThreeLevelText: {fileID: 149605689}
+  SaveThreeImage: {fileID: 1571495893}
   SaveSelectedMenu: {fileID: 194018724}
 --- !u!1 &1657264444
 GameObject:

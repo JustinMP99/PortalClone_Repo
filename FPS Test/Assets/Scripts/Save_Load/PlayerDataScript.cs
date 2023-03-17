@@ -31,6 +31,11 @@ public class PlayerDataScript
     public bool LevelFourCompleted = false;
     public bool LevelFiveCompleted = false;
 
+
+    public PlayerDataScript()
+    { 
+
+    }
     public PlayerDataScript(GameObject player)
     {
 

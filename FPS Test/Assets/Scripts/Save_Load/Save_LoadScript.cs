@@ -95,8 +95,8 @@ public static class Save_LoadScript
         else
         {
             Debug.Log("File Path doesnt exist :(");
-            PlayerDataScript playerData = null;
-            return null;
+            PlayerDataScript TempPlayerData = null;
+            return TempPlayerData;
         }
         
       
