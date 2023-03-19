@@ -7,10 +7,12 @@ using TMPro;
 public class SaveFileUIScript : MonoBehaviour
 {
 
-
-    public GameObject SaveImage;
-    public TMP_Text LevelText;
-    public Button SaveButton;
+    [SerializeField]
+    private Image SaveImage;
+    [SerializeField]
+    private TMP_Text LevelText;
+    [SerializeField]
+    private Button SaveButton;
 
 
 
@@ -25,4 +27,16 @@ public class SaveFileUIScript : MonoBehaviour
     {
         
     }
+
+    public void SetLevelText(string levelText)
+    {
+        LevelText.text = levelText;
+
+    }
+    public void SetSaveImage(Image saveImage)
+    {
+        SaveImage = saveImage;
+    }
+
+
 }

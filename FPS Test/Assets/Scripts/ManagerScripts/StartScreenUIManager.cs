@@ -69,27 +69,9 @@ public class StartScreenUIManager : MonoBehaviour
 
 
     [SerializeField]
-    private GameObject SaveOne;
-    [SerializeField]
-    private TMP_Text SaveOneLevelText;
-    [SerializeField]
-    private GameObject SaveOneImage;
+    private SaveFileUIScript []SaveFileUIs;
 
-
-    [SerializeField]
-    private GameObject SaveTwo;
-    [SerializeField]
-    private TMP_Text SaveTwoLevelText;
-    [SerializeField]
-    private GameObject SaveTwoImage;
-
-
-    [SerializeField]
-    private GameObject SaveThree;
-    [SerializeField]
-    private TMP_Text SaveThreeLevelText;
-    [SerializeField]
-    private GameObject SaveThreeImage;
+   
 
     #endregion
 
@@ -106,9 +88,6 @@ public class StartScreenUIManager : MonoBehaviour
 
 
     #endregion
-
-
-
 
 
 
@@ -195,27 +174,13 @@ public class StartScreenUIManager : MonoBehaviour
     }
 
 
-    public void SetSaveOneText(string levelText)
+    public void SetSaveFileLevelText(int SaveFile, string leveltext)
     {
 
-        SaveOneLevelText.text = levelText;
+        SaveFileUIs[SaveFile].SetLevelText(leveltext);
 
     }
 
-    public void SetSaveTwoText(string levelText)
-    {
-
-        SaveTwoLevelText.text = levelText;
-
-    }
-
-
-    public void SetSaveThreeText(string levelText)
-    {
-
-        SaveThreeLevelText.text = levelText;
-
-    }
 
     #endregion
 

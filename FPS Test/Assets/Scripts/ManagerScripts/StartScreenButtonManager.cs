@@ -258,22 +258,7 @@ public class StartScreenButtonManager : MonoBehaviour
             Debug.Log(temp.LevelText);
             temp.LevelText = "No Level Data";
             //Update UI
-            switch (i)
-            {
-                case 0:
-                    UIManagerScript.SetSaveOneText(temp.LevelText);
-                    break;
-
-                case 1:
-                    UIManagerScript.SetSaveTwoText(temp.LevelText);
-                    break;
-
-                case 2:
-                    UIManagerScript.SetSaveThreeText(temp.LevelText);
-                    break;
-                default:
-                    break;
-            }
+            UIManagerScript.SetSaveFileLevelText(i, temp.LevelText); 
 
         }
 
