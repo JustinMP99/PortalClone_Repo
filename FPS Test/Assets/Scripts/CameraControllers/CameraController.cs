@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour
     public void OnEnable()
     {
         //set Look input action to Look Action in the player movement action map
-        Look = InputMap.PlayerMovement.Look;
+        Look = InputMap.Game_Movement.Look;
         Look.Enable();
 
         //capture mouse position in MousePosition vector

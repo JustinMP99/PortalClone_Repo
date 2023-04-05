@@ -24,7 +24,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
     ""name"": ""PlayerInputActionMaps"",
     ""maps"": [
         {
-            ""name"": ""PlayerMovement"",
+            ""name"": ""Game_Movement"",
             ""id"": ""284a8389-736a-46da-8dfe-8d046864f792"",
             ""actions"": [
                 {
@@ -436,7 +436,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             ]
         },
         {
-            ""name"": ""PauseMenuUI"",
+            ""name"": ""Game_PauseMenu"",
             ""id"": ""eeef3626-47c8-4612-9b41-63ad8d35f3f7"",
             ""actions"": [
                 {
@@ -691,7 +691,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             ]
         },
         {
-            ""name"": ""SettingsMenu"",
+            ""name"": ""MainMenu_Settings"",
             ""id"": ""2b2599db-f953-40f6-b15e-ad113485f204"",
             ""actions"": [
                 {
@@ -753,6 +753,34 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Settings_Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""MainMenu_SaveSelect"",
+            ""id"": ""a39acd36-2872-4cda-be6a-1ed47d7033d6"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""609290aa-a1e5-4a6b-a894-bd893fbf2efb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a34ddec3-2d16-4039-a0ac-7fba5157e251"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -822,31 +850,34 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
         }
     ]
 }");
-        // PlayerMovement
-        m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
-        m_PlayerMovement_Move = m_PlayerMovement.FindAction("Move", throwIfNotFound: true);
-        m_PlayerMovement_Look = m_PlayerMovement.FindAction("Look", throwIfNotFound: true);
-        m_PlayerMovement_Jump = m_PlayerMovement.FindAction("Jump", throwIfNotFound: true);
-        m_PlayerMovement_FireLeftPortal = m_PlayerMovement.FindAction("FireLeftPortal", throwIfNotFound: true);
-        m_PlayerMovement_FireRightPortal = m_PlayerMovement.FindAction("FireRightPortal", throwIfNotFound: true);
-        m_PlayerMovement_PauseGame = m_PlayerMovement.FindAction("Pause Game", throwIfNotFound: true);
-        m_PlayerMovement_Interact = m_PlayerMovement.FindAction("Interact", throwIfNotFound: true);
-        // PauseMenuUI
-        m_PauseMenuUI = asset.FindActionMap("PauseMenuUI", throwIfNotFound: true);
-        m_PauseMenuUI_Pause_MoveUp = m_PauseMenuUI.FindAction("Pause_MoveUp", throwIfNotFound: true);
-        m_PauseMenuUI_Pause_MoveDown = m_PauseMenuUI.FindAction("Pause_MoveDown", throwIfNotFound: true);
-        m_PauseMenuUI_Pause_Select = m_PauseMenuUI.FindAction("Pause_Select", throwIfNotFound: true);
-        m_PauseMenuUI_Pause_Return = m_PauseMenuUI.FindAction("Pause_Return", throwIfNotFound: true);
+        // Game_Movement
+        m_Game_Movement = asset.FindActionMap("Game_Movement", throwIfNotFound: true);
+        m_Game_Movement_Move = m_Game_Movement.FindAction("Move", throwIfNotFound: true);
+        m_Game_Movement_Look = m_Game_Movement.FindAction("Look", throwIfNotFound: true);
+        m_Game_Movement_Jump = m_Game_Movement.FindAction("Jump", throwIfNotFound: true);
+        m_Game_Movement_FireLeftPortal = m_Game_Movement.FindAction("FireLeftPortal", throwIfNotFound: true);
+        m_Game_Movement_FireRightPortal = m_Game_Movement.FindAction("FireRightPortal", throwIfNotFound: true);
+        m_Game_Movement_PauseGame = m_Game_Movement.FindAction("Pause Game", throwIfNotFound: true);
+        m_Game_Movement_Interact = m_Game_Movement.FindAction("Interact", throwIfNotFound: true);
+        // Game_PauseMenu
+        m_Game_PauseMenu = asset.FindActionMap("Game_PauseMenu", throwIfNotFound: true);
+        m_Game_PauseMenu_Pause_MoveUp = m_Game_PauseMenu.FindAction("Pause_MoveUp", throwIfNotFound: true);
+        m_Game_PauseMenu_Pause_MoveDown = m_Game_PauseMenu.FindAction("Pause_MoveDown", throwIfNotFound: true);
+        m_Game_PauseMenu_Pause_Select = m_Game_PauseMenu.FindAction("Pause_Select", throwIfNotFound: true);
+        m_Game_PauseMenu_Pause_Return = m_Game_PauseMenu.FindAction("Pause_Return", throwIfNotFound: true);
         // MainMenu
         m_MainMenu = asset.FindActionMap("MainMenu", throwIfNotFound: true);
         m_MainMenu_Start_Select_Up = m_MainMenu.FindAction("Start_Select_Up", throwIfNotFound: true);
         m_MainMenu_Start_Select_Down = m_MainMenu.FindAction("Start_Select_Down", throwIfNotFound: true);
         m_MainMenu_Start_Select = m_MainMenu.FindAction("Start_Select", throwIfNotFound: true);
-        // SettingsMenu
-        m_SettingsMenu = asset.FindActionMap("SettingsMenu", throwIfNotFound: true);
-        m_SettingsMenu_Settings_Select_Up = m_SettingsMenu.FindAction("Settings_Select_Up", throwIfNotFound: true);
-        m_SettingsMenu_Settings_Select_Down = m_SettingsMenu.FindAction("Settings_Select_Down", throwIfNotFound: true);
-        m_SettingsMenu_Settings_Select = m_SettingsMenu.FindAction("Settings_Select", throwIfNotFound: true);
+        // MainMenu_Settings
+        m_MainMenu_Settings = asset.FindActionMap("MainMenu_Settings", throwIfNotFound: true);
+        m_MainMenu_Settings_Settings_Select_Up = m_MainMenu_Settings.FindAction("Settings_Select_Up", throwIfNotFound: true);
+        m_MainMenu_Settings_Settings_Select_Down = m_MainMenu_Settings.FindAction("Settings_Select_Down", throwIfNotFound: true);
+        m_MainMenu_Settings_Settings_Select = m_MainMenu_Settings.FindAction("Settings_Select", throwIfNotFound: true);
+        // MainMenu_SaveSelect
+        m_MainMenu_SaveSelect = asset.FindActionMap("MainMenu_SaveSelect", throwIfNotFound: true);
+        m_MainMenu_SaveSelect_Newaction = m_MainMenu_SaveSelect.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -905,36 +936,36 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PlayerMovement
-    private readonly InputActionMap m_PlayerMovement;
-    private List<IPlayerMovementActions> m_PlayerMovementActionsCallbackInterfaces = new List<IPlayerMovementActions>();
-    private readonly InputAction m_PlayerMovement_Move;
-    private readonly InputAction m_PlayerMovement_Look;
-    private readonly InputAction m_PlayerMovement_Jump;
-    private readonly InputAction m_PlayerMovement_FireLeftPortal;
-    private readonly InputAction m_PlayerMovement_FireRightPortal;
-    private readonly InputAction m_PlayerMovement_PauseGame;
-    private readonly InputAction m_PlayerMovement_Interact;
-    public struct PlayerMovementActions
+    // Game_Movement
+    private readonly InputActionMap m_Game_Movement;
+    private List<IGame_MovementActions> m_Game_MovementActionsCallbackInterfaces = new List<IGame_MovementActions>();
+    private readonly InputAction m_Game_Movement_Move;
+    private readonly InputAction m_Game_Movement_Look;
+    private readonly InputAction m_Game_Movement_Jump;
+    private readonly InputAction m_Game_Movement_FireLeftPortal;
+    private readonly InputAction m_Game_Movement_FireRightPortal;
+    private readonly InputAction m_Game_Movement_PauseGame;
+    private readonly InputAction m_Game_Movement_Interact;
+    public struct Game_MovementActions
     {
         private @PlayerInputActionMaps m_Wrapper;
-        public PlayerMovementActions(@PlayerInputActionMaps wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_PlayerMovement_Move;
-        public InputAction @Look => m_Wrapper.m_PlayerMovement_Look;
-        public InputAction @Jump => m_Wrapper.m_PlayerMovement_Jump;
-        public InputAction @FireLeftPortal => m_Wrapper.m_PlayerMovement_FireLeftPortal;
-        public InputAction @FireRightPortal => m_Wrapper.m_PlayerMovement_FireRightPortal;
-        public InputAction @PauseGame => m_Wrapper.m_PlayerMovement_PauseGame;
-        public InputAction @Interact => m_Wrapper.m_PlayerMovement_Interact;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
+        public Game_MovementActions(@PlayerInputActionMaps wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Game_Movement_Move;
+        public InputAction @Look => m_Wrapper.m_Game_Movement_Look;
+        public InputAction @Jump => m_Wrapper.m_Game_Movement_Jump;
+        public InputAction @FireLeftPortal => m_Wrapper.m_Game_Movement_FireLeftPortal;
+        public InputAction @FireRightPortal => m_Wrapper.m_Game_Movement_FireRightPortal;
+        public InputAction @PauseGame => m_Wrapper.m_Game_Movement_PauseGame;
+        public InputAction @Interact => m_Wrapper.m_Game_Movement_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_Game_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerMovementActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerMovementActions instance)
+        public static implicit operator InputActionMap(Game_MovementActions set) { return set.Get(); }
+        public void AddCallbacks(IGame_MovementActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_Game_MovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Game_MovementActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -958,7 +989,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             @Interact.canceled += instance.OnInteract;
         }
 
-        private void UnregisterCallbacks(IPlayerMovementActions instance)
+        private void UnregisterCallbacks(IGame_MovementActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -983,46 +1014,46 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             @Interact.canceled -= instance.OnInteract;
         }
 
-        public void RemoveCallbacks(IPlayerMovementActions instance)
+        public void RemoveCallbacks(IGame_MovementActions instance)
         {
-            if (m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_Game_MovementActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerMovementActions instance)
+        public void SetCallbacks(IGame_MovementActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerMovementActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_Game_MovementActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerMovementActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_Game_MovementActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
+    public Game_MovementActions @Game_Movement => new Game_MovementActions(this);
 
-    // PauseMenuUI
-    private readonly InputActionMap m_PauseMenuUI;
-    private List<IPauseMenuUIActions> m_PauseMenuUIActionsCallbackInterfaces = new List<IPauseMenuUIActions>();
-    private readonly InputAction m_PauseMenuUI_Pause_MoveUp;
-    private readonly InputAction m_PauseMenuUI_Pause_MoveDown;
-    private readonly InputAction m_PauseMenuUI_Pause_Select;
-    private readonly InputAction m_PauseMenuUI_Pause_Return;
-    public struct PauseMenuUIActions
+    // Game_PauseMenu
+    private readonly InputActionMap m_Game_PauseMenu;
+    private List<IGame_PauseMenuActions> m_Game_PauseMenuActionsCallbackInterfaces = new List<IGame_PauseMenuActions>();
+    private readonly InputAction m_Game_PauseMenu_Pause_MoveUp;
+    private readonly InputAction m_Game_PauseMenu_Pause_MoveDown;
+    private readonly InputAction m_Game_PauseMenu_Pause_Select;
+    private readonly InputAction m_Game_PauseMenu_Pause_Return;
+    public struct Game_PauseMenuActions
     {
         private @PlayerInputActionMaps m_Wrapper;
-        public PauseMenuUIActions(@PlayerInputActionMaps wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Pause_MoveUp => m_Wrapper.m_PauseMenuUI_Pause_MoveUp;
-        public InputAction @Pause_MoveDown => m_Wrapper.m_PauseMenuUI_Pause_MoveDown;
-        public InputAction @Pause_Select => m_Wrapper.m_PauseMenuUI_Pause_Select;
-        public InputAction @Pause_Return => m_Wrapper.m_PauseMenuUI_Pause_Return;
-        public InputActionMap Get() { return m_Wrapper.m_PauseMenuUI; }
+        public Game_PauseMenuActions(@PlayerInputActionMaps wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause_MoveUp => m_Wrapper.m_Game_PauseMenu_Pause_MoveUp;
+        public InputAction @Pause_MoveDown => m_Wrapper.m_Game_PauseMenu_Pause_MoveDown;
+        public InputAction @Pause_Select => m_Wrapper.m_Game_PauseMenu_Pause_Select;
+        public InputAction @Pause_Return => m_Wrapper.m_Game_PauseMenu_Pause_Return;
+        public InputActionMap Get() { return m_Wrapper.m_Game_PauseMenu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PauseMenuUIActions set) { return set.Get(); }
-        public void AddCallbacks(IPauseMenuUIActions instance)
+        public static implicit operator InputActionMap(Game_PauseMenuActions set) { return set.Get(); }
+        public void AddCallbacks(IGame_PauseMenuActions instance)
         {
-            if (instance == null || m_Wrapper.m_PauseMenuUIActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PauseMenuUIActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_Game_PauseMenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_Game_PauseMenuActionsCallbackInterfaces.Add(instance);
             @Pause_MoveUp.started += instance.OnPause_MoveUp;
             @Pause_MoveUp.performed += instance.OnPause_MoveUp;
             @Pause_MoveUp.canceled += instance.OnPause_MoveUp;
@@ -1037,7 +1068,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             @Pause_Return.canceled += instance.OnPause_Return;
         }
 
-        private void UnregisterCallbacks(IPauseMenuUIActions instance)
+        private void UnregisterCallbacks(IGame_PauseMenuActions instance)
         {
             @Pause_MoveUp.started -= instance.OnPause_MoveUp;
             @Pause_MoveUp.performed -= instance.OnPause_MoveUp;
@@ -1053,21 +1084,21 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             @Pause_Return.canceled -= instance.OnPause_Return;
         }
 
-        public void RemoveCallbacks(IPauseMenuUIActions instance)
+        public void RemoveCallbacks(IGame_PauseMenuActions instance)
         {
-            if (m_Wrapper.m_PauseMenuUIActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_Game_PauseMenuActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPauseMenuUIActions instance)
+        public void SetCallbacks(IGame_PauseMenuActions instance)
         {
-            foreach (var item in m_Wrapper.m_PauseMenuUIActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_Game_PauseMenuActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PauseMenuUIActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_Game_PauseMenuActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PauseMenuUIActions @PauseMenuUI => new PauseMenuUIActions(this);
+    public Game_PauseMenuActions @Game_PauseMenu => new Game_PauseMenuActions(this);
 
     // MainMenu
     private readonly InputActionMap m_MainMenu;
@@ -1131,28 +1162,28 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
     }
     public MainMenuActions @MainMenu => new MainMenuActions(this);
 
-    // SettingsMenu
-    private readonly InputActionMap m_SettingsMenu;
-    private List<ISettingsMenuActions> m_SettingsMenuActionsCallbackInterfaces = new List<ISettingsMenuActions>();
-    private readonly InputAction m_SettingsMenu_Settings_Select_Up;
-    private readonly InputAction m_SettingsMenu_Settings_Select_Down;
-    private readonly InputAction m_SettingsMenu_Settings_Select;
-    public struct SettingsMenuActions
+    // MainMenu_Settings
+    private readonly InputActionMap m_MainMenu_Settings;
+    private List<IMainMenu_SettingsActions> m_MainMenu_SettingsActionsCallbackInterfaces = new List<IMainMenu_SettingsActions>();
+    private readonly InputAction m_MainMenu_Settings_Settings_Select_Up;
+    private readonly InputAction m_MainMenu_Settings_Settings_Select_Down;
+    private readonly InputAction m_MainMenu_Settings_Settings_Select;
+    public struct MainMenu_SettingsActions
     {
         private @PlayerInputActionMaps m_Wrapper;
-        public SettingsMenuActions(@PlayerInputActionMaps wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Settings_Select_Up => m_Wrapper.m_SettingsMenu_Settings_Select_Up;
-        public InputAction @Settings_Select_Down => m_Wrapper.m_SettingsMenu_Settings_Select_Down;
-        public InputAction @Settings_Select => m_Wrapper.m_SettingsMenu_Settings_Select;
-        public InputActionMap Get() { return m_Wrapper.m_SettingsMenu; }
+        public MainMenu_SettingsActions(@PlayerInputActionMaps wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Settings_Select_Up => m_Wrapper.m_MainMenu_Settings_Settings_Select_Up;
+        public InputAction @Settings_Select_Down => m_Wrapper.m_MainMenu_Settings_Settings_Select_Down;
+        public InputAction @Settings_Select => m_Wrapper.m_MainMenu_Settings_Settings_Select;
+        public InputActionMap Get() { return m_Wrapper.m_MainMenu_Settings; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(SettingsMenuActions set) { return set.Get(); }
-        public void AddCallbacks(ISettingsMenuActions instance)
+        public static implicit operator InputActionMap(MainMenu_SettingsActions set) { return set.Get(); }
+        public void AddCallbacks(IMainMenu_SettingsActions instance)
         {
-            if (instance == null || m_Wrapper.m_SettingsMenuActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_SettingsMenuActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_MainMenu_SettingsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MainMenu_SettingsActionsCallbackInterfaces.Add(instance);
             @Settings_Select_Up.started += instance.OnSettings_Select_Up;
             @Settings_Select_Up.performed += instance.OnSettings_Select_Up;
             @Settings_Select_Up.canceled += instance.OnSettings_Select_Up;
@@ -1164,7 +1195,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             @Settings_Select.canceled += instance.OnSettings_Select;
         }
 
-        private void UnregisterCallbacks(ISettingsMenuActions instance)
+        private void UnregisterCallbacks(IMainMenu_SettingsActions instance)
         {
             @Settings_Select_Up.started -= instance.OnSettings_Select_Up;
             @Settings_Select_Up.performed -= instance.OnSettings_Select_Up;
@@ -1177,21 +1208,67 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             @Settings_Select.canceled -= instance.OnSettings_Select;
         }
 
-        public void RemoveCallbacks(ISettingsMenuActions instance)
+        public void RemoveCallbacks(IMainMenu_SettingsActions instance)
         {
-            if (m_Wrapper.m_SettingsMenuActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_MainMenu_SettingsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(ISettingsMenuActions instance)
+        public void SetCallbacks(IMainMenu_SettingsActions instance)
         {
-            foreach (var item in m_Wrapper.m_SettingsMenuActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_MainMenu_SettingsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_SettingsMenuActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_MainMenu_SettingsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public SettingsMenuActions @SettingsMenu => new SettingsMenuActions(this);
+    public MainMenu_SettingsActions @MainMenu_Settings => new MainMenu_SettingsActions(this);
+
+    // MainMenu_SaveSelect
+    private readonly InputActionMap m_MainMenu_SaveSelect;
+    private List<IMainMenu_SaveSelectActions> m_MainMenu_SaveSelectActionsCallbackInterfaces = new List<IMainMenu_SaveSelectActions>();
+    private readonly InputAction m_MainMenu_SaveSelect_Newaction;
+    public struct MainMenu_SaveSelectActions
+    {
+        private @PlayerInputActionMaps m_Wrapper;
+        public MainMenu_SaveSelectActions(@PlayerInputActionMaps wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_MainMenu_SaveSelect_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_MainMenu_SaveSelect; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MainMenu_SaveSelectActions set) { return set.Get(); }
+        public void AddCallbacks(IMainMenu_SaveSelectActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MainMenu_SaveSelectActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MainMenu_SaveSelectActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        private void UnregisterCallbacks(IMainMenu_SaveSelectActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        public void RemoveCallbacks(IMainMenu_SaveSelectActions instance)
+        {
+            if (m_Wrapper.m_MainMenu_SaveSelectActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMainMenu_SaveSelectActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MainMenu_SaveSelectActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MainMenu_SaveSelectActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MainMenu_SaveSelectActions @MainMenu_SaveSelect => new MainMenu_SaveSelectActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1237,7 +1314,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
             return asset.controlSchemes[m_XRSchemeIndex];
         }
     }
-    public interface IPlayerMovementActions
+    public interface IGame_MovementActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
@@ -1247,7 +1324,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
         void OnPauseGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
     }
-    public interface IPauseMenuUIActions
+    public interface IGame_PauseMenuActions
     {
         void OnPause_MoveUp(InputAction.CallbackContext context);
         void OnPause_MoveDown(InputAction.CallbackContext context);
@@ -1260,10 +1337,14 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
         void OnStart_Select_Down(InputAction.CallbackContext context);
         void OnStart_Select(InputAction.CallbackContext context);
     }
-    public interface ISettingsMenuActions
+    public interface IMainMenu_SettingsActions
     {
         void OnSettings_Select_Up(InputAction.CallbackContext context);
         void OnSettings_Select_Down(InputAction.CallbackContext context);
         void OnSettings_Select(InputAction.CallbackContext context);
+    }
+    public interface IMainMenu_SaveSelectActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }

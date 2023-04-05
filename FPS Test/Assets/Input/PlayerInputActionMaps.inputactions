@@ -2,7 +2,7 @@
     "name": "PlayerInputActionMaps",
     "maps": [
         {
-            "name": "PlayerMovement",
+            "name": "Game_Movement",
             "id": "284a8389-736a-46da-8dfe-8d046864f792",
             "actions": [
                 {
@@ -414,7 +414,7 @@
             ]
         },
         {
-            "name": "PauseMenuUI",
+            "name": "Game_PauseMenu",
             "id": "eeef3626-47c8-4612-9b41-63ad8d35f3f7",
             "actions": [
                 {
@@ -669,7 +669,7 @@
             ]
         },
         {
-            "name": "SettingsMenu",
+            "name": "MainMenu_Settings",
             "id": "2b2599db-f953-40f6-b15e-ad113485f204",
             "actions": [
                 {
@@ -731,6 +731,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Settings_Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MainMenu_SaveSelect",
+            "id": "a39acd36-2872-4cda-be6a-1ed47d7033d6",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "609290aa-a1e5-4a6b-a894-bd893fbf2efb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a34ddec3-2d16-4039-a0ac-7fba5157e251",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

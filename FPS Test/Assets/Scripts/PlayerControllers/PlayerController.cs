@@ -346,9 +346,9 @@ public class PlayerController : MonoBehaviour
         UIManager.GetComponent<UIManager>().SetGameUIState(false);
         UIManager.GetComponent<UIManager>().SetPauseUIState(true);
         //Disable Game Control
-        PlayerControl.PlayerMovement.Disable();
+        PlayerControl.Game_Movement.Disable();
         //Enable Pause Menu
-        PlayerControl.PauseMenuUI.Enable();
+        PlayerControl.Game_PauseMenu.Enable();
         GameIsPaused = true;
         //set cursor
         Cursor.lockState = CursorLockMode.None;
@@ -366,9 +366,9 @@ public class PlayerController : MonoBehaviour
         UIManager.GetComponent<UIManager>().SetGameUIState(true);
         UIManager.GetComponent<UIManager>().SetPauseUIState(false) ;
         //Disable Pause Menu
-        PlayerControl.PauseMenuUI.Disable();
+        PlayerControl.Game_PauseMenu.Disable();
         //Enable Game Control
-        PlayerControl.PlayerMovement.Enable();
+        PlayerControl.Game_PauseMenu.Enable();
         GameIsPaused = false;
         //set cursor
         Cursor.lockState = CursorLockMode.Locked;
@@ -585,7 +585,7 @@ public class PlayerController : MonoBehaviour
 
         ///MOVE///
         //set Move to the Move input from playerInputActionMap
-        Move = PlayerControl.PlayerMovement.Move;
+        Move = PlayerControl.Game_Movement.Move;
         //Enable Move input map
         Move.Enable();
         //Ctx has data from the players input
@@ -596,7 +596,7 @@ public class PlayerController : MonoBehaviour
 
         ///JUMP///
         //Cache jump to variable
-        Jump = PlayerControl.PlayerMovement.Jump;
+        Jump = PlayerControl.Game_Movement.Jump;
         //Link the performed action of Jump to the Function PlayerJump
         Jump.performed += PlayerJump;
         //Enable Jump
@@ -604,22 +604,22 @@ public class PlayerController : MonoBehaviour
 
 
         ///FIRE LEFT PORTAL///
-        FireLeft = PlayerControl.PlayerMovement.FireLeftPortal;
+        FireLeft = PlayerControl.Game_Movement.FireLeftPortal;
         FireLeft.performed += ctx => FireLeftPortal();
         FireLeft.Enable();
 
         ///FIRE RIGHT PORTAL//
-        FireRight = PlayerControl.PlayerMovement.FireRightPortal;
+        FireRight = PlayerControl.Game_Movement.FireRightPortal;
         FireRight.performed += ctx => FireRightPortal();
         FireRight.Enable();
 
         ///PAUSE GAME///
-        PauseGame = PlayerControl.PlayerMovement.PauseGame;
+        PauseGame = PlayerControl.Game_Movement.PauseGame;
         PauseGame.performed += ctx => PauseGameFunction();
         PauseGame.Enable();
 
         ///INTERACT///
-        Interact = PlayerControl.PlayerMovement.Interact;
+        Interact = PlayerControl.Game_Movement.Interact;
         Interact.performed += ctx => InteractWithObject();
         Interact.Enable();
 
@@ -628,19 +628,19 @@ public class PlayerController : MonoBehaviour
 
         #region PauseMenu
 
-        Pause_Return = PlayerControl.PauseMenuUI.Pause_Return;
+        Pause_Return = PlayerControl.Game_PauseMenu.Pause_Return;
         Pause_Return.performed += ctx => ResumeGame();
         Pause_Return.Enable();
 
-        Pause_Select = PlayerControl.PauseMenuUI.Pause_Select;
+        Pause_Select = PlayerControl.Game_PauseMenu.Pause_Select;
         Pause_Select.performed += ctx => Pause_Selection();
         Pause_Select.Enable();
 
-        Pause_MoveUp = PlayerControl.PauseMenuUI.Pause_MoveUp;
+        Pause_MoveUp = PlayerControl.Game_PauseMenu.Pause_MoveUp;
         Pause_MoveUp.performed += ctx => Pause_MoveUpFunction();
         Pause_MoveUp.Enable();
 
-        Pause_MoveDown = PlayerControl.PauseMenuUI.Pause_MoveDown;
+        Pause_MoveDown = PlayerControl.Game_PauseMenu.Pause_MoveDown;
         Pause_MoveDown.performed += ctx => Pause_MoveDownFunction();
         Pause_MoveDown.Enable();
 

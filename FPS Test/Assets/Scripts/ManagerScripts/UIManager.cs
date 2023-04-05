@@ -9,11 +9,18 @@ public class UIManager : MonoBehaviour
 
     public GameObject PlayerUICanvas;
 
+    [Header("GameUI")]
     public GameObject GameUI;
-    public GameObject PauseUI;
 
+    [Header("PauseUI")]
+    public GameObject PauseUI;
     public GameObject [] PauseSelectorImages;
-        
+
+    [Header("Save File UI")]
+    public GameObject SaveUI;
+    public GameObject[] SaveFileUIs;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +61,47 @@ public class UIManager : MonoBehaviour
 
         PauseSelectorImages[ImageNum].SetActive(state);
 
+    }
+
+    #endregion
+
+    #region SaveUI Functions
+   
+
+    public void SetSaveUI(bool state)
+    {
+
+        SaveUI.SetActive(state);
+    }
+   
+    #endregion
+
+    #region UI Transition Function
+
+    public void GoToSettings()
+    {
+
+
+    }
+
+    public void GoToSave()
+    {
+
+
+    }
+
+
+    //Goes from save select state to pause state
+    public void ReturnToPause()
+    {
+        //Disable SaveUI
+
+        //Disable SettingsUI
+
+        //Disable GameUI
+
+        //Enable PauseUI
+        
     }
 
     #endregion
