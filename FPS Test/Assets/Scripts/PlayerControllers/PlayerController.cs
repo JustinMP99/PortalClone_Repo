@@ -345,13 +345,21 @@ public class PlayerController : MonoBehaviour
         //Set UI States
         UIManager.GetComponent<UIManager>().SetGameUIState(false);
         UIManager.GetComponent<UIManager>().SetPauseUIState(true);
+        Debug.Log("PauseUI is " + UIManager.GetComponent<UIManager>().GetPauseUIState());
         //Disable Game Control
         PlayerControl.Game_Movement.Disable();
         //Enable Pause Menu
         PlayerControl.Game_PauseMenu.Enable();
         GameIsPaused = true;
+        Debug.Log("GameIsPause value is: " + GameIsPaused);
         //set cursor
         Cursor.lockState = CursorLockMode.None;
+        //Set Menu Iterators
+        CurrentMenuIter = 0;
+        MaxMenuIter = 5;
+        //update selector UI
+        UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+
     }
 
 
@@ -365,13 +373,16 @@ public class PlayerController : MonoBehaviour
         //Set UI States
         UIManager.GetComponent<UIManager>().SetGameUIState(true);
         UIManager.GetComponent<UIManager>().SetPauseUIState(false) ;
+        Debug.Log("PauseUI is " + UIManager.GetComponent<UIManager>().GetPauseUIState());
         //Disable Pause Menu
         PlayerControl.Game_PauseMenu.Disable();
         //Enable Game Control
-        PlayerControl.Game_PauseMenu.Enable();
+        PlayerControl.Game_Movement.Enable();
         GameIsPaused = false;
         //set cursor
         Cursor.lockState = CursorLockMode.Locked;
+        //reset Selector UI
+        UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
     }
 
     public void Pause_MoveUpFunction()
@@ -418,7 +429,8 @@ public class PlayerController : MonoBehaviour
     public void ReturnToMainMenu()
     {
 
-        SceneManager.LoadScene("MainMenu");
+        LoadNewSceneAsync(0);
+        //SceneManager.LoadScene("MainMenu");
 
     }
 
@@ -561,8 +573,44 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    
+
     #endregion
+
+
+    #region Load Scene Functions
+
+
+    public void LoadNewSceneAsync(int Level)
+    {
+
+        //Disable all UI
+        UIManager.GetComponent<UIManager>().SetGameUIState(false);
+        UIManager.GetComponent<UIManager>().SetPauseUIState(false);
+        UIManager.GetComponent<UIManager>().SetSaveUI(false);
+
+        //Enable Loading Screen UI
+        UIManager.GetComponent<UIManager>().SetLoadingScreenUIState(true);
+        //Load Coroutine
+        StartCoroutine(AsyncLoadLevel(Level));
+
+
+    }
+
+    IEnumerator AsyncLoadLevel(int Level)
+    {
+
+        AsyncOperation LevelLoad = SceneManager.LoadSceneAsync(Level);
+        while (!LevelLoad.isDone)
+        {
+            //update progress bar
+            float Progress = Mathf.Clamp01(LevelLoad.progress / 0.9f);
+            UIManager.GetComponent<UIManager>().SetLoadingBarValue(Progress);
+            yield return null;
+        }
+    }
+
+    #endregion
+
 
 
     // Start is called before the first frame update
@@ -570,6 +618,9 @@ public class PlayerController : MonoBehaviour
     {
         UIManager = GameObject.FindGameObjectWithTag("UIManager");
         FPSCamera = GameObject.FindGameObjectWithTag("FPSCamera");
+
+        UIManager.GetComponent<UIManager>().SetGameUIState(true);
+        //UIManager.GetComponent<UIManager>().SetPauseUIState(true);
     }
 
     void Awake()
@@ -644,7 +695,6 @@ public class PlayerController : MonoBehaviour
         Pause_MoveDown.performed += ctx => Pause_MoveDownFunction();
         Pause_MoveDown.Enable();
 
-
         #endregion
     }
 
@@ -659,6 +709,7 @@ public class PlayerController : MonoBehaviour
         FireRight.Disable();
         Pause_MoveUp.Disable();
         Pause_Return.Disable();
+        Pause_Select.Disable();
         Pause_MoveDown.Disable();
     }
 

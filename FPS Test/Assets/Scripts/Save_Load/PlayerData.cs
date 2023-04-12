@@ -17,6 +17,8 @@ public class PlayerData : MonoBehaviour
     public bool LevelFourCompleted = false;
     public bool LevelFiveCompleted = false;
 
+    
+
     public PlayerData (PlayerDataScript playdata)
     {
         FOV = playdata.FOV;
@@ -30,5 +32,10 @@ public class PlayerData : MonoBehaviour
         LevelFourCompleted = playdata.LevelFourCompleted;
         LevelFiveCompleted = playdata.LevelFiveCompleted;
 
+    }
+
+    private void Start()
+    {
+        DontDestroyOnLoad(this);
     }
 }

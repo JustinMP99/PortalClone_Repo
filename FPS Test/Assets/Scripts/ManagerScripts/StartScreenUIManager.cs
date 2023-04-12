@@ -33,8 +33,6 @@ public class StartScreenUIManager : MonoBehaviour
 
     #endregion
 
-
-
     #region Settings Variables
     [Header("SETTINGS VARIABLES")]
     [SerializeField]
@@ -44,6 +42,14 @@ public class StartScreenUIManager : MonoBehaviour
     private GameObject SettingsMenuBackground;
 
     public Slider FOVSlider;
+    [SerializeField]
+    private TMP_Text XSensitivityText;
+    [SerializeField]
+    private Slider XSensitivitySlider;
+    [SerializeField]
+    private TMP_Text YSensitivityText;
+    [SerializeField]
+    private Slider YSensitivitySlider;
 
     [SerializeField]
     private TMP_Text FieldOfViewNumText;
@@ -56,9 +62,6 @@ public class StartScreenUIManager : MonoBehaviour
 
 
     #endregion
-
-
-
 
     #region Select Save Variables
     [Header ("SELECT SAVE VARIABLES")]
@@ -75,7 +78,6 @@ public class StartScreenUIManager : MonoBehaviour
 
     #endregion
 
-
     #region Save Selected Menu Variables
     [Header("SAVE SELECTED MENU VARIABLES")]
 
@@ -89,7 +91,18 @@ public class StartScreenUIManager : MonoBehaviour
 
     #endregion
 
+    #region Loading Screen Variables
 
+    [Header("LOADING SCREEN VARIABLES")]
+    [SerializeField]
+    private GameObject LoadingScreenUI;
+    [SerializeField]
+    private Slider LoadingSlider;
+
+    [SerializeField]
+    private Image LoadingScreenImage;
+
+    #endregion
 
 
     // Start is called before the first frame update
@@ -196,6 +209,17 @@ public class StartScreenUIManager : MonoBehaviour
 
     #endregion
 
+    #region Loading Screen UI State Functions
+
+    public void SetLoadingScreenUIState(bool state)
+    {
+        LoadingScreenUI.SetActive(state);
+    }
+
+
+
+    #endregion
+
 
     #region Set Value Functions
 
@@ -210,7 +234,34 @@ public class StartScreenUIManager : MonoBehaviour
 
     }
 
-    
+    public void SetFOVSliderValue(int value)
+    {
+        FOVSlider.value = value;
+    }
+
+    public void SetXSensitivity(int value)
+    {
+
+        //Slider 
+        XSensitivitySlider.value = value;
+
+        //Text
+        XSensitivityText.text = value.ToString();
+    }
+
+    public void SetYSensitivity(int value)
+    {
+        YSensitivitySlider.value = value;
+        YSensitivityText.text = value.ToString();
+    }
+
+
+    public void SetLoadingSliderValue(float Value)
+    {
+
+        LoadingSlider.value = Value;
+
+    }
 
 
     #endregion
@@ -221,6 +272,25 @@ public class StartScreenUIManager : MonoBehaviour
     {
 
         return FOVSlider.value;
+
+    }
+
+    public int GetXSensitivity()
+    {
+        return (int)XSensitivitySlider.value;
+    }
+
+    public int GetYSensitivity()
+    {
+
+        return (int)YSensitivitySlider.value;
+
+    }
+
+    public float GetLoadingSliderValue()
+    {
+
+        return LoadingSlider.value;
 
     }
 

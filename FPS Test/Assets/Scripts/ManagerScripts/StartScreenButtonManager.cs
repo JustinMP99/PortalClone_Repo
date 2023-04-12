@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -117,11 +119,40 @@ public class StartScreenButtonManager : MonoBehaviour
     }
 
 
+    public  void NewGamePlayerData()
+    {
+
+        //PlayerDataObj.GetComponent<PlayerData>().FOV = 60;      
+        //PlayerDataObj.GetComponent<PlayerData>().X_Sensitivity = 5;
+        //PlayerDataObj.GetComponent<PlayerData>().Y_Sensitivity = 5;
+        PlayerDataObj.GetComponent<PlayerData>().LastLevel = Levels.LEVEL_00;
+        PlayerDataObj.GetComponent<PlayerData>().LevelText = "Level 1";
+        PlayerDataObj.GetComponent<PlayerData>().LevelOneCompleted   = false;
+        PlayerDataObj.GetComponent<PlayerData>().LevelTwoCompleted   = false;
+        PlayerDataObj.GetComponent<PlayerData>().LevelThreeCompleted = false;
+        PlayerDataObj.GetComponent<PlayerData>().LevelFourCompleted  = false;
+        PlayerDataObj.GetComponent<PlayerData>().LevelFiveCompleted   = false;
+
+    }
+
+
     //Load into the first level
     public void NewGameFunction()
     {
-        //Load the first Level
-        SceneManager.LoadScene("TestLevel");
+        //create New Game player data
+        NewGamePlayerData();
+        //Load First Level 
+        LoadSelectedlevelAsync(1);
+    }
+
+
+    public void SetNewSettings()
+    {
+
+        PlayerDataObj.GetComponent<PlayerData>().FOV = (int)UIManagerScript.FOVSlider.value;
+        PlayerDataObj.GetComponent<PlayerData>().Y_Sensitivity = UIManagerScript.GetYSensitivity();
+        PlayerDataObj.GetComponent<PlayerData>().X_Sensitivity = UIManagerScript.GetXSensitivity();
+
     }
 
     public void QuitGame()
@@ -132,7 +163,34 @@ public class StartScreenButtonManager : MonoBehaviour
     }
 
 
+   
 
+
+    #region Loading New Scene
+
+    public void LoadSelectedlevelAsync(int Level)
+    {
+        //Disable StartMenu UI
+        UIManagerScript.SetStartMenuState(false);
+        //Enable LoadingScreen UI
+        UIManagerScript.SetLoadingScreenUIState(true);
+        //Async load level
+        StartCoroutine(AsyncLoadLevel(Level));
+
+    }
+
+    IEnumerator AsyncLoadLevel(int Level)
+    {
+        AsyncOperation LoadOperation = SceneManager.LoadSceneAsync(Level);
+        while (!LoadOperation.isDone)
+        {
+            float Progress = Mathf.Clamp01(LoadOperation.progress / 0.9f);
+            UIManagerScript.SetLoadingSliderValue(Progress);
+            yield return null;
+        }
+    }
+
+    #endregion
 
     #region Main Menu Input
 
@@ -265,9 +323,6 @@ public class StartScreenButtonManager : MonoBehaviour
     }
 
 
-
-
-    //DEPRECATED
     public void OpenSettings()
     {
         //set CurrentMenuIter
@@ -277,11 +332,14 @@ public class StartScreenButtonManager : MonoBehaviour
 
         //Deactivate the start UI
         UIManagerScript.SetStartMenuState(false);
-        //Deactivate Start Selector Images
         
-
         //Activate the settings UI
         UIManagerScript.SetSettingsMenuState(true);
+
+        //set FOV and Sensitivity
+        UIManagerScript.FOVSlider.value = PlayerDataObj.GetComponent<PlayerData>().FOV;
+        UIManagerScript.SetXSensitivity(PlayerDataObj.GetComponent<PlayerData>().X_Sensitivity);
+        UIManagerScript.SetYSensitivity(PlayerDataObj.GetComponent<PlayerData>().Y_Sensitivity);
 
         InStartMenu = false;
         InSettingsMenu = true;
@@ -324,6 +382,15 @@ public class StartScreenButtonManager : MonoBehaviour
 
     }
 
+    public void SetX()
+    {
+
+    }
+
+    public void SetY()
+    {
+
+    }
 
     public void SetCurrentMenuIter(int SetValue)
     {

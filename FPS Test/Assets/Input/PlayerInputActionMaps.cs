@@ -78,7 +78,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
                     ""id"": ""711c3a0f-087a-46e3-9b5a-68e702dcfb7a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -569,7 +569,7 @@ public partial class @PlayerInputActionMaps: IInputActionCollection2, IDisposabl
                     ""name"": """",
                     ""id"": ""325751fb-bf9f-4331-ba6d-54a8726c166e"",
                     ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause_Return"",

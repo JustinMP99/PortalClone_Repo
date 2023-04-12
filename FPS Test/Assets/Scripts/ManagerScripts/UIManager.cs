@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+//using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,7 +19,15 @@ public class UIManager : MonoBehaviour
     [Header("Save File UI")]
     public GameObject SaveUI;
     public GameObject[] SaveFileUIs;
-
+    
+    
+    [Header("Load Screen UI")]
+    [SerializeField]
+    private GameObject LoadScreenUI;
+    [SerializeField]
+    private Slider LoadingBar;
+    [SerializeField]
+    private Image LoadingScreenImage;
 
     // Start is called before the first frame update
     void Start()
@@ -53,14 +61,19 @@ public class UIManager : MonoBehaviour
     {
 
         PauseUI.SetActive(state);
+      
+    }
 
+    public bool GetPauseUIState()
+    {
+        return PauseUI.activeSelf;
     }
 
     public void SetPauseMenuSelectorState(bool state, int ImageNum)
     {
 
         PauseSelectorImages[ImageNum].SetActive(state);
-
+        
     }
 
     #endregion
@@ -73,8 +86,42 @@ public class UIManager : MonoBehaviour
 
         SaveUI.SetActive(state);
     }
-   
+
     #endregion
+
+
+    #region Loading Screen UI Functions
+
+    public void SetLoadingScreenUIState(bool state)
+    {
+        LoadScreenUI.SetActive(state);
+    }
+
+    public void SetLoadingBarValue(float Value)
+    {
+
+        LoadingBar.value = Value;
+
+    }
+
+    public float GetLoadingBarValue()
+    {
+
+        return LoadingBar.value;
+
+    }
+
+    public void SetLoadingImage(Image NewLoadingImage)
+    {
+
+        LoadingScreenImage.sprite = NewLoadingImage.sprite;
+
+    }
+
+    #endregion
+
+
+
 
     #region UI Transition Function
 

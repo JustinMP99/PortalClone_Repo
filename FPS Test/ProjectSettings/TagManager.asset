@@ -9,6 +9,7 @@ TagManager:
   - FPSCamera
   - Portalable
   - PickUp
+  - PlayerDataObj
   layers:
   - Default
   - TransparentFX

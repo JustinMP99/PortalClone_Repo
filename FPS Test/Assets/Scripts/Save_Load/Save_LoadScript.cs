@@ -104,6 +104,42 @@ public static class Save_LoadScript
 
     }
 
+    public static void SaveGameData(GameObject Player, int SaveFile)
+    {
 
+        //create a temp PlayerDataScript
+        PlayerDataScript TempPlayerData = new PlayerDataScript(Player);
+        //Create a path and set it to temp data
+        string path = Application.persistentDataPath + "/Player.Data";
+        //Depending on the save file change which path the string will contain
+        switch (SaveFile)
+        {
+            case 0:
+                //set path to save file one
+                path = Application.persistentDataPath + "/PlayerSaveOne.Data";
+
+                break;
+            case 1:
+                //set path to save file two
+                path = Application.persistentDataPath + "/PlayerSaveTwo.Data";
+                break;
+            case 2:
+                //set path to save file three
+                path = Application.persistentDataPath + "/PlayerSaveThree.Data";
+                break;
+            default:
+                break;
+        }
+
+        //Write to Binary file
+
+        //create Formatter
+        BinaryFormatter Formatter = new BinaryFormatter();
+        //create Stream
+        FileStream fileStream = new FileStream(path, FileMode.Open);
+        //serialize file
+        Formatter.Serialize(fileStream, TempPlayerData);
+        //close Stream
+    }
 
 }
