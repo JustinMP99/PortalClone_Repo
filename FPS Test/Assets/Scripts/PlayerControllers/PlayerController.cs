@@ -343,9 +343,9 @@ public class PlayerController : MonoBehaviour
     public void PauseGameFunction()
     {
         //Set UI States
-        UIManager.GetComponent<UIManager>().SetGameUIState(false);
-        UIManager.GetComponent<UIManager>().SetPauseUIState(true);
-        Debug.Log("PauseUI is " + UIManager.GetComponent<UIManager>().GetPauseUIState());
+        UIManager.GetComponent<LevelUIManager>().SetGameUIState(false);
+        UIManager.GetComponent<LevelUIManager>().SetPauseUIState(true);
+        Debug.Log("PauseUI is " + UIManager.GetComponent<LevelUIManager>().GetPauseUIState());
         //Disable Game Control
         PlayerControl.Game_Movement.Disable();
         //Enable Pause Menu
@@ -358,7 +358,7 @@ public class PlayerController : MonoBehaviour
         CurrentMenuIter = 0;
         MaxMenuIter = 5;
         //update selector UI
-        UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
 
     }
 
@@ -371,9 +371,9 @@ public class PlayerController : MonoBehaviour
     public void ResumeGame()
     {
         //Set UI States
-        UIManager.GetComponent<UIManager>().SetGameUIState(true);
-        UIManager.GetComponent<UIManager>().SetPauseUIState(false) ;
-        Debug.Log("PauseUI is " + UIManager.GetComponent<UIManager>().GetPauseUIState());
+        UIManager.GetComponent<LevelUIManager>().SetGameUIState(true);
+        UIManager.GetComponent<LevelUIManager>().SetPauseUIState(false) ;
+        Debug.Log("PauseUI is " + UIManager.GetComponent<LevelUIManager>().GetPauseUIState());
         //Disable Pause Menu
         PlayerControl.Game_PauseMenu.Disable();
         //Enable Game Control
@@ -382,7 +382,7 @@ public class PlayerController : MonoBehaviour
         //set cursor
         Cursor.lockState = CursorLockMode.Locked;
         //reset Selector UI
-        UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
     }
 
     public void Pause_MoveUpFunction()
@@ -390,17 +390,17 @@ public class PlayerController : MonoBehaviour
         if (GetCurrentMenuIter() == 0)
         {
             //set Previous selector off
-            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
             //set CurrentMenuIter Value
             SetCurrentMenuIter(GetMaxMenuIter() - 1);
             //set new Selector on
-            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         }
         else
         {
-            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
             SetCurrentMenuIter(GetCurrentMenuIter() - 1);
-            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         }
 
     }
@@ -410,17 +410,17 @@ public class PlayerController : MonoBehaviour
         if (GetCurrentMenuIter() == (GetMaxMenuIter() - 1))
         {
             //set Previous selector off
-            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
             //set CurrentMenuIter Value
             SetCurrentMenuIter(0);
             //set new Selector on
-            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         }
         else
         {
-            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
             SetCurrentMenuIter(GetCurrentMenuIter() + 1);
-            UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         }
 
 
@@ -461,9 +461,9 @@ public class PlayerController : MonoBehaviour
 
     public void PauseMenuSetSelector(int MenuIter)
     {
-        UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
         CurrentMenuIter = MenuIter;
-        UIManager.GetComponent<UIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
     }
 
     #endregion
@@ -584,12 +584,12 @@ public class PlayerController : MonoBehaviour
     {
 
         //Disable all UI
-        UIManager.GetComponent<UIManager>().SetGameUIState(false);
-        UIManager.GetComponent<UIManager>().SetPauseUIState(false);
-        UIManager.GetComponent<UIManager>().SetSaveUI(false);
+        UIManager.GetComponent<LevelUIManager>().SetGameUIState(false);
+        UIManager.GetComponent<LevelUIManager>().SetPauseUIState(false);
+        UIManager.GetComponent<LevelUIManager>().SetSaveUI(false);
 
         //Enable Loading Screen UI
-        UIManager.GetComponent<UIManager>().SetLoadingScreenUIState(true);
+        UIManager.GetComponent<LevelUIManager>().SetLoadingScreenUIState(true);
         //Load Coroutine
         StartCoroutine(AsyncLoadLevel(Level));
 
@@ -619,7 +619,7 @@ public class PlayerController : MonoBehaviour
         UIManager = GameObject.FindGameObjectWithTag("UIManager");
         FPSCamera = GameObject.FindGameObjectWithTag("FPSCamera");
 
-        UIManager.GetComponent<UIManager>().SetGameUIState(true);
+        UIManager.GetComponent<LevelUIManager>().SetGameUIState(true);
         //UIManager.GetComponent<UIManager>().SetPauseUIState(true);
     }
 

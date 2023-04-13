@@ -13,6 +13,8 @@ public class SaveFileUIScript : MonoBehaviour
     private TMP_Text LevelText;
     [SerializeField]
     private Button SaveButton;
+    [SerializeField]
+    private bool IsLoaded = false;
 
 
 
@@ -36,6 +38,13 @@ public class SaveFileUIScript : MonoBehaviour
     public void SetSaveImage(Image saveImage)
     {
         SaveImage = saveImage;
+    }
+
+    public void SetIsLoaded(bool state)
+    {
+
+        IsLoaded = state;
+
     }
 
 

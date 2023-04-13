@@ -18,10 +18,6 @@ public enum Levels
 public class PlayerDataScript
 {
 
-
-    public int FOV = 60;
-    public int X_Sensitivity = 5;
-    public int Y_Sensitivity = 5;
     public Levels LastLevel = Levels.LEVEL_00;
     public string LevelText;
 
@@ -38,10 +34,6 @@ public class PlayerDataScript
     }
     public PlayerDataScript(GameObject player)
     {
-
-        FOV = player.GetComponent<PlayerData>().FOV;
-        X_Sensitivity = player.GetComponent<PlayerData>().X_Sensitivity;
-        Y_Sensitivity = player.GetComponent<PlayerData>().Y_Sensitivity;
         LastLevel = player.GetComponent<PlayerData>().LastLevel;
         LevelText = player.GetComponent<PlayerData>().LevelText;
         LevelOneCompleted = player.GetComponent<PlayerData>().LevelOneCompleted;

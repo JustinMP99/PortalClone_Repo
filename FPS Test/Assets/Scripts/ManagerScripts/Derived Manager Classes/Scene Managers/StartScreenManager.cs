@@ -2,44 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-
-/// <summary>
-//
-//
-//
-//
-//
-//
-//
-//// </summary>
 
 
-
-
-
-
-
-
-public class StartScreenButtonManager : MonoBehaviour
+public class StartScreenManager : Manager
 {
     
-
-    public GameObject UIManager;
-    private StartScreenUIManager UIManagerScript;
-
     public GameObject StartScreenSettings;
-
-    public GameObject PlayerDataObj;
-
 
     private int CurrentMenuIter = 0;
     private int MaxMenuIter = 0;
 
-    private bool InStartMenu = false;
-    private bool InSettingsMenu = false;
-    private bool InChooseSaveMenu = false;
-    private bool InSaveSelectedMenu = false;
+  
+    public enum Menu
+    {
+        InStartMenu,
+        InSettingsMenu,
+        InChooseSaveMenu,
+        InSaveSelectedMenu
+    }
+    public Menu CurrentMenu;
+
 
 
     #region ActionMap Variables
@@ -88,8 +70,6 @@ public class StartScreenButtonManager : MonoBehaviour
 
     }
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -97,16 +77,48 @@ public class StartScreenButtonManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         UIManagerScript = UIManager.GetComponent<StartScreenUIManager>();
 
-        //add Listener
-        UIManagerScript.FOVSlider.onValueChanged.AddListener(delegate { SetFOV(); });
-
         //set CurrentMenuIter
         CurrentMenuIter = 0;
         //set MaxMenuIter
-        MaxMenuIter = 3;
+        MaxMenuIter = 4;
 
+        //Set The StartMenuUI To Active
         UIManagerScript.SetStartMenuState(true);
-        InStartMenu = true;
+        //Set The InStartMenu Bool To True
+        CurrentMenu = Menu.InStartMenu;
+
+
+       //Attempt to load game settings
+        GameSettingsScriptOBJ = Save_LoadScript.LoadGameSettings();
+
+        //check if GameSettingsScriptOBJ is null (null = no prior game settings
+        if (GameSettingsScriptOBJ != null)
+        {
+            Debug.Log("Game Settings Data Found!");
+            //Copy To GameSettingsObject
+
+
+
+        }
+        else
+        {
+            Debug.Log("No Game Settings Data Found!");
+            //There are No Prior Game Settings So Fill Them To Default
+            Debug.Log("Creating Default Game Settings...");
+
+            //Create GameSettings Object
+            //GameSettingsOBJ = new GameObject();
+            //set default values
+            GameSettingsOBJ.GetComponent<GameSettings>().SetFOV(60);
+            GameSettingsOBJ.GetComponent<GameSettings>().SetXSensitivity(5);
+            GameSettingsOBJ.GetComponent<GameSettings>().SetYSensitivity(5);
+            GameSettingsOBJ.GetComponent<GameSettings>().SetViewBobState(false);
+            GameSettingsOBJ.GetComponent<GameSettings>().SetMotionBlurState(false);
+            Debug.Log("Default Game Settings Have Been Created!");
+            //Save Newly Created GameSettingsOBJ
+            Save_LoadScript.SaveGameSettings(GameSettingsOBJ);
+
+        }
 
 
 
@@ -118,43 +130,9 @@ public class StartScreenButtonManager : MonoBehaviour
 
     }
 
-
-    public  void NewGamePlayerData()
-    {
-
-        //PlayerDataObj.GetComponent<PlayerData>().FOV = 60;      
-        //PlayerDataObj.GetComponent<PlayerData>().X_Sensitivity = 5;
-        //PlayerDataObj.GetComponent<PlayerData>().Y_Sensitivity = 5;
-        PlayerDataObj.GetComponent<PlayerData>().LastLevel = Levels.LEVEL_00;
-        PlayerDataObj.GetComponent<PlayerData>().LevelText = "Level 1";
-        PlayerDataObj.GetComponent<PlayerData>().LevelOneCompleted   = false;
-        PlayerDataObj.GetComponent<PlayerData>().LevelTwoCompleted   = false;
-        PlayerDataObj.GetComponent<PlayerData>().LevelThreeCompleted = false;
-        PlayerDataObj.GetComponent<PlayerData>().LevelFourCompleted  = false;
-        PlayerDataObj.GetComponent<PlayerData>().LevelFiveCompleted   = false;
-
-    }
-
-
-    //Load into the first level
-    public void NewGameFunction()
-    {
-        //create New Game player data
-        NewGamePlayerData();
-        //Load First Level 
-        LoadSelectedlevelAsync(1);
-    }
-
-
-    public void SetNewSettings()
-    {
-
-        PlayerDataObj.GetComponent<PlayerData>().FOV = (int)UIManagerScript.FOVSlider.value;
-        PlayerDataObj.GetComponent<PlayerData>().Y_Sensitivity = UIManagerScript.GetYSensitivity();
-        PlayerDataObj.GetComponent<PlayerData>().X_Sensitivity = UIManagerScript.GetXSensitivity();
-
-    }
-
+  
+    
+ 
     public void QuitGame()
     {
 
@@ -163,34 +141,8 @@ public class StartScreenButtonManager : MonoBehaviour
     }
 
 
-   
 
-
-    #region Loading New Scene
-
-    public void LoadSelectedlevelAsync(int Level)
-    {
-        //Disable StartMenu UI
-        UIManagerScript.SetStartMenuState(false);
-        //Enable LoadingScreen UI
-        UIManagerScript.SetLoadingScreenUIState(true);
-        //Async load level
-        StartCoroutine(AsyncLoadLevel(Level));
-
-    }
-
-    IEnumerator AsyncLoadLevel(int Level)
-    {
-        AsyncOperation LoadOperation = SceneManager.LoadSceneAsync(Level);
-        while (!LoadOperation.isDone)
-        {
-            float Progress = Mathf.Clamp01(LoadOperation.progress / 0.9f);
-            UIManagerScript.SetLoadingSliderValue(Progress);
-            yield return null;
-        }
-    }
-
-    #endregion
+  
 
     #region Main Menu Input
 
@@ -277,13 +229,11 @@ public class StartScreenButtonManager : MonoBehaviour
     public void ReturnToStartMenu()
     {
         UIManagerScript.SetChooseSaveMenuState(false);
+        UIManagerScript.SetSettingsMenuState(false);
         UIManagerScript.SetStartMenuState(true);
 
-        InChooseSaveMenu = false;
-        InStartMenu = true;
+        CurrentMenu = Menu.InStartMenu;
     }
-
-
 
     //To Choose Save
     public void GoToChooseSaveSelect()
@@ -296,9 +246,7 @@ public class StartScreenButtonManager : MonoBehaviour
         //Enable Save Selected Menu
         UIManagerScript.SetChooseSaveMenuState(true);
 
-        InStartMenu = false;
-        InSaveSelectedMenu = false;
-        InChooseSaveMenu = true;
+        CurrentMenu = Menu.InChooseSaveMenu;
 
         //read save data
         for (int i = 0; i < 3; i++)
@@ -312,16 +260,23 @@ public class StartScreenButtonManager : MonoBehaviour
             {
                 temp = new PlayerDataScript();
                 temp.LevelText = "No Level Data";
+                UIManagerScript.AccessSaveFileUIIsLoaded(i, false);
             }
-            Debug.Log(temp.LevelText);
-            temp.LevelText = "No Level Data";
+            else
+            {
+                
+                //Update IsLoaded
+                UIManagerScript.AccessSaveFileUIIsLoaded(i, true);
+            }
+           
+            
             //Update UI
-            UIManagerScript.SetSaveFileLevelText(i, temp.LevelText); 
+            UIManagerScript.SetSaveFileLevelText(i, temp.LevelText);
+           
 
         }
 
     }
-
 
     public void OpenSettings()
     {
@@ -336,61 +291,19 @@ public class StartScreenButtonManager : MonoBehaviour
         //Activate the settings UI
         UIManagerScript.SetSettingsMenuState(true);
 
-        //set FOV and Sensitivity
-        UIManagerScript.FOVSlider.value = PlayerDataObj.GetComponent<PlayerData>().FOV;
-        UIManagerScript.SetXSensitivity(PlayerDataObj.GetComponent<PlayerData>().X_Sensitivity);
-        UIManagerScript.SetYSensitivity(PlayerDataObj.GetComponent<PlayerData>().Y_Sensitivity);
+        //set FOV and Sensitivity For The UI Using The Data From The Game Settings
+        UIManagerScript.FOVSlider.value = GameSettingsOBJ.GetComponent<GameSettings>().GetFOV();
+        UIManagerScript.SetXSensitivity(GameSettingsOBJ.GetComponent<GameSettings>().GetXSensitivity());
+        UIManagerScript.SetYSensitivity(GameSettingsOBJ.GetComponent<GameSettings>().GetYSensitivity());
 
-        InStartMenu = false;
-        InSettingsMenu = true;
-
-    }
-
-
-    //DEPTRECATED
-    public void ReturnToStart()
-    {
-        //set CurrentMenuIter
-        CurrentMenuIter = 0;
-        //Set MaxMenuIter
-        MaxMenuIter = 3;
-        //Activate the start UI
-        UIManagerScript.SetStartMenuState(true);
-        //Deactivate the settings UI
-        UIManagerScript.SetSettingsMenuState(false);
-
-        UIManagerScript.SetStartSelectorImageState(true,  0);
-        UIManagerScript.SetStartSelectorImageState(false, 1);
-        UIManagerScript.SetStartSelectorImageState(false, 2);
-
-        InStartMenu = true;
-        InSettingsMenu = false;
+        CurrentMenu = Menu.InSettingsMenu;
 
     }
-
 
     #endregion
 
     #region Setters
 
-    public void SetFOV()
-    {
-        //set the fov Text
-        UIManagerScript.SetFOVText();
-        //Set the StartScreenValues FOV by using the GetFOVValue in the UIManagerScript
-        StartScreenSettings.GetComponent<StartScreenSettings>().SetFOV(UIManagerScript.GetFOVValue());
-
-    }
-
-    public void SetX()
-    {
-
-    }
-
-    public void SetY()
-    {
-
-    }
 
     public void SetCurrentMenuIter(int SetValue)
     {

@@ -8,7 +8,8 @@ using UnityEngine.UIElements;
 
 public static class Save_LoadScript
 {
-  
+    #region PlayerSaveData
+
     public static PlayerDataScript LoadGame(int SaveFile)
     {
 
@@ -90,7 +91,7 @@ public static class Save_LoadScript
 
             ///TEMP///
             return playerData;
-        
+
         }
         else
         {
@@ -98,8 +99,8 @@ public static class Save_LoadScript
             PlayerDataScript TempPlayerData = null;
             return TempPlayerData;
         }
-        
-      
+
+
         //return null;
 
     }
@@ -140,6 +141,56 @@ public static class Save_LoadScript
         //serialize file
         Formatter.Serialize(fileStream, TempPlayerData);
         //close Stream
+        fileStream.Close();
     }
+    #endregion
+
+    #region GameSettingsSaveData
+
+    //Function For Loading Game Settings
+    public static GameSettingsScript LoadGameSettings()
+    {
+        //Create a path and set it to temp data
+        string path = "F:/SideProjects/PortalClone_Repo/FPS Test/Assets/GameData" + "/GameSettingsFile.Data";
+        //Check if the path exists
+        if (File.Exists(path))
+        {
+            //set up a formatter
+            BinaryFormatter Formatter = new BinaryFormatter();
+            //set up stream
+            FileStream fileStream = new FileStream(path, FileMode.Open);
+
+            GameSettingsScript CurrentGameSettings = Formatter.Deserialize(fileStream) as GameSettingsScript;
+            //close fileStream
+            fileStream.Close();
+
+            ///TEMP///
+            return CurrentGameSettings;
+        }
+        return null;
+    }
+
+
+    //Function For Saving Game Settings
+    public static void SaveGameSettings(GameObject gameSettings)
+    {
+        //Create A Temp GameSettingsScript Obj
+        GameSettingsScript TempGameSettings = new GameSettingsScript(gameSettings);
+        //Set The Path For The Game Settings Save File
+        string path = Application.persistentDataPath + "/GameSettings.Data";
+
+        BinaryFormatter Formatter = new BinaryFormatter();
+        //create Stream
+        FileStream fileStream = new FileStream(path, FileMode.Open);
+        //serialize file
+        Formatter.Serialize(fileStream, TempGameSettings);
+        //close Stream
+        fileStream.Close();
+
+
+    }
+
+    #endregion
+
 
 }

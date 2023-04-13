@@ -5,9 +5,6 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
 
-    public int FOV = 60;
-    public int X_Sensitivity = 5;
-    public int Y_Sensitivity = 5;
     public Levels LastLevel = Levels.LEVEL_00;
     public string LevelText;
 
@@ -21,9 +18,6 @@ public class PlayerData : MonoBehaviour
 
     public PlayerData (PlayerDataScript playdata)
     {
-        FOV = playdata.FOV;
-        X_Sensitivity = playdata.X_Sensitivity;
-        Y_Sensitivity = playdata.Y_Sensitivity;
         LastLevel = playdata.LastLevel;
         LevelText = playdata.LevelText;
         LevelOneCompleted = playdata.LevelOneCompleted;

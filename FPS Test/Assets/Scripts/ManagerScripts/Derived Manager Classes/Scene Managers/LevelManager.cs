@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Manager
 {
 
     [Header("---GAME OBJECTS---")]
@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
     //Set Player Data
     void SetPlayerData(GameObject PlayerData)
     {
-        FPSCamera.GetComponent<Camera>().fieldOfView = PlayerData.GetComponent<PlayerData>().FOV;
+        
     }
 
 

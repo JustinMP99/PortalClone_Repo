@@ -7,7 +7,7 @@ using TMPro;
 
 
 
-public class StartScreenUIManager : MonoBehaviour
+public class StartScreenUIManager : UIManager
 {
 
     [SerializeField]
@@ -38,6 +38,9 @@ public class StartScreenUIManager : MonoBehaviour
     [SerializeField]
     private GameObject SettingsMenu,
     GoBackButton;
+    [SerializeField]
+    private GameObject ApplyButton;
+
     [SerializeField]
     private GameObject SettingsMenuBackground;
 
@@ -91,34 +94,15 @@ public class StartScreenUIManager : MonoBehaviour
 
     #endregion
 
-    #region Loading Screen Variables
 
-    [Header("LOADING SCREEN VARIABLES")]
-    [SerializeField]
-    private GameObject LoadingScreenUI;
-    [SerializeField]
-    private Slider LoadingSlider;
-
-    [SerializeField]
-    private Image LoadingScreenImage;
-
-    #endregion
 
 
     // Start is called before the first frame update
     void Start()
     {
 
-        //check if a settings save file exists 
-
-        //if it does, load the default values into a game object
-
-        //if it doesnt, create the file with default values
-
-
-
+        //Activate The First Selector Image
         StartSelectorImages[0].SetActive(true);
-        //SettingsSelectorImages[0].SetActive(false);
 
     }
 
@@ -209,17 +193,6 @@ public class StartScreenUIManager : MonoBehaviour
 
     #endregion
 
-    #region Loading Screen UI State Functions
-
-    public void SetLoadingScreenUIState(bool state)
-    {
-        LoadingScreenUI.SetActive(state);
-    }
-
-
-
-    #endregion
-
 
     #region Set Value Functions
 
@@ -237,6 +210,21 @@ public class StartScreenUIManager : MonoBehaviour
     public void SetFOVSliderValue(int value)
     {
         FOVSlider.value = value;
+    }
+
+    public void SetXText()
+    {
+
+        XSensitivityText.GetComponent<TextMeshProUGUI>().text = GetXSensitivity().ToString();
+
+
+    }
+
+    public void SetYText()
+    {
+
+        YSensitivityText.GetComponent<TextMeshProUGUI>().text = GetYSensitivity().ToString();
+
     }
 
     public void SetXSensitivity(int value)
@@ -260,6 +248,13 @@ public class StartScreenUIManager : MonoBehaviour
     {
 
         LoadingSlider.value = Value;
+
+    }
+
+    public void AccessSaveFileUIIsLoaded(int SaveFileUI, bool state)
+    {
+
+        SaveFileUIs[SaveFileUI].SetIsLoaded(state);
 
     }
 
