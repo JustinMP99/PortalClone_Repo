@@ -151,7 +151,7 @@ public static class Save_LoadScript
     public static GameSettingsScript LoadGameSettings()
     {
         //Create a path and set it to temp data
-        string path = "F:/SideProjects/PortalClone_Repo/FPS Test/Assets/GameData" + "/GameSettingsFile.Data";
+        string path = "C:/Users/justi/Downloads/SideProjects/Unity Projects/FPSProject/PortalCloneRepo/PortalClone_Repo/FPS Test/Assets/GameData" + "/GameSettingsFile.Data";
         //Check if the path exists
         if (File.Exists(path))
         {
@@ -177,11 +177,11 @@ public static class Save_LoadScript
         //Create A Temp GameSettingsScript Obj
         GameSettingsScript TempGameSettings = new GameSettingsScript(gameSettings);
         //Set The Path For The Game Settings Save File
-        string path = Application.persistentDataPath + "/GameSettings.Data";
+        string path = "C:/Users/justi/Downloads/SideProjects/Unity Projects/FPSProject/PortalCloneRepo/PortalClone_Repo/FPS Test/Assets/GameData" + "/GameSettingsFile.Data";
 
         BinaryFormatter Formatter = new BinaryFormatter();
         //create Stream
-        FileStream fileStream = new FileStream(path, FileMode.Open);
+        FileStream fileStream = new FileStream(path, FileMode.Create);
         //serialize file
         Formatter.Serialize(fileStream, TempGameSettings);
         //close Stream

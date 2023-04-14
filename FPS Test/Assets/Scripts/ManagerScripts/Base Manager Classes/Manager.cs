@@ -40,18 +40,13 @@ public abstract class Manager : MonoBehaviour
 
     #region Loading New Scene
 
-    public void LoadSelectedlevelAsync(Levels Level)
+    public virtual void LoadSelectedlevelAsync(Levels Level)
     {
-        //Disable StartMenu UI
-        UIManagerScript.SetStartMenuState(false);
-        //Enable LoadingScreen UI
-        UIManagerScript.SetLoadingScreenUIState(true);
-        //Async load level
-        StartCoroutine(AsyncLoadLevel(Level));
+      
 
     }
 
-    IEnumerator AsyncLoadLevel(Levels Level)
+    public IEnumerator AsyncLoadLevel(Levels Level)
     {
         //Set The Level Index Based On The Passed In Level
         int LevelIndex = 0;
@@ -154,6 +149,19 @@ public abstract class Manager : MonoBehaviour
 
     #region GameData Functions
 
+
+    //Copy GameSettingsScript Object to GameSettings
+    public void CopyGameSettingsScriptToGameSettings(GameObject gameSettings, GameSettingsScript gameSettingsScript)
+    {
+
+        gameSettings.GetComponent<GameSettings>().SetFOV(gameSettingsScript.FOV);
+        gameSettings.GetComponent<GameSettings>().SetXSensitivity(gameSettingsScript.X_Sensitivity);
+        gameSettings.GetComponent<GameSettings>().SetYSensitivity(gameSettingsScript.Y_Sensitivity);
+        gameSettings.GetComponent<GameSettings>().SetViewBobState(gameSettingsScript.ViewBobState);
+        gameSettings.GetComponent<GameSettings>().SetMotionBlurState(gameSettingsScript.MotionBlurState);
+
+    }
+
     //Sets GameSettingsOBJ variables
     public void SetNewSettings()
     {
@@ -165,7 +173,7 @@ public abstract class Manager : MonoBehaviour
         //Get Y Sensitivity
         GameSettingsOBJ.GetComponent<GameSettings>().SetYSensitivity(UIManagerScript.GetYSensitivity());
 
-
+        Save_LoadScript.SaveGameSettings(GameSettingsOBJ);
 
     }
 
@@ -174,6 +182,11 @@ public abstract class Manager : MonoBehaviour
     #endregion
 
 
+    public void DestroyGameSettingsOBJ()
+    {
+        //This is the only way to destroy it upon returning it to main menu
+        Destroy(GameSettingsOBJ);
+    }
 
 
 

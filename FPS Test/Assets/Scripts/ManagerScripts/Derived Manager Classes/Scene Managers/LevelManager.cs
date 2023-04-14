@@ -46,6 +46,36 @@ public class LevelManager : Manager
         
     }
 
+    //Set Game Data
+    void SetGameSettingData()
+    {
+        //Set FOV
+        MainCamera.fieldOfView = GameSettingsOBJ.GetComponent<GameSettings>().GetFOV();
+        MainCamera.GetComponent<CameraController>().SetXYSensitivity(GameSettingsOBJ.GetComponent<GameSettings>().GetXSensitivity(), GameSettingsOBJ.GetComponent<GameSettings>().GetYSensitivity());
+
+    }
+
+
+
+
+    #region Scene Loading
+
+
+    public override void LoadSelectedlevelAsync(Levels Level)
+    {
+        //Disable all UI
+        UIManager.GetComponent<LevelUIManager>().SetGameUIState(false);
+        UIManager.GetComponent<LevelUIManager>().SetPauseUIState(false);
+        UIManager.GetComponent<LevelUIManager>().SetSaveUI(false);
+
+        //Enable Loading Screen UI
+        UIManager.GetComponent<LevelUIManager>().SetLoadingScreenUIState(true);
+        //Load Coroutine
+        StartCoroutine(AsyncLoadLevel(Level));
+    }
+
+    #endregion
+
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +84,11 @@ public class LevelManager : Manager
         PlayerDataObj = GameObject.FindGameObjectWithTag("PlayerDataObj");
         //Set Player Data
         SetPlayerData(PlayerDataObj);
+        //Find Game Settings Object
+        GameSettingsOBJ = GameObject.FindGameObjectWithTag("GameSettingsObj");
+        //Set Game Settings Data
+        SetGameSettingData();
+
     }
 
     // Update is called once per frame

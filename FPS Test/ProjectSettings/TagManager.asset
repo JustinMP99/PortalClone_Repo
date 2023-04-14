@@ -10,6 +10,7 @@ TagManager:
   - Portalable
   - PickUp
   - PlayerDataObj
+  - GameSettingsObj
   layers:
   - Default
   - TransparentFX

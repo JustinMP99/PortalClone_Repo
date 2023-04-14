@@ -96,7 +96,7 @@ public class StartScreenManager : Manager
         {
             Debug.Log("Game Settings Data Found!");
             //Copy To GameSettingsObject
-
+            CopyGameSettingsScriptToGameSettings(GameSettingsOBJ, GameSettingsScriptOBJ);
 
 
         }
@@ -131,8 +131,7 @@ public class StartScreenManager : Manager
     }
 
   
-    
- 
+   
     public void QuitGame()
     {
 
@@ -140,9 +139,6 @@ public class StartScreenManager : Manager
 
     }
 
-
-
-  
 
     #region Main Menu Input
 
@@ -342,5 +338,16 @@ public class StartScreenManager : Manager
 
     #endregion
 
+    public override void LoadSelectedlevelAsync(Levels Level)
+    {
+
+        //Disable StartMenu UI
+        UIManagerScript.SetStartMenuState(false);
+        //Enable LoadingScreen UI
+        UIManagerScript.SetLoadingScreenUIState(true);
+        //Async load level
+        StartCoroutine(AsyncLoadLevel(Level));
+
+    }
 
 }

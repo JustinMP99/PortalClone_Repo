@@ -76,14 +76,14 @@ public class CameraController : MonoBehaviour
         if (Player.GetComponent<PlayerController>().GetGameIsPaused() == false)
         {
             //Create rotation Value
-            XRotation -= MousePosition.y;
+            XRotation -= MousePosition.y * Sensitivity.x;
             Xrot -= MousePosition.y; 
-            XRotation = Mathf.Clamp(XRotation, -80.0f, 80.0f);
+            XRotation = Mathf.Clamp(XRotation , -80.0f, 80.0f);
 
-            YRotation -= MousePosition.x;
+            YRotation -= MousePosition.x * Sensitivity.y;
 
             //Apply Rotation Value
-            this.transform.localRotation = Quaternion.Euler(XRotation, -YRotation, 0.0f);
+            this.transform.localRotation = Quaternion.Euler(XRotation , -YRotation , 0.0f);
         
             //rotate player   
             Player.transform.localRotation = Quaternion.Euler(0.0f, -YRotation, 0.0f);
@@ -94,4 +94,14 @@ public class CameraController : MonoBehaviour
         }
 
     }
+
+
+    public void SetXYSensitivity(float X, float Y)
+    {
+
+        Sensitivity.x = X;
+        Sensitivity.y = Y;
+
+    }
+
 }

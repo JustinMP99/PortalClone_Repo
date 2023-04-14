@@ -2486,6 +2486,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99709fdf747db284e8f94d9a642bb190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainCamera: {fileID: 963194227}
+  UIManager: {fileID: 966572806}
+  UIManagerScript: {fileID: 0}
+  GameSettingsOBJ: {fileID: 0}
+  GameSettingsScriptOBJ:
+    FOV: 0
+    X_Sensitivity: 0
+    Y_Sensitivity: 0
+    MotionBlurState: 0
+    ViewBobState: 0
+  PlayerDataOBJ: {fileID: 0}
+  PlayerDataScriptObj:
+    LastLevel: 0
+    LevelText: 
+    LevelOneCompleted: 0
+    LevelTwoCompleted: 0
+    LevelThreeCompleted: 0
+    LevelFourCompleted: 0
+    LevelFiveCompleted: 0
   Player: {fileID: 1440420273}
   FPSCamera: {fileID: 963194225}
   PortalPrefab: {fileID: 5927653393803689209, guid: 39fcee1db59d952408bcda0ce42ba746, type: 3}
@@ -3729,7 +3748,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1440420275}
   Speed: 10
-  FPSCamera: {fileID: 0}
+  UIManager: {fileID: 966572806}
+  levelManager: {fileID: 1032796293}
+  FPSCamera: {fileID: 963194225}
   PortalPrefab: {fileID: 5927653393803689209, guid: 39fcee1db59d952408bcda0ce42ba746, type: 3}
   LeftPortal: {fileID: 0}
   RightPortal: {fileID: 0}

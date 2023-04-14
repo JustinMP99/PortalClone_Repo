@@ -40,10 +40,16 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region GameObjectVariables
+    [SerializeField]
     private GameObject UIManager;
+    [SerializeField]
+    private GameObject levelManager;
+    
     public  GameObject FPSCamera;
-    public GameObject PortalPrefab;
 
+
+
+    public GameObject PortalPrefab;
     public GameObject LeftPortal;
     public GameObject RightPortal;
     #endregion
@@ -428,9 +434,9 @@ public class PlayerController : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-
-        LoadNewSceneAsync(0);
-        //SceneManager.LoadScene("MainMenu");
+        
+        levelManager.GetComponent<LevelManager>().LoadSelectedlevelAsync(0);
+        levelManager.GetComponent<LevelManager>().DestroyGameSettingsOBJ();
 
     }
 
@@ -447,11 +453,19 @@ public class PlayerController : MonoBehaviour
             case 1:
 
                 break;
-            //QUIT GAME (return to menu)
+            //Save Menu
             case 2:
-                ReturnToMainMenu();
+               
+                break;
+            //Load Save Menu
+            case 3:
+
                 break;
 
+            //QUIT GAME (return to menu)
+            case 4:
+                ReturnToMainMenu();
+                break;
              
             default:
                 break;
@@ -577,47 +591,11 @@ public class PlayerController : MonoBehaviour
     #endregion
 
 
-    #region Load Scene Functions
-
-
-    public void LoadNewSceneAsync(int Level)
-    {
-
-        //Disable all UI
-        UIManager.GetComponent<LevelUIManager>().SetGameUIState(false);
-        UIManager.GetComponent<LevelUIManager>().SetPauseUIState(false);
-        UIManager.GetComponent<LevelUIManager>().SetSaveUI(false);
-
-        //Enable Loading Screen UI
-        UIManager.GetComponent<LevelUIManager>().SetLoadingScreenUIState(true);
-        //Load Coroutine
-        StartCoroutine(AsyncLoadLevel(Level));
-
-
-    }
-
-    IEnumerator AsyncLoadLevel(int Level)
-    {
-
-        AsyncOperation LevelLoad = SceneManager.LoadSceneAsync(Level);
-        while (!LevelLoad.isDone)
-        {
-            //update progress bar
-            float Progress = Mathf.Clamp01(LevelLoad.progress / 0.9f);
-            UIManager.GetComponent<UIManager>().SetLoadingBarValue(Progress);
-            yield return null;
-        }
-    }
-
-    #endregion
-
-
 
     // Start is called before the first frame update
     void Start()
     {
-        UIManager = GameObject.FindGameObjectWithTag("UIManager");
-        FPSCamera = GameObject.FindGameObjectWithTag("FPSCamera");
+       
 
         UIManager.GetComponent<LevelUIManager>().SetGameUIState(true);
         //UIManager.GetComponent<UIManager>().SetPauseUIState(true);
@@ -718,7 +696,7 @@ public class PlayerController : MonoBehaviour
     {
         
         Direction = new Vector3(Movement.x, 0.0f, Movement.y).normalized;
-        Debug.Log("Direction: " + Direction);
+        //Debug.Log("Direction: " + Direction);
         if (IsHolding)
         {
             HoldingObjectUpdateLookAt();
