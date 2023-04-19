@@ -54,6 +54,30 @@ public class CameraController : MonoBehaviour
         Look.Disable();
     }
 
+    public void UpdateCamera()
+    {
+
+        if (Player.GetComponent<PlayerController>().GetGameIsPaused() == false)
+        {
+            //Create rotation Value
+            XRotation -= MousePosition.y * Sensitivity.x;
+            Xrot -= MousePosition.y;
+            XRotation = Mathf.Clamp(XRotation, -80.0f, 80.0f);
+
+            YRotation -= MousePosition.x * Sensitivity.y;
+
+            //Apply Rotation Value
+            this.transform.localRotation = Quaternion.Euler(XRotation, -YRotation, 0.0f);
+
+            //rotate player   
+            Player.transform.localRotation = Quaternion.Euler(0.0f, -YRotation, 0.0f);
+
+            //update cameras transform to follow player
+            this.transform.position = FPSCameraTransform.transform.position;
+
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,29 +94,9 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Get Mouses current Position
-        //MousePosition = Mouse.current.position.ReadValue().normalized;
 
-        if (Player.GetComponent<PlayerController>().GetGameIsPaused() == false)
-        {
-            //Create rotation Value
-            XRotation -= MousePosition.y * Sensitivity.x;
-            Xrot -= MousePosition.y; 
-            XRotation = Mathf.Clamp(XRotation , -80.0f, 80.0f);
-
-            YRotation -= MousePosition.x * Sensitivity.y;
-
-            //Apply Rotation Value
-            this.transform.localRotation = Quaternion.Euler(XRotation , -YRotation , 0.0f);
-        
-            //rotate player   
-            Player.transform.localRotation = Quaternion.Euler(0.0f, -YRotation, 0.0f);
-
-            //update cameras transform to follow player
-            this.transform.position = FPSCameraTransform.transform.position;
-
-        }
-
+        UpdateCamera();
+      
     }
 
 

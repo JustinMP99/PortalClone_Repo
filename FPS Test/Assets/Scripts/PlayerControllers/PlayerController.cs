@@ -184,13 +184,17 @@ public class PlayerController : MonoBehaviour
     public void PlayerJump(InputAction.CallbackContext obj)
     {
 
-        
+        rb.AddForce(Vector3.up);
 
     }
     
     public void PlayerMove(Vector2 directions)
     {
-
+        //Direction = new Vector3(directions.x, 0.0f, directions.y).normalized;
+        Direction.x = directions.x;
+        Direction.y = 0.0f;
+        Direction.z = directions.y;
+        Direction = Direction.normalized;
         if (Direction != Vector3.zero)
         {
             //get the target angle
@@ -695,30 +699,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         
-        Direction = new Vector3(Movement.x, 0.0f, Movement.y).normalized;
-        //Debug.Log("Direction: " + Direction);
         if (IsHolding)
         {
             HoldingObjectUpdateLookAt();
-            //HoldingObjectRaycast();
         }
         
     }
 
     void FixedUpdate()
     {
-        //Movement
-        if (Direction != Vector3.zero)
-        {
-            //get the target angle
-            //pass in X first then Y Because we want to turn from the players forward not unitys
-            float Target = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + FPSCamera.transform.eulerAngles.y;
-            //set the movement direction
-            Vector3 movementDir = Quaternion.Euler(0.0f, Target, 0.0f) * Vector3.forward;
-
-            rb.MovePosition(rb.position + (movementDir * Speed * Time.deltaTime));
-  
-        }
+       
+        PlayerMove(Movement);
 
         //ObjectHolding
         if (IsHolding)

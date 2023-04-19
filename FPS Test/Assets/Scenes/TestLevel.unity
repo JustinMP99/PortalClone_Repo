@@ -3748,6 +3748,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1440420275}
   Speed: 10
+  MousePosition: {x: 0, y: 0}
+  RotationValues: {x: 0, y: 0, z: 0}
+  CameraSetPosition: {fileID: 1309051559}
+  XRotation: 0
+  Xrot: 0
+  YRotation: 0
   UIManager: {fileID: 966572806}
   levelManager: {fileID: 1032796293}
   FPSCamera: {fileID: 963194225}
