@@ -71,7 +71,7 @@ public class LevelManager : Manager
         //Enable Loading Screen UI
         UIManager.GetComponent<LevelUIManager>().SetLoadingScreenUIState(true);
         //Load Coroutine
-        StartCoroutine(AsyncLoadLevel(Level));
+        StartCoroutine(levelLoadingManager.GetComponent<LevelLoadingManager>().AsyncLoadLevel(Level));
     }
 
     #endregion
@@ -88,6 +88,9 @@ public class LevelManager : Manager
         GameSettingsOBJ = GameObject.FindGameObjectWithTag("GameSettingsObj");
         //Set Game Settings Data
         SetGameSettingData();
+        //Find Level Loading Manager
+        levelLoadingManager = GameObject.FindGameObjectWithTag("LevelLoadingManager");
+        levelLoadingManager.GetComponent<LevelLoadingManager>().SetSceneManager(this.gameObject);
 
     }
 

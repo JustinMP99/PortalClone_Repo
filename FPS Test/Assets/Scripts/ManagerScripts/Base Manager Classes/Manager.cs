@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 public abstract class Manager : MonoBehaviour
 {
@@ -12,7 +12,9 @@ public abstract class Manager : MonoBehaviour
     [SerializeField]
     protected GameObject UIManager;
     [SerializeField]
-    protected StartScreenUIManager UIManagerScript;
+    protected GameObject levelLoadingManager;
+    //[SerializeField]
+    public StartScreenUIManager UIManagerScript;
     [SerializeField]
     protected GameObject GameSettingsOBJ;
     [SerializeField]
@@ -44,45 +46,6 @@ public abstract class Manager : MonoBehaviour
     {
       
 
-    }
-
-    public IEnumerator AsyncLoadLevel(Levels Level)
-    {
-        //Set The Level Index Based On The Passed In Level
-        int LevelIndex = 0;
-        switch (Level)
-        {
-            case Levels.LEVEL_00:
-                LevelIndex = 0;
-                break;
-            case Levels.LEVEL_01:
-                LevelIndex = 1;
-                break;
-            case Levels.LEVEL_02:
-                LevelIndex = 2;
-                break;
-            case Levels.LEVEL_03:
-                LevelIndex = 3;
-                break;
-            case Levels.LEVEL_05:
-                LevelIndex = 4;
-                break;
-            case Levels.LEVEL_06:
-                LevelIndex = 5;
-                break;
-            default:
-                break;
-        }
-
-        //Set The AsyncOperation To Load The Scene Which Is Determined By The Level Index
-        AsyncOperation LoadOperation = SceneManager.LoadSceneAsync(LevelIndex);
-        //While The Load Operation Is Not Done, Update Progress Bar
-        while (!LoadOperation.isDone)
-        {
-            float Progress = Mathf.Clamp01(LoadOperation.progress / 0.9f);
-            UIManagerScript.SetLoadingSliderValue(Progress);
-            yield return null;
-        }
     }
 
     #endregion
@@ -181,12 +144,21 @@ public abstract class Manager : MonoBehaviour
 
     #endregion
 
-
+    #region Destroy Objects Functions
     public void DestroyGameSettingsOBJ()
     {
         //This is the only way to destroy it upon returning it to main menu
         Destroy(GameSettingsOBJ);
     }
+
+    public void DestroyLevelLoadingManager()
+    {
+
+        Destroy(levelLoadingManager);
+
+    }
+
+    #endregion
 
 
 

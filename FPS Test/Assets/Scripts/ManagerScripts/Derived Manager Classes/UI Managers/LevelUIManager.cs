@@ -7,17 +7,25 @@ public class LevelUIManager : UIManager
 
     public GameObject PlayerUICanvas;
 
-    [Header("GameUI")]
-    public GameObject GameUI;
+    [Header("------GameUI------")]
+    [SerializeField]
+    private GameObject GameUI;
 
-    [Header("PauseUI")]
-    public GameObject PauseUI;
-    public GameObject[] PauseSelectorImages;
+    [Header("------PauseUI------")]
+    [SerializeField]
+    private GameObject PauseUI;
+    [SerializeField]
+    private GameObject[] PauseSelectorImages;
 
-    [Header("Save File UI")]
-    public GameObject SaveUI;
-    public GameObject[] SaveFileUIs;
+    [Header("------Save File UI------")]
+    [SerializeField]
+    private GameObject SaveUI;
+    [SerializeField]
+    private GameObject[] SaveFileUIs;
 
+    [Header("------Settings UI------")]
+    [SerializeField]
+    private GameObject SettingsUI;
 
 
     #region GameUI Functions
@@ -61,6 +69,15 @@ public class LevelUIManager : UIManager
     {
 
         SaveUI.SetActive(state);
+    }
+
+    #endregion
+
+    #region SettingsUI Functions
+
+    public void SetSettingsUIState(bool state)
+    {
+        SettingsUI.SetActive(state);
     }
 
     #endregion

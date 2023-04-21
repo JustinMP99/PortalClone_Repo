@@ -9,6 +9,8 @@ public class StartScreenManager : Manager
     
     public GameObject StartScreenSettings;
 
+    public GameObject LevelLoaderPrefab;
+
     private int CurrentMenuIter = 0;
     private int MaxMenuIter = 0;
 
@@ -38,7 +40,6 @@ public class StartScreenManager : Manager
     #endregion
 
 
-
     void Awake()
     {
         PlayerControl = new PlayerInputActionMaps();
@@ -59,7 +60,6 @@ public class StartScreenManager : Manager
         Start_Select.Enable();
 
     }
-
 
     private void OnDisable()
     {
@@ -120,7 +120,13 @@ public class StartScreenManager : Manager
 
         }
 
-
+        //check if levelLoadingManager exists...
+        levelLoadingManager = GameObject.FindGameObjectWithTag("LevelLoadingManager");
+        if (levelLoadingManager == null)
+        {
+            levelLoadingManager = Instantiate(LevelLoaderPrefab);
+        }
+        levelLoadingManager.GetComponent<LevelLoadingManager>().SetSceneManager(this.gameObject);
 
     }
 
@@ -131,14 +137,6 @@ public class StartScreenManager : Manager
     }
 
   
-   
-    public void QuitGame()
-    {
-
-        Application.Quit();
-
-    }
-
 
     #region Main Menu Input
 
@@ -298,6 +296,18 @@ public class StartScreenManager : Manager
 
     #endregion
 
+    #region Quit Game Function
+
+    public void QuitGame()
+    {
+
+        Application.Quit();
+
+    }
+
+
+    #endregion
+
     #region Setters
 
 
@@ -346,7 +356,7 @@ public class StartScreenManager : Manager
         //Enable LoadingScreen UI
         UIManagerScript.SetLoadingScreenUIState(true);
         //Async load level
-        StartCoroutine(AsyncLoadLevel(Level));
+        StartCoroutine(levelLoadingManager.GetComponent<LevelLoadingManager>().AsyncLoadLevel(Level));
 
     }
 

@@ -441,6 +441,7 @@ public class PlayerController : MonoBehaviour
         
         levelManager.GetComponent<LevelManager>().LoadSelectedlevelAsync(0);
         levelManager.GetComponent<LevelManager>().DestroyGameSettingsOBJ();
+        //levelManager.GetComponent<LevelManager>().DestroyLevelLoadingManager();
 
     }
 
