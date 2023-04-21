@@ -120,13 +120,7 @@ public class StartScreenManager : Manager
 
         }
 
-        //check if levelLoadingManager exists...
-        levelLoadingManager = GameObject.FindGameObjectWithTag("LevelLoadingManager");
-        if (levelLoadingManager == null)
-        {
-            levelLoadingManager = Instantiate(LevelLoaderPrefab);
-        }
-        levelLoadingManager.GetComponent<LevelLoadingManager>().SetSceneManager(this.gameObject);
+        
 
     }
 
@@ -356,7 +350,7 @@ public class StartScreenManager : Manager
         //Enable LoadingScreen UI
         UIManagerScript.SetLoadingScreenUIState(true);
         //Async load level
-        StartCoroutine(levelLoadingManager.GetComponent<LevelLoadingManager>().AsyncLoadLevel(Level));
+        StartCoroutine(AsyncLoadLevel(Level));
 
     }
 

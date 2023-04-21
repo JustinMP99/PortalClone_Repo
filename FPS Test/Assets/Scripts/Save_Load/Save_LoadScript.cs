@@ -177,8 +177,8 @@ public static class Save_LoadScript
         //Create A Temp GameSettingsScript Obj
         GameSettingsScript TempGameSettings = new GameSettingsScript(gameSettings);
         //Set The Path For The Game Settings Save File
-        string path = "C:/Users/justi/Downloads/SideProjects/Unity Projects/FPSProject/PortalCloneRepo/PortalClone_Repo/FPS Test/Assets/GameData" + "/GameSettingsFile.Data";
-
+        //string path = "C:/Users/justi/Downloads/SideProjects/Unity Projects/FPSProject/PortalCloneRepo/PortalClone_Repo/FPS Test/Assets/GameData" + "/GameSettingsFile.Data";
+        string path = Application.persistentDataPath + "/GameSettingsFile.Data";
         BinaryFormatter Formatter = new BinaryFormatter();
         //create Stream
         FileStream fileStream = new FileStream(path, FileMode.Create);
