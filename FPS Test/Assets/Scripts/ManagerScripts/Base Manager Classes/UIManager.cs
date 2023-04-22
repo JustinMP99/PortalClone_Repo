@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public abstract class UIManager : MonoBehaviour
 {
 
 
-    
-    
     [Header("Load Screen UI")]
     [SerializeField]
     protected GameObject LoadScreenUI;
@@ -17,6 +16,36 @@ public abstract class UIManager : MonoBehaviour
     protected Slider LoadingSlider;
     [SerializeField]
     protected Image LoadingScreenImage;
+
+    [Header("Settings Menu UI")]
+    [SerializeField]
+    private GameObject SettingsMenu,
+    GoBackButton;
+    [SerializeField]
+    private GameObject ApplyButton;
+
+    [SerializeField]
+    private GameObject SettingsMenuBackground;
+
+    public Slider FOVSlider;
+    [SerializeField]
+    private TMP_Text XSensitivityText;
+    [SerializeField]
+    private Slider XSensitivitySlider;
+    [SerializeField]
+    private TMP_Text YSensitivityText;
+    [SerializeField]
+    private Slider YSensitivitySlider;
+
+    [SerializeField]
+    private TMP_Text FieldOfViewNumText;
+
+    [SerializeField]
+    //The parent object of the SettingsSelectorImages
+    private GameObject SettingSelectors;
+    [SerializeField]
+    private GameObject[] SettingsSelectorImages;
+
 
     // Start is called before the first frame update
     void Start()
@@ -90,5 +119,117 @@ public abstract class UIManager : MonoBehaviour
     }
 
     #endregion
+
+    #region Settings Menu Set State Functions
+
+    public void SetSettingsMenuState(bool state)
+    {
+
+        SettingsMenu.SetActive(state);
+
+    }
+
+
+    public void SetSettingSelectorImageState(bool state, int ImageNum)
+    {
+
+        SettingsSelectorImages[ImageNum].SetActive(state);
+
+    }
+
+
+
+    #endregion
+
+    #region Getters
+
+    public float GetFOVValue()
+    {
+
+        return FOVSlider.value;
+
+    }
+
+    public int GetXSensitivity()
+    {
+        return (int)XSensitivitySlider.value;
+    }
+
+    public int GetYSensitivity()
+    {
+
+        return (int)YSensitivitySlider.value;
+
+    }
+
+    public float GetLoadingSliderValue()
+    {
+
+        return LoadingSlider.value;
+
+    }
+
+    #endregion
+
+
+    #region Setters
+    public void SetFOVText()
+    {
+        FieldOfViewNumText.gameObject.SetActive(false);
+
+        FieldOfViewNumText.GetComponent<TextMeshProUGUI>().text = GetFOVValue().ToString();
+        //FieldOfViewNumText.GetComponent<TextMeshProUGUI>().text = "HELLO";
+
+        FieldOfViewNumText.gameObject.SetActive(true);
+
+    }
+
+    public void SetFOVSliderValue(int value)
+    {
+        FOVSlider.value = value;
+    }
+
+    public void SetXText()
+    {
+
+        XSensitivityText.GetComponent<TextMeshProUGUI>().text = GetXSensitivity().ToString();
+
+
+    }
+
+    public void SetYText()
+    {
+
+        YSensitivityText.GetComponent<TextMeshProUGUI>().text = GetYSensitivity().ToString();
+
+    }
+
+    public void SetXSensitivity(int value)
+    {
+
+        //Slider 
+        XSensitivitySlider.value = value;
+
+        //Text
+        XSensitivityText.text = value.ToString();
+    }
+
+    public void SetYSensitivity(int value)
+    {
+        YSensitivitySlider.value = value;
+        YSensitivityText.text = value.ToString();
+    }
+
+
+    public void SetLoadingSliderValue(float Value)
+    {
+
+        LoadingSlider.value = Value;
+
+    }
+
+
+    #endregion
+
 
 }

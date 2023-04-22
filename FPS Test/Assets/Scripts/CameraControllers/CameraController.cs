@@ -7,7 +7,13 @@ public class CameraController : MonoBehaviour
 {
 
     private Transform FPSCameraTransform;
+    [SerializeField]
     private GameObject Player;
+    [SerializeField]
+    private GameObject CameraSetPosition;
+    [SerializeField]
+    private GameObject levelManager;
+
     public GameObject HoldingPosition;
 
     public GameObject LeftP = null;
@@ -57,46 +63,22 @@ public class CameraController : MonoBehaviour
     public void UpdateCamera()
     {
 
-        if (Player.GetComponent<PlayerController>().GetGameIsPaused() == false)
-        {
-            //Create rotation Value
-            XRotation -= MousePosition.y * Sensitivity.x;
-            Xrot -= MousePosition.y;
-            XRotation = Mathf.Clamp(XRotation, -80.0f, 80.0f);
+        //Create rotation Value
+        XRotation -= MousePosition.y * Sensitivity.x;
+        Xrot -= MousePosition.y;
+        XRotation = Mathf.Clamp(XRotation, -80.0f, 80.0f);
 
-            YRotation -= MousePosition.x * Sensitivity.y;
+        YRotation -= MousePosition.x * Sensitivity.y;
 
-            //Apply Rotation Value
-            this.transform.localRotation = Quaternion.Euler(XRotation, -YRotation, 0.0f);
+        //Apply Rotation Value
+        this.transform.localRotation = Quaternion.Euler(XRotation, -YRotation, 0.0f);
 
-            //rotate player   
-            Player.transform.localRotation = Quaternion.Euler(0.0f, -YRotation, 0.0f);
+        //rotate player   
+        Player.transform.localRotation = Quaternion.Euler(0.0f, -YRotation, 0.0f);
 
-            //update cameras transform to follow player
-            this.transform.position = FPSCameraTransform.transform.position;
+        //update cameras transform to follow player
+        this.transform.position = CameraSetPosition.transform.position;
 
-        }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //set cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        //Find Objects
-        GameObject temp = GameObject.FindGameObjectWithTag("FPSCameraPos");
-        Player = GameObject.FindGameObjectWithTag("Player");
-
-        //set Variables
-        FPSCameraTransform = temp.transform;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        UpdateCamera();
-      
     }
 
 
@@ -107,5 +89,26 @@ public class CameraController : MonoBehaviour
         Sensitivity.y = Y;
 
     }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //set cursor
+        Cursor.lockState = CursorLockMode.Locked;
+     
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!levelManager.GetComponent<LevelManager>().GetGameIsPaused())
+        {
+            UpdateCamera();
+        }
+        
+    }
+
+
+
 
 }

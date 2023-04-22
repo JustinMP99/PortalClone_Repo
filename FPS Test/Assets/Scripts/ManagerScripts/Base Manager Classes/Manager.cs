@@ -39,6 +39,41 @@ public abstract class Manager : MonoBehaviour
     }
 
 
+    #region Pause Menu Functions
+
+    public virtual void PauseGame()
+    {
+
+
+    }
+
+    public virtual void ResumeGame()
+    {
+
+
+
+    }
+
+
+    #endregion
+
+    #region Settings Functions
+
+    public virtual void OpenSettings()
+    {
+
+    }
+
+
+    public virtual void CloseSettings()
+    {
+
+
+    }
+
+
+    #endregion
+
     #region Loading New Scene
 
     public virtual void LoadSelectedlevelAsync(Levels Level)
@@ -83,14 +118,12 @@ public abstract class Manager : MonoBehaviour
         while (!LoadOperation.isDone)
         {
             float Progress = Mathf.Clamp01(LoadOperation.progress / 0.9f);
-            UIManagerScript.SetLoadingSliderValue(Progress);
+            UIManager.GetComponent<UIManager>().SetLoadingSliderValue(Progress);
             yield return null;
         }
 
     }
     #endregion
-
-
 
     #region SaveData Functions
 
@@ -166,7 +199,7 @@ public abstract class Manager : MonoBehaviour
     }
 
     //Sets GameSettingsOBJ variables
-    public void SetNewSettings()
+    public virtual void SetNewSettings()
     {
         //Sets The Variables In The GameSetting
         //Set FOV

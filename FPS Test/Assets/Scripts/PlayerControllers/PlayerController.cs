@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private InputAction Interact;
     private InputAction FireLeft;
     private InputAction FireRight;
-    private InputAction PauseGame;
+    private InputAction Pause;
 
     //PAUSE MENU ACTIONS
     private InputAction Pause_MoveUp;
@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     private GameObject levelManager;
     
     public  GameObject FPSCamera;
+    public GameObject CameraSetPosition;
 
 
 
@@ -350,25 +351,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void PauseGameFunction()
+    public void PauseGame()
     {
-        //Set UI States
-        UIManager.GetComponent<LevelUIManager>().SetGameUIState(false);
-        UIManager.GetComponent<LevelUIManager>().SetPauseUIState(true);
-        Debug.Log("PauseUI is " + UIManager.GetComponent<LevelUIManager>().GetPauseUIState());
+ 
         //Disable Game Control
         PlayerControl.Game_Movement.Disable();
+
         //Enable Pause Menu
         PlayerControl.Game_PauseMenu.Enable();
-        GameIsPaused = true;
-        Debug.Log("GameIsPause value is: " + GameIsPaused);
-        //set cursor
-        Cursor.lockState = CursorLockMode.None;
-        //Set Menu Iterators
-        CurrentMenuIter = 0;
-        MaxMenuIter = 5;
-        //update selector UI
-        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+        //Call LevelManager Pause Function
+        levelManager.GetComponent<LevelManager>().PauseGame();
 
     }
 
@@ -380,101 +372,35 @@ public class PlayerController : MonoBehaviour
 
     public void ResumeGame()
     {
-        //Set UI States
-        UIManager.GetComponent<LevelUIManager>().SetGameUIState(true);
-        UIManager.GetComponent<LevelUIManager>().SetPauseUIState(false) ;
-        Debug.Log("PauseUI is " + UIManager.GetComponent<LevelUIManager>().GetPauseUIState());
         //Disable Pause Menu
         PlayerControl.Game_PauseMenu.Disable();
         //Enable Game Control
         PlayerControl.Game_Movement.Enable();
-        GameIsPaused = false;
-        //set cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        //reset Selector UI
-        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        levelManager.GetComponent<LevelManager>().ResumeGame();
     }
 
     public void Pause_MoveUpFunction()
     {
-        if (GetCurrentMenuIter() == 0)
-        {
-            //set Previous selector off
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-            //set CurrentMenuIter Value
-            SetCurrentMenuIter(GetMaxMenuIter() - 1);
-            //set new Selector on
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-        }
-        else
-        {
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-            SetCurrentMenuIter(GetCurrentMenuIter() - 1);
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-        }
+        levelManager.GetComponent<LevelManager>().PauseMoveUp();
 
     }
 
     public void Pause_MoveDownFunction()
     {
-        if (GetCurrentMenuIter() == (GetMaxMenuIter() - 1))
-        {
-            //set Previous selector off
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-            //set CurrentMenuIter Value
-            SetCurrentMenuIter(0);
-            //set new Selector on
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-        }
-        else
-        {
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-            SetCurrentMenuIter(GetCurrentMenuIter() + 1);
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-        }
 
+        levelManager.GetComponent<LevelManager>().PauseMoveDown();
 
     }
 
     public void ReturnToMainMenu()
     {
-        
-        levelManager.GetComponent<LevelManager>().LoadSelectedlevelAsync(0);
-        levelManager.GetComponent<LevelManager>().DestroyGameSettingsOBJ();
-        //levelManager.GetComponent<LevelManager>().DestroyLevelLoadingManager();
-
+        levelManager.GetComponent<LevelManager>().ToMainMenu();
     }
 
     public void Pause_Selection()
     {
 
-        switch (GetCurrentMenuIter())
-        {
-            //RESUME GAME
-            case 0:
-                ResumeGame();
-                break;
-            //SETTINGS MENU
-            case 1:
-
-                break;
-            //Save Menu
-            case 2:
-               
-                break;
-            //Load Save Menu
-            case 3:
-
-                break;
-
-            //QUIT GAME (return to menu)
-            case 4:
-                ReturnToMainMenu();
-                break;
-             
-            default:
-                break;
-        }
+        levelManager.GetComponent<LevelManager>().PauseSelect();
 
     }
 
@@ -483,6 +409,46 @@ public class PlayerController : MonoBehaviour
         UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
         CurrentMenuIter = MenuIter;
         UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+    }
+
+    #endregion
+
+
+    #region SettingsMenu Functions
+
+    public void OpenSettings()
+    {
+        levelManager.GetComponent<LevelManager>().OpenSettings();
+
+    }
+    public void CloseSettings()
+    {
+
+        levelManager.GetComponent<LevelManager>().CloseSettings();
+    }
+
+    public void ApplySettings()
+    {
+        levelManager.GetComponent<LevelManager>().SetNewSettings();
+    }
+
+    public void MoveSettingsSelectorUp()
+    {
+        levelManager.GetComponent<LevelManager>().SettingsMoveUp();
+    }
+
+    public void MoveSettingsSelectorDown()
+    {
+
+        levelManager.GetComponent<LevelManager>().SettingsMoveDown();
+
+    }
+
+    public void SelectSettingsOption()
+    {
+
+
+
     }
 
     #endregion
@@ -648,9 +614,9 @@ public class PlayerController : MonoBehaviour
         FireRight.Enable();
 
         ///PAUSE GAME///
-        PauseGame = PlayerControl.Game_Movement.PauseGame;
-        PauseGame.performed += ctx => PauseGameFunction();
-        PauseGame.Enable();
+        Pause = PlayerControl.Game_Movement.PauseGame;
+        Pause.performed += ctx => PauseGame();
+        Pause.Enable();
 
         ///INTERACT///
         Interact = PlayerControl.Game_Movement.Interact;

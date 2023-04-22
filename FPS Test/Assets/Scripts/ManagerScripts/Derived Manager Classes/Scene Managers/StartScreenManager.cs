@@ -266,7 +266,7 @@ public class StartScreenManager : Manager
 
     }
 
-    public void OpenSettings()
+    public override void OpenSettings()
     {
         //set CurrentMenuIter
         CurrentMenuIter = 0;
@@ -301,6 +301,12 @@ public class StartScreenManager : Manager
 
 
     #endregion
+
+    #region User Action Functions
+
+
+    #endregion
+
 
     #region Setters
 
