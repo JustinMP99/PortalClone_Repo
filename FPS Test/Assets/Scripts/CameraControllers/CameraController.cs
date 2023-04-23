@@ -60,6 +60,9 @@ public class CameraController : MonoBehaviour
         Look.Disable();
     }
 
+    /// <summary>
+    /// Updates The Camera Position And Rotation
+    /// </summary>
     public void UpdateCamera()
     {
 

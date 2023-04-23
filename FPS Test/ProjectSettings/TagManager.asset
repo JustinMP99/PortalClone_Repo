@@ -12,6 +12,7 @@ TagManager:
   - PlayerDataObj
   - GameSettingsObj
   - LevelLoadingManager
+  - HoldingObject
   layers:
   - Default
   - TransparentFX

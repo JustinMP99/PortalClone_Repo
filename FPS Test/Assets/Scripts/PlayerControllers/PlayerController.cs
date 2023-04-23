@@ -301,7 +301,7 @@ public class PlayerController : MonoBehaviour
         PortalFireCheck();
     }
 
-    public void InteractWithObject()
+    public void InteractFunction()
     {
 
         if (IsHolding)
@@ -335,7 +335,7 @@ public class PlayerController : MonoBehaviour
             //check what the collider hit
             switch (hit.collider.tag)
             {
-                case "PickUp":
+                case "HoldingObject":
 
                     //Save Object
                     HoldingObject =  hit.rigidbody.gameObject;
@@ -620,7 +620,7 @@ public class PlayerController : MonoBehaviour
 
         ///INTERACT///
         Interact = PlayerControl.Game_Movement.Interact;
-        Interact.performed += ctx => InteractWithObject();
+        Interact.performed += ctx => InteractFunction();
         Interact.Enable();
 
 
