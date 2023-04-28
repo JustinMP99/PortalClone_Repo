@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 
 
@@ -12,7 +9,8 @@ public class PlayerController : MonoBehaviour
 
     #region ActionMap Variables
     public PlayerInputActionMaps PlayerControl;
-    
+
+
 
     //PLAYER MOVEMENT ACTIONS
     private InputAction Move;
@@ -44,8 +42,8 @@ public class PlayerController : MonoBehaviour
     private GameObject UIManager;
     [SerializeField]
     private GameObject levelManager;
-    
-    public  GameObject FPSCamera;
+
+    public GameObject FPSCamera;
     public GameObject CameraSetPosition;
 
 
@@ -57,7 +55,9 @@ public class PlayerController : MonoBehaviour
 
     #region Menu Variables
 
+    [SerializeField]
     private int CurrentMenuIter = 0;
+    [SerializeField]
     private int MaxMenuIter = 3;
     private bool GameIsPaused = false;
 
@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
     private RenderTexture RightViewTexture;
     #endregion
 
+    private bool IsInPortal;
 
     //int layer = 10;
     public LayerMask LayerToHit;
@@ -139,7 +140,7 @@ public class PlayerController : MonoBehaviour
         {
             if (LeftPortal.GetComponent<PortalScript>().HasBeenFired)
             {
-                
+
 
                 if (LeftPortal.GetComponent<PortalScript>().PortalCamera.targetTexture != null)
                 {
@@ -185,10 +186,10 @@ public class PlayerController : MonoBehaviour
     public void PlayerJump(InputAction.CallbackContext obj)
     {
 
-        rb.AddForce(Vector3.up);
+        rb.AddForce(Vector3.up * 5.0f, ForceMode.Impulse);
 
     }
-    
+
     public void PlayerMove(Vector2 directions)
     {
         //Direction = new Vector3(directions.x, 0.0f, directions.y).normalized;
@@ -206,7 +207,7 @@ public class PlayerController : MonoBehaviour
 
             rb.MovePosition(rb.position + (movementDir * Speed * Time.deltaTime));
 
-              
+
         }
     }
 
@@ -241,7 +242,7 @@ public class PlayerController : MonoBehaviour
             //Set Portal Side
             LeftPortal.GetComponent<PortalScript>().portalSide = Portal_Side.Left;
             //set the Left Portal rotation to the opposite direction of the RaycastHits Normal vector3
-            LeftPortal.transform.rotation = Quaternion.LookRotation(-hit.normal) ;
+            LeftPortal.transform.rotation = Quaternion.LookRotation(-hit.normal);
             //Set the Left Portal position using the hit information ( Takes the position hit in world space and adds an amplified normal vector to it)
             LeftPortal.transform.position = hit.point + (hit.normal * 0.01f);
             //set the Portal Camera rotation
@@ -253,12 +254,12 @@ public class PlayerController : MonoBehaviour
         }
 
         PortalFireCheck();
-        
+
     }
-    
+
     public void FireRightPortal()
     {
-        
+
         //bit shift the layermask
         int layermask = 1 << 8;
         //int layermask = 10;
@@ -316,7 +317,7 @@ public class PlayerController : MonoBehaviour
             HoldingObject.transform.parent = null;
             //set holding object to null
             HoldingObject = null;
-            
+
             //set is holding to false
             IsHolding = false;
 
@@ -327,9 +328,9 @@ public class PlayerController : MonoBehaviour
             //create a raycast
             Ray ray = new Ray(FPSCamera.transform.position, FPSCamera.transform.forward);
             //create a raycast hit
-            RaycastHit hit ;
+            RaycastHit hit;
 
-           //cast the ray
+            //cast the ray
             Physics.Raycast(ray, out hit);
 
             //check what the collider hit
@@ -338,9 +339,9 @@ public class PlayerController : MonoBehaviour
                 case "HoldingObject":
 
                     //Save Object
-                    HoldingObject =  hit.rigidbody.gameObject;
+                    HoldingObject = hit.rigidbody.gameObject;
                     //Parent the object
-                    HoldingObject.transform.parent = FPSCamera.transform;               
+                    HoldingObject.transform.parent = FPSCamera.transform;
                     //set IsHolding to True
                     IsHolding = true;
 
@@ -353,14 +354,9 @@ public class PlayerController : MonoBehaviour
 
     public void PauseGame()
     {
- 
-        //Disable Game Control
-        PlayerControl.Game_Movement.Disable();
 
-        //Enable Pause Menu
-        PlayerControl.Game_PauseMenu.Enable();
         //Call LevelManager Pause Function
-        levelManager.GetComponent<LevelManager>().PauseGame();
+        //levelManager.GetComponent<LevelManager>().PauseGame();
 
     }
 
@@ -495,6 +491,15 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public bool GetIsInPortal()
+    {
+        return IsInPortal;
+    }
+
+    public void SetIsInPortal(bool state)
+    {
+        IsInPortal = state;
+    }
 
 
     #endregion
@@ -547,7 +552,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         //LayerToHit = layer;
         LayerToHit = LayerMask.GetMask("Level");
-        
+
         //cast the ray
         //Physics.Raycast(ray.origin, ray.direction, out hit,  4.0f, LayerToHit);
         if (Physics.Raycast(ray.origin, ray.direction, out hit, 3.0f, LayerToHit) || hit.distance > 1.0f)
@@ -561,24 +566,53 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Enable/Disable Control Maps
 
+    public void EnablePlayerMovementMap()
+    {
+        PlayerControl.Game_Movement.Enable();
+    }
+    public void DisablePlayerMovementMap()
+    {
+        PlayerControl.Game_Movement.Disable();
+    }
+
+
+    public void EnablePauseControlMap()
+    {
+        PlayerControl.Game_PauseMenu.Enable();
+    }
+
+    public void DisablePauseControlMap()
+    {
+        PlayerControl.Game_PauseMenu.Disable();
+
+    }
+
+
+
+
+
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-       
 
         UIManager.GetComponent<LevelUIManager>().SetGameUIState(true);
-        //UIManager.GetComponent<UIManager>().SetPauseUIState(true);
+
     }
 
     void Awake()
     {
-       PlayerControl = new PlayerInputActionMaps();
+        PlayerControl = new PlayerInputActionMaps();
     }
 
     void OnEnable()
     {
+
+        PlayerControl.Game_Movement.Enable();
+        PlayerControl.Game_PauseMenu.Disable();
 
         #region PlayerMovement
 
@@ -636,13 +670,13 @@ public class PlayerController : MonoBehaviour
         Pause_Select.performed += ctx => Pause_Selection();
         Pause_Select.Enable();
 
-        Pause_MoveUp = PlayerControl.Game_PauseMenu.Pause_MoveUp;
-        Pause_MoveUp.performed += ctx => Pause_MoveUpFunction();
-        Pause_MoveUp.Enable();
+        //Pause_MoveUp = PlayerControl.Game_PauseMenu.Pause_MoveUp;
+        //Pause_MoveUp.performed += ctx => Pause_MoveUpFunction();
+        //Pause_MoveUp.Enable();
 
-        Pause_MoveDown = PlayerControl.Game_PauseMenu.Pause_MoveDown;
-        Pause_MoveDown.performed += ctx => Pause_MoveDownFunction();
-        Pause_MoveDown.Enable();
+        //Pause_MoveDown = PlayerControl.Game_PauseMenu.Pause_MoveDown;
+        //Pause_MoveDown.performed += ctx => Pause_MoveDownFunction();
+        //Pause_MoveDown.Enable();
 
         #endregion
     }
@@ -665,17 +699,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("Current Menu Iter: " + CurrentMenuIter);
+        Debug.Log("Max Menu Iter: " + MaxMenuIter);
+
         if (IsHolding)
         {
             HoldingObjectUpdateLookAt();
         }
-        
+
     }
 
     void FixedUpdate()
     {
-       
+
         PlayerMove(Movement);
 
         //ObjectHolding
@@ -683,8 +719,8 @@ public class PlayerController : MonoBehaviour
         {
 
             HoldingObjectPositionUpdate();
-            HoldingObjectUpdateRigidBody();           
-          
+            HoldingObjectUpdateRigidBody();
+
         }
 
     }

@@ -13,6 +13,7 @@ TagManager:
   - GameSettingsObj
   - LevelLoadingManager
   - HoldingObject
+  - OtherPortalObject
   layers:
   - Default
   - TransparentFX

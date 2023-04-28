@@ -35,6 +35,9 @@ public class PortalScript : MonoBehaviour
     [Header("Other")]
     public GameObject Player;
     public Transform PlayerTransform;
+    public GameObject ReplicatedObject;
+    public GameObject TouchingObject;
+    private bool UpdateReplicatedObject;
 
 
     //Private Variables
@@ -48,6 +51,27 @@ public class PortalScript : MonoBehaviour
     {
        
 
+
+    }
+     
+
+    private void Update()
+    {
+        
+        if (UpdateReplicatedObject) 
+        {
+            //Set The Duplicated Object To The OtherPortals Position
+            ReplicatedObject.transform.position = OtherPortal.transform.position;
+
+            ////Get Distance of Touching object to this portal
+            //float Zdistance = Vector3.Distance(TouchingObject.transform.position, this.transform.position);
+            //Vector3 temp = Vector3.zero;
+            //temp.z = Zdistance;
+
+            ////Set the replicated Object That Disance from the other Portal
+            //ReplicatedObject.transform.position += temp;
+
+        }
 
     }
 
@@ -65,8 +89,11 @@ public class PortalScript : MonoBehaviour
             PortalCamera.transform.localPosition = Vector3.zero;
             //get z distance 
             float ZDistance = Vector3.Distance(OtherPortal.transform.position, Player.transform.position);
-            float XDistance = OtherPortal.transform.position.x - PlayerTransform.position.x;
-            float YDistance = OtherPortal.transform.position.y - PlayerTransform.position.y;
+            //float XDistance = OtherPortal.transform.position.x - PlayerTransform.position.x;
+            //float YDistance = OtherPortal.transform.position.y - PlayerTransform.position.y;
+            float XDistance = 0.0f;
+            float YDistance = 0.0f;
+
             //set the Right portals Camera by the result of itself - RightZDistance
             Vector3 Temp = Vector3.zero;
             //Temp.z is negative because of the portal positioning
@@ -146,4 +173,31 @@ public class PortalScript : MonoBehaviour
 
         }
     }
+
+
+
+
+    #region Getters
+
+    public bool GetUpdateReplicatedObject()
+    {
+
+        return UpdateReplicatedObject;
+
+    }
+
+    #endregion
+
+
+    #region Setters
+
+    public void SetUpdateReplicatedObject(bool state)
+    {
+        UpdateReplicatedObject = state;
+    }
+
+    #endregion
+
+
+
 }

@@ -63,6 +63,10 @@ public class LevelManager : Manager
         //Set Menu Iterators
         CurrentMenuIter = 0;
         MaxMenuIter = 5;
+        //Disable PlayerMovement Map
+        Player.GetComponent<PlayerController>().DisablePlayerMovementMap();
+        //Enable PauseMenu Map
+        Player.GetComponent<PlayerController>().EnablePauseControlMap();
         //update selector UI
         UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
 
@@ -81,6 +85,11 @@ public class LevelManager : Manager
         GameIsPaused = false;
         //set cursor
         Cursor.lockState = CursorLockMode.Locked;
+        //Disable PauseMenu Map
+        Player.GetComponent<PlayerController>().DisablePauseControlMap();
+        //Enable PlayerMovement Map
+        Player.GetComponent<PlayerController>().EnablePlayerMovementMap();
+
         //reset Selector UI
         UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
     }
