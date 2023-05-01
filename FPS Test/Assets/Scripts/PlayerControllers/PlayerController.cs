@@ -38,8 +38,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region GameObjectVariables
-    [SerializeField]
-    private GameObject UIManager;
+    //[SerializeField]
+    //private GameObject UIManager;
     [SerializeField]
     private GameObject levelManager;
 
@@ -85,6 +85,166 @@ public class PlayerController : MonoBehaviour
 
 
 
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Debug.Log("Current Menu Iter: " + CurrentMenuIter);
+        Debug.Log("Max Menu Iter: " + MaxMenuIter);
+
+        if (IsHolding)
+        {
+            HoldingObjectUpdateLookAt();
+        }
+
+    }
+
+    void FixedUpdate()
+    {
+
+        PlayerMove(Movement);
+
+        //ObjectHolding
+        if (IsHolding)
+        {
+
+            HoldingObjectPositionUpdate();
+            HoldingObjectUpdateRigidBody();
+
+        }
+
+    }
+
+
+
+
+    void Awake()
+    {
+        PlayerControl = new PlayerInputActionMaps();
+    }
+
+    void OnEnable()
+    {
+
+        PlayerControl.Game_Movement.Enable();
+        PlayerControl.Game_PauseMenu.Disable();
+
+        #region PlayerMovement
+
+
+        ///MOVE///
+        //set Move to the Move input from playerInputActionMap
+        Move = PlayerControl.Game_Movement.Move;
+        //Enable Move input map
+        Move.Enable();
+        //Ctx has data from the players input
+        // I am setting movement to the stored Vector2 that ctx contains
+        // Move performed is using this information
+        Move.performed += ctx => Movement = ctx.ReadValue<Vector2>();
+        Move.canceled += ctx2 => Movement = ctx2.ReadValue<Vector2>();
+
+        ///JUMP///
+        //Cache jump to variable
+        Jump = PlayerControl.Game_Movement.Jump;
+        //Link the performed action of Jump to the Function PlayerJump
+        Jump.performed += PlayerJump;
+        //Enable Jump
+        Jump.Enable();
+
+
+        ///FIRE LEFT PORTAL///
+        FireLeft = PlayerControl.Game_Movement.FireLeftPortal;
+        FireLeft.performed += ctx => FireLeftPortal();
+        FireLeft.Enable();
+
+        ///FIRE RIGHT PORTAL//
+        FireRight = PlayerControl.Game_Movement.FireRightPortal;
+        FireRight.performed += ctx => FireRightPortal();
+        FireRight.Enable();
+
+        ///PAUSE GAME///
+        Pause = PlayerControl.Game_Movement.PauseGame;
+        Pause.performed += ctx => PauseGame();
+        Pause.Enable();
+
+        ///INTERACT///
+        Interact = PlayerControl.Game_Movement.Interact;
+        Interact.performed += ctx => InteractFunction();
+        Interact.Enable();
+
+
+        #endregion
+
+        #region PauseMenu
+
+        Pause_Return = PlayerControl.Game_PauseMenu.Pause_Return;
+        Pause_Return.performed += ctx => ResumeGame();
+        Pause_Return.Enable();
+
+        Pause_Select = PlayerControl.Game_PauseMenu.Pause_Select;
+        Pause_Select.performed += ctx => Pause_Selection();
+        Pause_Select.Enable();
+
+        Pause_MoveUp = PlayerControl.Game_PauseMenu.Pause_MoveUp;
+        Pause_MoveUp.performed += ctx => Pause_MoveUpFunction();
+        Pause_MoveUp.Enable();
+
+        Pause_MoveDown = PlayerControl.Game_PauseMenu.Pause_MoveDown;
+        Pause_MoveDown.performed += ctx => Pause_MoveDownFunction();
+        Pause_MoveDown.Enable();
+
+        #endregion
+    }
+
+    private void OnDisable()
+    {
+        //do this to prevent memory leaks
+        //tells the input system that we arent taking input anymore
+        //Movement Input Maps
+        Move.performed -= ctx => Movement = ctx.ReadValue<Vector2>(); ;
+        Move.Disable();
+
+        Jump.performed -= PlayerJump;
+        Jump.Disable();
+
+        FireLeft.performed -= ctx => FireLeftPortal();
+        FireLeft.Disable();
+
+        FireRight.performed -= ctx => FireRightPortal();
+        FireRight.Disable();
+
+        Interact.performed -= ctx => InteractFunction();
+        Interact.Disable();
+
+        //Pause Input Maps        
+        Pause.performed -= ctx => PauseGame();
+        Pause.Disable();
+
+        Pause_Return.performed -= ctx => ResumeGame();
+        Pause_Return.Disable();
+
+        Pause_Select.performed -= ctx => Pause_Selection();
+        Pause_Select.Disable();
+
+        Pause_MoveUp.performed -= ctx => Pause_MoveUpFunction();
+        Pause_MoveUp.Disable();
+
+        Pause_MoveDown.performed -= ctx => Pause_MoveDownFunction();
+        Pause_MoveDown.Disable();
+
+
+        PlayerControl.Game_Movement.Disable();
+        PlayerControl.Game_PauseMenu.Disable();
+
+    }
+
+
+
     #region Other Functions
 
 
@@ -106,7 +266,7 @@ public class PlayerController : MonoBehaviour
             }
             LeftPortal.GetComponent<PortalScript>().OtherPortal = RightPortal;
             //Set the View Texture Resolution to the Screens
-            LeftViewTexture = new RenderTexture(Screen.width, Screen.height, 0);
+            LeftViewTexture = new RenderTexture(Screen.width, Screen.height, 5);
             //Render the Portals Camera to the View Texture
             LeftPortal.GetComponent<PortalScript>().PortalCamera.targetTexture = LeftViewTexture;
             //set the Other Portals Material Texture
@@ -126,7 +286,7 @@ public class PlayerController : MonoBehaviour
             }
             RightPortal.GetComponent<PortalScript>().OtherPortal = LeftPortal;
             //Set the View Texture Resolution to the Screens
-            RightViewTexture = new RenderTexture(Screen.width, Screen.height, 0);
+            RightViewTexture = new RenderTexture(Screen.width, Screen.height, 5);
             //Render the Portals Camera to the View Texture
             RightPortal.GetComponent<PortalScript>().PortalCamera.targetTexture = RightViewTexture;
             //set the Other Portals Material Texture
@@ -180,7 +340,6 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-
     #region PlayerMovement Functions
 
     public void PlayerJump(InputAction.CallbackContext obj)
@@ -213,93 +372,100 @@ public class PlayerController : MonoBehaviour
 
     public void FireLeftPortal()
     {
-        Debug.Log("BUTTON PRESSED");
-        //bit shift the layermask
-        int layermask = 1 << 8;
-        //int layermask = 10;
-        layermask = ~layermask;
 
-        Ray ray = new Ray(FPSCamera.transform.position, FPSCamera.transform.forward);
-
-        //raycast from the camera using the cameras forward
-        //check what the raycast hit
-        //if it hit a surface that can have portals then spawn a portal
-        if (Physics.Raycast(ray, out RaycastHit hit, 100.0f, LayerToHit))
+        if (!IsHolding)
         {
-            if (LeftPortal != null)
+
+            //bit shift the layermask
+            int layermask = 1 << 8;
+            //int layermask = 10;
+            layermask = ~layermask;
+
+            Ray ray = new Ray(FPSCamera.transform.position, FPSCamera.transform.forward);
+
+            //raycast from the camera using the cameras forward
+            //check what the raycast hit
+            //if it hit a surface that can have portals then spawn a portal
+            if (Physics.Raycast(ray, out RaycastHit hit, 100.0f, LayerToHit))
             {
-                Destroy(LeftPortal);
+                if (LeftPortal != null)
+                {
+                    Destroy(LeftPortal);
+                }
+
+                //instantiate the Left Portal
+                LeftPortal = Instantiate(PortalPrefab);
+                FPSCamera.GetComponent<CameraController>().LeftP = LeftPortal;
+                //set the gameobjects name
+                LeftPortal.name = "Left_Portal";
+                //Set Player Variable
+                LeftPortal.GetComponent<PortalScript>().Player = this.gameObject;
+                LeftPortal.GetComponent<PortalScript>().PlayerTransform = this.transform;
+                //Set Portal Side
+                LeftPortal.GetComponent<PortalScript>().portalSide = Portal_Side.Left;
+                //set the Left Portal rotation to the opposite direction of the RaycastHits Normal vector3
+                LeftPortal.transform.rotation = Quaternion.LookRotation(-hit.normal);
+                //Set the Left Portal position using the hit information ( Takes the position hit in world space and adds an amplified normal vector to it)
+                LeftPortal.transform.position = hit.point + (hit.normal * 0.01f);
+                //set the Portal Camera rotation
+                LeftPortal.GetComponent<PortalScript>().PortalCamera.transform.rotation = LeftPortal.GetComponent<PortalScript>().CameraSetPos.transform.rotation;
+
+                LeftPortal.GetComponent<PortalScript>().HasBeenFired = true;
+                
+                LeftPortal.GetComponent<PortalScript>().PortalCamera.enabled = false;
             }
 
-            //instantiate the Left Portal
-            LeftPortal = Instantiate(PortalPrefab);
-            FPSCamera.GetComponent<CameraController>().LeftP = LeftPortal;
-            //set the gameobjects name
-            LeftPortal.name = "Left_Portal";
-            //Set Player Variable
-            LeftPortal.GetComponent<PortalScript>().Player = this.gameObject;
-            LeftPortal.GetComponent<PortalScript>().PlayerTransform = this.transform;
-            //Set Portal Side
-            LeftPortal.GetComponent<PortalScript>().portalSide = Portal_Side.Left;
-            //set the Left Portal rotation to the opposite direction of the RaycastHits Normal vector3
-            LeftPortal.transform.rotation = Quaternion.LookRotation(-hit.normal);
-            //Set the Left Portal position using the hit information ( Takes the position hit in world space and adds an amplified normal vector to it)
-            LeftPortal.transform.position = hit.point + (hit.normal * 0.01f);
-            //set the Portal Camera rotation
-            LeftPortal.GetComponent<PortalScript>().PortalCamera.transform.rotation = LeftPortal.GetComponent<PortalScript>().CameraSetPos.transform.rotation;
+            PortalFireCheck();
 
-            LeftPortal.GetComponent<PortalScript>().HasBeenFired = true;
-            Debug.Log("HIT");
-            LeftPortal.GetComponent<PortalScript>().PortalCamera.enabled = false;
         }
-
-        PortalFireCheck();
-
+       
     }
 
     public void FireRightPortal()
     {
-
-        //bit shift the layermask
-        int layermask = 1 << 8;
-        //int layermask = 10;
-        layermask = ~layermask;
-
-        Ray ray = new Ray(FPSCamera.transform.position, FPSCamera.transform.forward);
-
-        //raycast from the camera using the cameras forward
-        //check what the raycast hit
-        //if it hit a surface that can have portals then spawn a portal
-        if (Physics.Raycast(ray, out RaycastHit hit, 100.0f, LayerToHit))
+        if (!IsHolding)
         {
-            if (RightPortal != null)
+            //bit shift the layermask
+            int layermask = 1 << 8;
+            //int layermask = 10;
+            layermask = ~layermask;
+
+            Ray ray = new Ray(FPSCamera.transform.position, FPSCamera.transform.forward);
+
+            //raycast from the camera using the cameras forward
+            //check what the raycast hit
+            //if it hit a surface that can have portals then spawn a portal
+            if (Physics.Raycast(ray, out RaycastHit hit, 100.0f, LayerToHit))
             {
-                Destroy(RightPortal);
+                if (RightPortal != null)
+                {
+                    Destroy(RightPortal);
+                }
+
+                //Instantiate the right portal
+                RightPortal = Instantiate(PortalPrefab);
+                FPSCamera.GetComponent<CameraController>().RightP = RightPortal;
+                RightPortal.name = "Right_Portal";
+                //Set Player Variable
+                RightPortal.GetComponent<PortalScript>().Player = this.gameObject;
+                RightPortal.GetComponent<PortalScript>().PlayerTransform = this.transform;
+                //set Portal Side
+                RightPortal.GetComponent<PortalScript>().portalSide = Portal_Side.Right;
+                //set the Right Portal rotation to the opposite direction of the RaycastHits Normal vector3
+                RightPortal.transform.rotation = Quaternion.LookRotation(-hit.normal);
+
+                RightPortal.transform.position = hit.point + (hit.normal * 0.01f);
+                //Set the Portals Camera rotation equal to the right portals CameraSetPos
+                RightPortal.GetComponent<PortalScript>().PortalCamera.transform.rotation = RightPortal.GetComponent<PortalScript>().CameraSetPos.transform.rotation;
+                //Set that the portal has been fired
+                RightPortal.GetComponent<PortalScript>().HasBeenFired = true;
+                RightPortal.GetComponent<PortalScript>().PortalCamera.enabled = false;
             }
 
-            //Instantiate the right portal
-            RightPortal = Instantiate(PortalPrefab);
-            FPSCamera.GetComponent<CameraController>().RightP = RightPortal;
-            RightPortal.name = "Right_Portal";
-            //Set Player Variable
-            RightPortal.GetComponent<PortalScript>().Player = this.gameObject;
-            RightPortal.GetComponent<PortalScript>().PlayerTransform = this.transform;
-            //set Portal Side
-            RightPortal.GetComponent<PortalScript>().portalSide = Portal_Side.Right;
-            //set the Right Portal rotation to the opposite direction of the RaycastHits Normal vector3
-            RightPortal.transform.rotation = Quaternion.LookRotation(-hit.normal);
 
-            RightPortal.transform.position = hit.point + (hit.normal * 0.01f);
-            //Set the Portals Camera rotation equal to the right portals CameraSetPos
-            RightPortal.GetComponent<PortalScript>().PortalCamera.transform.rotation = RightPortal.GetComponent<PortalScript>().CameraSetPos.transform.rotation;
-            //Set that the portal has been fired
-            RightPortal.GetComponent<PortalScript>().HasBeenFired = true;
-            Debug.Log("HIT");
-            RightPortal.GetComponent<PortalScript>().PortalCamera.enabled = false;
+            PortalFireCheck();
         }
-
-
-        PortalFireCheck();
+       
     }
 
     public void InteractFunction()
@@ -313,6 +479,8 @@ public class PlayerController : MonoBehaviour
             HoldingObject.GetComponent<Rigidbody>().useGravity = true;
             HoldingObject.GetComponent<Rigidbody>().freezeRotation = false;
             HoldingObject.GetComponent<Rigidbody>().isKinematic = false;
+            //Set 
+            HoldingObject.GetComponent<BasePickup>().SetbeingHeld(false);
             //set parent to null
             HoldingObject.transform.parent = null;
             //set holding object to null
@@ -340,8 +508,11 @@ public class PlayerController : MonoBehaviour
 
                     //Save Object
                     HoldingObject = hit.rigidbody.gameObject;
+                    HoldingObject.GetComponent<Rigidbody>().isKinematic = true;
                     //Parent the object
                     HoldingObject.transform.parent = FPSCamera.transform;
+                    //Set That The Object Is Being Held
+                    HoldingObject.GetComponent<BasePickup>().SetbeingHeld(true);
                     //set IsHolding to True
                     IsHolding = true;
 
@@ -356,22 +527,18 @@ public class PlayerController : MonoBehaviour
     {
 
         //Call LevelManager Pause Function
-        //levelManager.GetComponent<LevelManager>().PauseGame();
+        levelManager.GetComponent<LevelManager>().PauseGame();
 
     }
 
-
+    
     #endregion
-
 
     #region PauseMenu Functions
 
     public void ResumeGame()
     {
-        //Disable Pause Menu
-        PlayerControl.Game_PauseMenu.Disable();
-        //Enable Game Control
-        PlayerControl.Game_Movement.Enable();
+       // Call The LevelManagers ResumeGame Function
         levelManager.GetComponent<LevelManager>().ResumeGame();
     }
 
@@ -400,15 +567,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void PauseMenuSetSelector(int MenuIter)
-    {
-        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-        CurrentMenuIter = MenuIter;
-        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-    }
+    //public void PauseMenuSetSelector(int MenuIter)
+    //{
+    //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+    //    CurrentMenuIter = MenuIter;
+    //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+    //}
 
     #endregion
-
 
     #region SettingsMenu Functions
 
@@ -448,7 +614,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
 
     #region Getter/Setter Functions
 
@@ -503,7 +668,6 @@ public class PlayerController : MonoBehaviour
 
 
     #endregion
-
 
     #region Holding Functions
 
@@ -594,135 +758,5 @@ public class PlayerController : MonoBehaviour
 
 
     #endregion
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-        UIManager.GetComponent<LevelUIManager>().SetGameUIState(true);
-
-    }
-
-    void Awake()
-    {
-        PlayerControl = new PlayerInputActionMaps();
-    }
-
-    void OnEnable()
-    {
-
-        PlayerControl.Game_Movement.Enable();
-        PlayerControl.Game_PauseMenu.Disable();
-
-        #region PlayerMovement
-
-
-        ///MOVE///
-        //set Move to the Move input from playerInputActionMap
-        Move = PlayerControl.Game_Movement.Move;
-        //Enable Move input map
-        Move.Enable();
-        //Ctx has data from the players input
-        // I am setting movement to the stored Vector2 that ctx contains
-        // Move performed is using this information
-        Move.performed += ctx => Movement = ctx.ReadValue<Vector2>();
-        Move.canceled += ctx2 => Movement = ctx2.ReadValue<Vector2>();
-
-        ///JUMP///
-        //Cache jump to variable
-        Jump = PlayerControl.Game_Movement.Jump;
-        //Link the performed action of Jump to the Function PlayerJump
-        Jump.performed += PlayerJump;
-        //Enable Jump
-        Jump.Enable();
-
-
-        ///FIRE LEFT PORTAL///
-        FireLeft = PlayerControl.Game_Movement.FireLeftPortal;
-        FireLeft.performed += ctx => FireLeftPortal();
-        FireLeft.Enable();
-
-        ///FIRE RIGHT PORTAL//
-        FireRight = PlayerControl.Game_Movement.FireRightPortal;
-        FireRight.performed += ctx => FireRightPortal();
-        FireRight.Enable();
-
-        ///PAUSE GAME///
-        Pause = PlayerControl.Game_Movement.PauseGame;
-        Pause.performed += ctx => PauseGame();
-        Pause.Enable();
-
-        ///INTERACT///
-        Interact = PlayerControl.Game_Movement.Interact;
-        Interact.performed += ctx => InteractFunction();
-        Interact.Enable();
-
-
-        #endregion
-
-        #region PauseMenu
-
-        Pause_Return = PlayerControl.Game_PauseMenu.Pause_Return;
-        Pause_Return.performed += ctx => ResumeGame();
-        Pause_Return.Enable();
-
-        Pause_Select = PlayerControl.Game_PauseMenu.Pause_Select;
-        Pause_Select.performed += ctx => Pause_Selection();
-        Pause_Select.Enable();
-
-        //Pause_MoveUp = PlayerControl.Game_PauseMenu.Pause_MoveUp;
-        //Pause_MoveUp.performed += ctx => Pause_MoveUpFunction();
-        //Pause_MoveUp.Enable();
-
-        //Pause_MoveDown = PlayerControl.Game_PauseMenu.Pause_MoveDown;
-        //Pause_MoveDown.performed += ctx => Pause_MoveDownFunction();
-        //Pause_MoveDown.Enable();
-
-        #endregion
-    }
-
-    private void OnDisable()
-    {
-        Move.Disable();
-        //do this to prevent memory leaks
-        //tells the input system that we arent taking input anymore
-        Move.started -= ctx => Movement = ctx.ReadValue<Vector2>();
-        Jump.Disable();
-        FireLeft.Disable();
-        FireRight.Disable();
-        Pause_MoveUp.Disable();
-        Pause_Return.Disable();
-        Pause_Select.Disable();
-        Pause_MoveDown.Disable();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Debug.Log("Current Menu Iter: " + CurrentMenuIter);
-        Debug.Log("Max Menu Iter: " + MaxMenuIter);
-
-        if (IsHolding)
-        {
-            HoldingObjectUpdateLookAt();
-        }
-
-    }
-
-    void FixedUpdate()
-    {
-
-        PlayerMove(Movement);
-
-        //ObjectHolding
-        if (IsHolding)
-        {
-
-            HoldingObjectPositionUpdate();
-            HoldingObjectUpdateRigidBody();
-
-        }
-
-    }
 
 }

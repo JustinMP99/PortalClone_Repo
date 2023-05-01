@@ -314,6 +314,17 @@
                 },
                 {
                     "name": "",
+                    "id": "2f59b68a-5952-49b5-98cd-95268dedbf1c",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause Game",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "abaaef22-6eed-45fb-884d-c7984e4f9580",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",

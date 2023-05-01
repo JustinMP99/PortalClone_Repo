@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PortalObjectTrigger : MonoBehaviour
@@ -9,43 +7,77 @@ public class PortalObjectTrigger : MonoBehaviour
     /// </summary>
     [SerializeField]
     private GameObject Portal;
-
+    float dotResult;
+   
     public void OnTriggerEnter(Collider other)
     {
-        //Replicate The Item That Hit The Trigger
-        if (Portal.GetComponent<PortalScript>().ReplicatedObject == null && other.gameObject.tag == "HoldingObject")
+        if (other.gameObject.tag == "HoldingObject")
         {
+            Portal.GetComponent<PortalScript>().SetCheckDotState(true);
+        }
+
+
+
+            //If The Colliding Object Tag Is "HoldingObject" And The Colliding Object Is Being Held...
+            if (other.gameObject.tag == "HoldingObject" && other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
+        {
+
+            Portal.GetComponent<PortalScript>().TouchingObject = other.gameObject;
             Portal.GetComponent<PortalScript>().ReplicatedObject = Instantiate(other.gameObject);
             Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "OtherPortalObject";
             Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(true);
-            Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = true;
+            //Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = true;
         }
-        if (other.gameObject.tag == "Player" && other.gameObject.GetComponent<PlayerController>().GetIsInPortal() == false)
-        {
-            other.gameObject.GetComponent<PlayerController>().SetIsInPortal(true);
-            other.gameObject.transform.position = Portal.GetComponent<PortalScript>().OtherPortal.transform.position;
+      
 
-            Quaternion tempRot = other.gameObject.GetComponent<PlayerController>().FPSCamera.transform.rotation;
-            tempRot.y = tempRot.y * 180;
-
-            other.gameObject.GetComponent<PlayerController>().FPSCamera.transform.rotation = tempRot;
-        }
-       
     }
 
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "OtherPortalObject")
+
+        switch (other.gameObject.tag)
         {
-            Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "HoldingObject";
-            Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(false);
+            case "HoldingObject":
+
+                if (!other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
+                {
+                    //Destroy The Object
+                    Destroy(other.gameObject);
+                    Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "HoldingObject";
+                    Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(false);
+                    Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = false;
+                    Portal.GetComponent<PortalScript>().ReplicatedObject = null;
+                }
+                else if(other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
+                {
+                    Destroy(Portal.GetComponent<PortalScript>().ReplicatedObject.gameObject);
+                    Portal.GetComponent<PortalScript>().ReplicatedObject = null;
+                }
+
+                break;
+
+            case "OtherPortalObject":
+
+                Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "HoldingObject";
+                Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(false);
+                Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = false;
+                Portal.GetComponent<PortalScript>().ReplicatedObject = null;    
+                break;
+            default:
+                break;
         }
-        if (other.gameObject.tag == "Player" && other.gameObject.GetComponent<PlayerController>().GetIsInPortal() == true)
-        {
-            //other.gameObject.GetComponent<PlayerController>().SetIsInPortal(false);
-            //other.gameObject.transform.position = Portal.GetComponent<PortalScript>().OtherPortal.transform.position;
-        }
+
+
+        //if (other.gameObject.tag == "HoldingObject" && )
+        //{
+            
+
+        //}
+        //if (other.gameObject.tag == "OtherPortalObject")
+        //{
+        //   
+        //}
     }
 
 

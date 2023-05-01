@@ -4810,7 +4810,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.21767786}
   m_AnchorMax: {x: 0.2226584, y: 0.32700002}
-  m_AnchoredPosition: {x: 0, y: -0.5700226}
+  m_AnchoredPosition: {x: 0, y: -0.57003784}
   m_SizeDelta: {x: -0.000015258789, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1839439179
@@ -5872,6 +5872,10 @@ PrefabInstance:
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 1032796293}
+    - target: {fileID: 1821954752211951275, guid: cc4184c4f13847d4897459a0eda20cbd, type: 3}
+      propertyPath: CameraSetPosition
+      value: 
+      objectReference: {fileID: 1309051559}
     - target: {fileID: 1821954752211951278, guid: cc4184c4f13847d4897459a0eda20cbd, type: 3}
       propertyPath: m_RootOrder
       value: 4

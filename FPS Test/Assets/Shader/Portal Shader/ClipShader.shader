@@ -2,7 +2,7 @@ Shader "Unlit/ClipShader"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        _MainTex ("Main Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -11,14 +11,16 @@ Shader "Unlit/ClipShader"
             "RenderType"="Opaque"
             "RenderPipeline" = "UniversalPipeline"
         }
-        LOD 100
+        //LOD 100
         HLSLINCLUDE
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+        //#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+        #include "UnityCG.cginc"
         ENDHLSL
 
 
         Pass
         {
+            Name "Mask" 
 
             Stencil
             {
@@ -35,31 +37,32 @@ Shader "Unlit/ClipShader"
             struct appdata
             {
                 float4 vertex : POSITION;
-                //float4 uv : TEXCOORD0;
+               
             };
 
             struct v2f
             {
-                float4 uv : TEXCOORD0;
-  
                 float4 vertex : SV_POSITION;
+                float4 ScreenPos : TEXCOORD0;
+  
             };
 
             uniform sampler2D _MainTex;
-            float4 _MainTex_ST;
+            //float4 _MainTex_ST;
 
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = TransformObjectToHClip(v.vertex.xyz);
-                o.uv = ComputeScreenPos(o.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                //o.vertex = TransformObjectToHClip(v.vertex.xyz);
+                o.ScreenPos = ComputeScreenPos(o.vertex);
                 return o;
             }
 
             float4 frag(v2f i) : SV_Target
             {
-                float2 Screen = i.uv.xy / i.uv.w;
-                float4 col = tex2D(_MainTex, Screen);
+                float2 uv = i.ScreenPos.xy / i.ScreenPos.w;
+                float4 col = tex2D(_MainTex, uv);
                 return col;
             }
             ENDHLSL

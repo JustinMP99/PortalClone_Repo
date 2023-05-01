@@ -7,32 +7,49 @@ public class LevelManager : Manager
 {
 
     [Header("---GAME OBJECTS---")]
-    public GameObject Player;
-    public GameObject FPSCamera;
-    public GameObject PortalPrefab;
-    public GameObject LeftPortal;
-    public GameObject RightPortal;
+    [SerializeField]
+    private GameObject Player;
+    [SerializeField]
+    private GameObject FPSCamera;
+    [SerializeField]
+    private GameObject PortalPrefab;
+    [SerializeField]
+    private GameObject LeftPortal;
+    [SerializeField]
+    private GameObject RightPortal;
 
-    public Transform LeftPortalPosition;
-    public Transform RightPortalPosition;
+    [SerializeField]
+    private Transform LeftPortalPosition;
+    [SerializeField]
+    private Transform RightPortalPosition;
 
-    public GameObject TestCameraPos;
-    public GameObject PlayerDataObj;
+    [SerializeField]
+    private GameObject TestCameraPos;
+    [SerializeField]
+    private GameObject PlayerDataObj;
 
-    public Quaternion YRot;
+    private Quaternion YRot;
 
     [Header("---MATERIALS---")]
-    public Material RightPortalMaterial;
-    public Material LeftPortalMaterial;
 
-    public Material LeftViewMat;
-    public Material RightViewMat;
+    [SerializeField]
+    private Material RightPortalMaterial;
+    [SerializeField]
+    private Material LeftPortalMaterial;
+
+    [SerializeField]
+    private Material LeftViewMat;
+    [SerializeField]
+    private Material RightViewMat;
 
 
     [Header("---RENDER TEXTURES---")]
-    public RenderTexture LeftPortalRT;
-    public RenderTexture RightPortalRT;
+    [SerializeField]
+    private RenderTexture LeftPortalRT;
+    [SerializeField]
+    private RenderTexture RightPortalRT;
 
+    [SerializeField]
     private RenderTexture LeftViewTexture;
     private RenderTexture RightViewTexture;
 

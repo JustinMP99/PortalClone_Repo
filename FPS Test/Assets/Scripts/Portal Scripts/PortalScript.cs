@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UIElements;
 
 public enum Portal_Type
 {
@@ -38,13 +38,17 @@ public class PortalScript : MonoBehaviour
     public GameObject ReplicatedObject;
     public GameObject TouchingObject;
     private bool UpdateReplicatedObject;
+    private bool CheckDot;
 
 
     //Private Variables
     private RenderTexture ViewTexture;
     private Transform PlayerCamTransform;
 
-
+    float dotForTouching;
+    float dotForReplicated;
+    Vector3 Heading = Vector3.zero;
+    Vector3 temp = Vector3.up;
 
     // Start is called before the first frame update
     void Start()
@@ -58,18 +62,46 @@ public class PortalScript : MonoBehaviour
     private void Update()
     {
         
+        //Check if the Object Is Behind Or In Front Of The Portal
+        if(CheckDot)
+        {
+
+            Heading = this.transform.position - TouchingObject.transform.position;
+            dotForTouching = Vector3.Dot(Heading, -TouchingObject.transform.forward);
+            Debug.Log("The Dot Is: " + dotForTouching);
+            //If The Object Is Behind The Portal, Spawn The Duplicate Object
+            if (dotForTouching < 0)
+            {
+                //Spawn Duplicate 
+
+                //Set CheckDot To False
+
+                //Set UpdateDuplicateObject To True
+
+            }
+
+        }
+
+
         if (UpdateReplicatedObject) 
         {
+
+            //If Dot Product Is Greater Than 0, The Object Is In Front Or Facing The Same Direction
+            //If Dot Product Is 0, Then The Object Is Perpendicular
+            //If Dot Product Is Less Than 0, Then The Object Is Behind Or Facing The Opposite Direction
+            
+            Heading.y = -Heading.y;
+          
             //Set The Duplicated Object To The OtherPortals Position
+           
+            //Replicated Object Transform
             ReplicatedObject.transform.position = OtherPortal.transform.position;
+            ReplicatedObject.transform.Translate(Heading);
 
-            ////Get Distance of Touching object to this portal
-            //float Zdistance = Vector3.Distance(TouchingObject.transform.position, this.transform.position);
-            //Vector3 temp = Vector3.zero;
-            //temp.z = Zdistance;
+            //Replicated Object Rotation
+            
+            ReplicatedObject.transform.rotation = OtherPortal.transform.localRotation; 
 
-            ////Set the replicated Object That Disance from the other Portal
-            //ReplicatedObject.transform.position += temp;
 
         }
 
@@ -84,27 +116,37 @@ public class PortalScript : MonoBehaviour
 
             #region CameraPosition
 
+            //=================================================================================================================================================================
             //update Camera
             //reset camera position
-            PortalCamera.transform.localPosition = Vector3.zero;
-            //get z distance 
-            float ZDistance = Vector3.Distance(OtherPortal.transform.position, Player.transform.position);
-            //float XDistance = OtherPortal.transform.position.x - PlayerTransform.position.x;
-            //float YDistance = OtherPortal.transform.position.y - PlayerTransform.position.y;
-            float XDistance = 0.0f;
-            float YDistance = 0.0f;
+            //PortalCamera.transform.localPosition = Vector3.zero;
+            ////get z distance 
+            //float ZDistance = Vector3.Distance(OtherPortal.transform.position, Player.transform.position);
+            ////float XDistance = OtherPortal.transform.position.x - PlayerTransform.position.x;
+            ////float YDistance = OtherPortal.transform.position.y - PlayerTransform.position.y;
+            //float XDistance = 0.0f;
+            //float YDistance = 0.0f;
 
-            //set the Right portals Camera by the result of itself - RightZDistance
-            Vector3 Temp = Vector3.zero;
-            //Temp.z is negative because of the portal positioning
+            ////set the Right portals Camera by the result of itself - RightZDistance
+            //Vector3 Temp = Vector3.zero;
+            ////Temp.z is negative because of the portal positioning
 
-            Temp.x = -(PortalCamera.transform.localPosition.x - XDistance);
-            //Temp.y = (PortalCamera.transform.localPosition.y - YDistance);
-            Temp.y = 0.0f;
-            Temp.z = -(PortalCamera.transform.localPosition.z - ZDistance);
-            PortalCamera.transform.localPosition = Temp;
+            //Temp.x = -(PortalCamera.transform.localPosition.x - XDistance);
+            ////Temp.y = (PortalCamera.transform.localPosition.y - YDistance);
+            //Temp.y = 0.0f;
+            //Temp.z = -(PortalCamera.transform.localPosition.z - ZDistance);
+            //PortalCamera.transform.localPosition = Temp;
 
 
+
+            ///
+            //=================================================================================================================================================================
+            PortalCamera.transform.position = CameraSetPos.transform.position;
+            Vector3 offset = Player.transform.position - OtherPortal.transform.position;
+
+
+            PortalCamera.transform.Translate(offset);
+            //=================================================================================================================================================================
             #endregion
 
 
@@ -186,6 +228,11 @@ public class PortalScript : MonoBehaviour
 
     }
 
+    public bool GetCheckDotState()
+    {
+        return CheckDot;
+    }
+
     #endregion
 
 
@@ -194,6 +241,11 @@ public class PortalScript : MonoBehaviour
     public void SetUpdateReplicatedObject(bool state)
     {
         UpdateReplicatedObject = state;
+    }
+
+    public void SetCheckDotState(bool state)
+    {
+        CheckDot = state;
     }
 
     #endregion
