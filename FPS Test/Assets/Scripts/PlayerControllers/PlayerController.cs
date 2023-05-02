@@ -94,9 +94,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Current Menu Iter: " + CurrentMenuIter);
-        Debug.Log("Max Menu Iter: " + MaxMenuIter);
-
+      
         if (IsHolding)
         {
             HoldingObjectUpdateLookAt();
@@ -182,21 +180,21 @@ public class PlayerController : MonoBehaviour
 
         #region PauseMenu
 
-        Pause_Return = PlayerControl.Game_PauseMenu.Pause_Return;
-        Pause_Return.performed += ctx => ResumeGame();
-        Pause_Return.Enable();
+        //Pause_Return = PlayerControl.Game_PauseMenu.Pause_Return;
+        //Pause_Return.performed += ctx => ResumeGame();
+        //Pause_Return.Enable();
 
-        Pause_Select = PlayerControl.Game_PauseMenu.Pause_Select;
-        Pause_Select.performed += ctx => Pause_Selection();
-        Pause_Select.Enable();
+        //Pause_Select = PlayerControl.Game_PauseMenu.Pause_Select;
+        //Pause_Select.performed += ctx => Pause_Selection();
+        //Pause_Select.Enable();
 
-        Pause_MoveUp = PlayerControl.Game_PauseMenu.Pause_MoveUp;
-        Pause_MoveUp.performed += ctx => Pause_MoveUpFunction();
-        Pause_MoveUp.Enable();
+        //Pause_MoveUp = PlayerControl.Game_PauseMenu.Pause_MoveUp;
+        //Pause_MoveUp.performed += ctx => Pause_MoveUpFunction();
+        //Pause_MoveUp.Enable();
 
-        Pause_MoveDown = PlayerControl.Game_PauseMenu.Pause_MoveDown;
-        Pause_MoveDown.performed += ctx => Pause_MoveDownFunction();
-        Pause_MoveDown.Enable();
+        //Pause_MoveDown = PlayerControl.Game_PauseMenu.Pause_MoveDown;
+        //Pause_MoveDown.performed += ctx => Pause_MoveDownFunction();
+        //Pause_MoveDown.Enable();
 
         #endregion
     }
@@ -243,10 +241,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
-
     #region Other Functions
-
 
     public void PortalFireCheck()
     {

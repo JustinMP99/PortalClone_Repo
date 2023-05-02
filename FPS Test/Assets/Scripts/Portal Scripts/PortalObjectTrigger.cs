@@ -13,13 +13,14 @@ public class PortalObjectTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "HoldingObject")
         {
+            Portal.GetComponent<PortalScript>().TouchingObject = other.gameObject;
             Portal.GetComponent<PortalScript>().SetCheckDotState(true);
         }
 
 
 
-            //If The Colliding Object Tag Is "HoldingObject" And The Colliding Object Is Being Held...
-            if (other.gameObject.tag == "HoldingObject" && other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
+        //If The Colliding Object Tag Is "HoldingObject" And The Colliding Object Is Being Held...
+        if (other.gameObject.tag == "HoldingObject" && other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
         {
 
             Portal.GetComponent<PortalScript>().TouchingObject = other.gameObject;
@@ -36,37 +37,40 @@ public class PortalObjectTrigger : MonoBehaviour
     public void OnTriggerExit(Collider other)
     {
 
-        switch (other.gameObject.tag)
-        {
-            case "HoldingObject":
+        //Check Dot 
 
-                if (!other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
-                {
-                    //Destroy The Object
-                    Destroy(other.gameObject);
-                    Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "HoldingObject";
-                    Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(false);
-                    Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = false;
-                    Portal.GetComponent<PortalScript>().ReplicatedObject = null;
-                }
-                else if(other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
-                {
-                    Destroy(Portal.GetComponent<PortalScript>().ReplicatedObject.gameObject);
-                    Portal.GetComponent<PortalScript>().ReplicatedObject = null;
-                }
+        
+        //switch (other.gameObject.tag)
+        //{
+        //    case "HoldingObject":
 
-                break;
+        //        if (!other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
+        //        {
+        //            //Destroy The Object
+        //            Destroy(other.gameObject);
+        //            Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "HoldingObject";
+        //            Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(false);
+        //            Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = false;
+        //            Portal.GetComponent<PortalScript>().ReplicatedObject = null;
+        //        }
+        //        else if(other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
+        //        {
+        //            Destroy(Portal.GetComponent<PortalScript>().ReplicatedObject.gameObject);
+        //            Portal.GetComponent<PortalScript>().ReplicatedObject = null;
+        //        }
 
-            case "OtherPortalObject":
+        //        break;
 
-                Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "HoldingObject";
-                Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(false);
-                Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = false;
-                Portal.GetComponent<PortalScript>().ReplicatedObject = null;    
-                break;
-            default:
-                break;
-        }
+        //    case "OtherPortalObject":
+
+        //        Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "HoldingObject";
+        //        Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(false);
+        //        Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = false;
+        //        Portal.GetComponent<PortalScript>().ReplicatedObject = null;    
+        //        break;
+        //    default:
+        //        break;
+        //}
 
 
         //if (other.gameObject.tag == "HoldingObject" && )
