@@ -203,7 +203,8 @@ public class PlayerController : MonoBehaviour
     {
         //do this to prevent memory leaks
         //tells the input system that we arent taking input anymore
-        //Movement Input Maps
+        #region Movement Map Disable
+        
         Move.performed -= ctx => Movement = ctx.ReadValue<Vector2>(); ;
         Move.Disable();
 
@@ -218,22 +219,26 @@ public class PlayerController : MonoBehaviour
 
         Interact.performed -= ctx => InteractFunction();
         Interact.Disable();
+        
+        #endregion
+        //Movement Input Maps
+
 
         //Pause Input Maps        
-        Pause.performed -= ctx => PauseGame();
-        Pause.Disable();
+        //Pause.performed -= ctx => PauseGame();
+        //Pause.Disable();
 
-        Pause_Return.performed -= ctx => ResumeGame();
-        Pause_Return.Disable();
+        //Pause_Return.performed -= ctx => ResumeGame();
+        //Pause_Return.Disable();
 
-        Pause_Select.performed -= ctx => Pause_Selection();
-        Pause_Select.Disable();
+        //Pause_Select.performed -= ctx => Pause_Selection();
+        //Pause_Select.Disable();
 
-        Pause_MoveUp.performed -= ctx => Pause_MoveUpFunction();
-        Pause_MoveUp.Disable();
+        //Pause_MoveUp.performed -= ctx => Pause_MoveUpFunction();
+        //Pause_MoveUp.Disable();
 
-        Pause_MoveDown.performed -= ctx => Pause_MoveDownFunction();
-        Pause_MoveDown.Disable();
+        //Pause_MoveDown.performed -= ctx => Pause_MoveDownFunction();
+        //Pause_MoveDown.Disable();
 
 
         PlayerControl.Game_Movement.Disable();
@@ -503,7 +508,7 @@ public class PlayerController : MonoBehaviour
 
                     //Save Object
                     HoldingObject = hit.rigidbody.gameObject;
-                    HoldingObject.GetComponent<Rigidbody>().isKinematic = true;
+                    //HoldingObject.GetComponent<Rigidbody>().isKinematic = true;
                     //Parent the object
                     HoldingObject.transform.parent = FPSCamera.transform;
                     //Set That The Object Is Being Held
@@ -526,7 +531,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    
     #endregion
 
     #region PauseMenu Functions

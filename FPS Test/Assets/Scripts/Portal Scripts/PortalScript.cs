@@ -71,6 +71,7 @@ public class PortalScript : MonoBehaviour
             Heading = this.transform.position - TouchingObject.transform.position;
             dotForTouching = Vector3.Dot(Heading, -TouchingObject.transform.forward);
             Debug.Log("The Dot Is: " + dotForTouching);
+
             //If The Object Is Behind The Portal, Spawn The Duplicate Object
             if (dotForTouching < 0)
             {
@@ -85,9 +86,12 @@ public class PortalScript : MonoBehaviour
                 {
                     Destroy(TouchingObject);
                     TouchingObject = null;
+                    ReplicatedObject.tag = "HoldingObject";
+                    ReplicatedObject = null;
                 }
 
             }
+            //If The Touching Object Is In Front Of The Portal
             else if (dotForTouching > 0) 
             {
             
@@ -106,8 +110,7 @@ public class PortalScript : MonoBehaviour
                 ReplicatedObject.transform.position = OtherPortal.transform.position;
                 ReplicatedObject.transform.Translate(Heading);
                 ReplicatedObject.transform.rotation = OtherPortal.transform.localRotation;
-
-            
+       
             }
 
         }
@@ -305,18 +308,15 @@ public class PortalScript : MonoBehaviour
 
     }
 
-
-
     public void CreateReplicatedObject(GameObject objectToReplicate)
     {
         ReplicatedObject = Instantiate(TouchingObject.gameObject);
         ReplicatedObject.GetComponent<Rigidbody>().isKinematic = false;
+        ReplicatedObject.GetComponent<Rigidbody>().useGravity = true;
         ReplicatedObject.GetComponent<BasePickup>().SetbeingHeld(false);
         ReplicatedObject.tag = "OtherPortalObject";
         SetUpdateReplicatedObject(true);
     }
-
-
 
     #region Getters
 
@@ -334,7 +334,6 @@ public class PortalScript : MonoBehaviour
 
     #endregion
 
-
     #region Setters
 
     public void SetUpdateReplicatedObject(bool state)
@@ -348,7 +347,5 @@ public class PortalScript : MonoBehaviour
     }
 
     #endregion
-
-
 
 }

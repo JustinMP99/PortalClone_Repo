@@ -15,22 +15,13 @@ public class PortalObjectTrigger : MonoBehaviour
         {
             Portal.GetComponent<PortalScript>().TouchingObject = other.gameObject;
             Portal.GetComponent<PortalScript>().SetCheckDotState(true);
+            if (other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
+            {
+                Portal.GetComponent<PortalScript>().ReplicatedObject = Instantiate(other.gameObject);
+                Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "OtherPortalObject";
+                Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(true);
+            }
         }
-
-
-
-        //If The Colliding Object Tag Is "HoldingObject" And The Colliding Object Is Being Held...
-        if (other.gameObject.tag == "HoldingObject" && other.gameObject.GetComponent<BasePickup>().GetbeingHeld())
-        {
-
-            Portal.GetComponent<PortalScript>().TouchingObject = other.gameObject;
-            Portal.GetComponent<PortalScript>().ReplicatedObject = Instantiate(other.gameObject);
-            Portal.GetComponent<PortalScript>().ReplicatedObject.tag = "OtherPortalObject";
-            Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(true);
-            //Portal.GetComponent<PortalScript>().ReplicatedObject.GetComponent<Rigidbody>().isKinematic = true;
-        }
-      
-
     }
 
 
