@@ -24,8 +24,6 @@ public class StartScreenManager : Manager
     }
     public Menu CurrentMenu;
 
-
-
     #region ActionMap Variables
     public PlayerInputActionMaps PlayerControl;
 
@@ -129,8 +127,6 @@ public class StartScreenManager : Manager
     {
 
     }
-
-  
 
     #region Main Menu Input
 

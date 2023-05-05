@@ -72,37 +72,27 @@ public class PortalScript : MonoBehaviour
             dotForTouching = Vector3.Dot(Heading, -TouchingObject.transform.forward);
             Debug.Log("The Dot Is: " + dotForTouching);
 
-            //If The Object Is Behind The Portal, Spawn The Duplicate Object
-            if (dotForTouching < 0)
+
+
+            //If The Touching Object Is In Front Of The Portal, Duplicate the object
+            if (dotForTouching > 0)
             {
-                //Spawn Duplicate 
-                if (ReplicatedObject == null) 
-                {
                 
-                    CreateReplicatedObject(TouchingObject);
-                
-                }
-                if (!TouchingObject.GetComponent<BasePickup>().GetbeingHeld())
+            }
+            //If Touching Object Is Behind The Portal
+            else if (dotForTouching < 0) 
+            { 
+            
+                //If The Touching Object Is Let Go
+                if(!TouchingObject.GetComponent<BasePickup>().GetbeingHeld())
                 {
-                    Destroy(TouchingObject);
-                    TouchingObject = null;
-                    ReplicatedObject.tag = "HoldingObject";
-                    ReplicatedObject = null;
+
+                    StopCheckingTouching();
+
                 }
 
             }
-            //If The Touching Object Is In Front Of The Portal
-            else if (dotForTouching > 0) 
-            {
-            
-                if (ReplicatedObject != null)
-                {
-                    Destroy(ReplicatedObject);
-                    ReplicatedObject = null;
-                }
-               
-               
-            }
+
             if (UpdateReplicatedObject)   
             {
 
@@ -318,6 +308,24 @@ public class PortalScript : MonoBehaviour
         SetUpdateReplicatedObject(true);
     }
 
+    public void StopCheckingTouching()
+    {
+
+        //Stop Checking Dot Product Of Touching Object
+        SetCheckDotState(false);
+        //Stop Updating Replicated Object
+        SetUpdateReplicatedObject(false);
+        //Destroy Touching
+        Destroy(TouchingObject);
+        //Set Touching Object To Null
+        TouchingObject = null;
+       
+        //Set Replicate Object Tag To "HoldingObject"
+        ReplicatedObject.tag = "HoldingObject";
+        //Set Replicated Object To Null
+        ReplicatedObject = null;
+    }
+
     #region Getters
 
     public bool GetUpdateReplicatedObject()
@@ -330,6 +338,11 @@ public class PortalScript : MonoBehaviour
     public bool GetCheckDotState()
     {
         return CheckDot;
+    }
+
+    public float GetTouchingDot()
+    {
+        return dotForTouching;
     }
 
     #endregion
