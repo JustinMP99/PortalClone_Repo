@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public enum Portal_Type
 {
@@ -72,8 +74,6 @@ public class PortalScript : MonoBehaviour
             dotForTouching = Vector3.Dot(Heading, -TouchingObject.transform.forward);
             Debug.Log("The Dot Is: " + dotForTouching);
 
-
-
             //If The Touching Object Is In Front Of The Portal, Duplicate the object
             if (dotForTouching > 0)
             {
@@ -95,11 +95,14 @@ public class PortalScript : MonoBehaviour
 
             if (UpdateReplicatedObject)   
             {
-
+                //Vector3 tempPos = this.transform.InverseTransformPoint(TouchingObject.transform.position);
+                //ReplicatedObject.transform.position = new Vector3(OtherPortal.transform.position.x + tempPos.x, OtherPortal.transform.position.y + tempPos.y, OtherPortal.transform.position.z + tempPos.z);
+                
+                
                 Heading.y = -Heading.y;
+                ReplicatedObject.transform.rotation = OtherPortal.transform.rotation;
                 ReplicatedObject.transform.position = OtherPortal.transform.position;
                 ReplicatedObject.transform.Translate(Heading);
-                ReplicatedObject.transform.rotation = OtherPortal.transform.localRotation;
        
             }
 
@@ -117,11 +120,11 @@ public class PortalScript : MonoBehaviour
 
             //Get Players Position Relative To Other Portal
             //Transform Position From World Space To Local Space
-            Vector3 tempPos = OtherPortal.transform.InverseTransformPoint(Player.transform.position);
+            //Vector3 tempPos = OtherPortal.transform.InverseTransformPoint(Player.transform.position);
+            Vector3 tempPos = OtherPortal.transform.InverseTransformPoint(Player.GetComponent<PlayerController>().FPSCamera.transform.position);
 
             //Set The Local Position Of The Camera At The Reflected Point On X And Z
             PortalCamera.transform.localPosition = new Vector3(-tempPos.x,tempPos.y, -tempPos.z);
-
 
             #endregion
 
@@ -155,6 +158,21 @@ public class PortalScript : MonoBehaviour
             //OtherPortal.GetComponent<PortalScript>().PortalCamera.transform.localRotation = PortalRotationYDiff * PortalRotationXDiff * OtherPortal.GetComponent<PortalScript>().CameraSetPos.transform.localRotation;
 
 
+
+            #endregion
+
+
+            #region Create Oblique Projection Matrix
+
+            //Plane P = new Plane(-OtherPortal.transform.forward, OtherPortal.transform.position);
+            Plane P = new Plane(-this.transform.forward, this.transform.position);
+            Vector4 clipPlaneWorldSpace = new Vector4(P.normal.x, P.normal.y, P.normal.z, P.distance);
+            Vector4 clipPlaneToCamera = Matrix4x4.Transpose(Matrix4x4.Inverse(PortalCamera.worldToCameraMatrix)) * clipPlaneWorldSpace;
+
+            var newMatrix = Player.GetComponent<PlayerController>().FPSCamera.GetComponent<Camera>().CalculateObliqueMatrix(clipPlaneToCamera);
+            PortalCamera.projectionMatrix = newMatrix;
+            
+            
 
             #endregion
 

@@ -8,7 +8,7 @@ Shader "Unlit/ClipShader"
     {
         Tags 
         { 
-            "Queue"="Transparent"
+            "Queue"="Geometry"
             "RenderType"="Opaque"
             "RenderPipeline" = "UniversalPipeline"
         }

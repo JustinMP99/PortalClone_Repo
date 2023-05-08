@@ -259,6 +259,7 @@ public class PlayerController : MonoBehaviour
             //Left Portal
             //if the portal has not rendered...
             LeftPortal.GetComponent<PortalScript>().PortalCamera.enabled = true;
+            LeftPortal.GetComponent<PortalScript>().PortalCamera.transform.position = LeftPortal.GetComponent<PortalScript>().CameraSetPos.transform.position;
             if (LeftPortal.GetComponent<PortalScript>().PortalCamera.targetTexture != null)
             {
                 //release the memory
@@ -266,7 +267,7 @@ public class PlayerController : MonoBehaviour
             }
             LeftPortal.GetComponent<PortalScript>().OtherPortal = RightPortal;
             //Set the View Texture Resolution to the Screens
-            LeftViewTexture = new RenderTexture(Screen.width, Screen.height, 5);
+            LeftViewTexture = new RenderTexture(Screen.width, Screen.height, 10);
             //Render the Portals Camera to the View Texture
             LeftPortal.GetComponent<PortalScript>().PortalCamera.targetTexture = LeftViewTexture;
             //set the Other Portals Material Texture
@@ -280,13 +281,14 @@ public class PlayerController : MonoBehaviour
             //update the material
             //Right Portal
             RightPortal.GetComponent<PortalScript>().PortalCamera.enabled = true;
+            RightPortal.GetComponent<PortalScript>().PortalCamera.transform.position = RightPortal.GetComponent<PortalScript>().CameraSetPos.transform.position;
             if (RightPortal.GetComponent<PortalScript>().PortalCamera.targetTexture != null)
             {
                 RightViewTexture.Release();
             }
             RightPortal.GetComponent<PortalScript>().OtherPortal = LeftPortal;
             //Set the View Texture Resolution to the Screens
-            RightViewTexture = new RenderTexture(Screen.width, Screen.height, 5);
+            RightViewTexture = new RenderTexture(Screen.width, Screen.height, 10);
             //Render the Portals Camera to the View Texture
             RightPortal.GetComponent<PortalScript>().PortalCamera.targetTexture = RightViewTexture;
             //set the Other Portals Material Texture
