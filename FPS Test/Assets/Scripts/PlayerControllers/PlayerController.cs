@@ -67,6 +67,12 @@ public class PlayerController : MonoBehaviour
 
     private bool IsHolding = false;
     private GameObject HoldingObject;
+    private float _distanceTraveled;
+    private float _totalDistance;
+    private float _currentAmountTraveled;
+    private float _startTime;
+    private Vector3 _holdForceMult = new Vector3(2.0f, 2.0f, 2.0f); 
+
 
     #endregion
 
@@ -507,7 +513,7 @@ public class PlayerController : MonoBehaviour
             switch (hit.collider.tag)
             {
                 case "HoldingObject":
-
+                   
                     //Save Object
                     HoldingObject = hit.rigidbody.gameObject;
                     //HoldingObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -517,6 +523,11 @@ public class PlayerController : MonoBehaviour
                     HoldingObject.GetComponent<BasePickup>().SetbeingHeld(true);
                     //set IsHolding to True
                     IsHolding = true;
+
+                    //set StartTime
+                    _startTime = Time.time;
+                    //Get Total Distance
+                    _totalDistance = Vector3.Distance(HoldingObject.transform.position, FPSCamera.GetComponent<CameraController>().HoldingPosition.transform.position);
 
                     break;
                 default:
@@ -679,9 +690,31 @@ public class PlayerController : MonoBehaviour
         //Held Object Position
         if (HoldingObject.transform.localPosition != FPSCamera.GetComponent<CameraController>().HoldingPosition.transform.localPosition)
         {
+
+            Vector3 directionToHoldPOS = (FPSCamera.GetComponent<CameraController>().HoldingPosition.transform.position - HoldingObject.transform.position).normalized;
+            Vector3 holdForce;
+            holdForce.x = directionToHoldPOS.x * _holdForceMult.x;
+            holdForce.y = directionToHoldPOS.y * _holdForceMult.y;
+            holdForce.z = directionToHoldPOS.z * _holdForceMult.z;
+
+            float distanceToHold = Vector3.Distance(FPSCamera.GetComponent<CameraController>().HoldingPosition.transform.position, HoldingObject.transform.position);
+            distanceToHold = Mathf.Clamp(distanceToHold, 0.0f, 1.0f);
+            holdForce *= distanceToHold;
+
+            HoldingObject.GetComponent<Rigidbody>().AddForce(holdForce, ForceMode.VelocityChange);
+
+            //_distanceTraveled = (Time.time - _startTime) * 0.5f;
+
+            //_currentAmountTraveled = _distanceTraveled / _totalDistance;
+
+            //Vector3 Temp = Vector3.Lerp(HoldingObject.transform.position, FPSCamera.GetComponent<CameraController>().HoldingPosition.transform.position, _currentAmountTraveled);
+            //HoldingObject.GetComponent<Rigidbody>().MovePosition(Temp);
+
+
+
             //HoldingObject.transform.localPosition = Vector3.MoveTowards(HoldingObject.transform.localPosition, FPSCamera.GetComponent<CameraController>().HoldingPosition.transform.localPosition, 20.0f * Time.deltaTime);
-            Vector3 Temp = Vector3.MoveTowards(HoldingObject.transform.position, FPSCamera.GetComponent<CameraController>().HoldingPosition.transform.position, 20.0f * Time.deltaTime);
-            HoldingObject.GetComponent<Rigidbody>().MovePosition(Temp);
+            //Vector3 Temp = Vector3.MoveTowards( 20.0f * Time.deltaTime);
+            //HoldingObject.GetComponent<Rigidbody>().MovePosition(Temp);
         }
 
     }
