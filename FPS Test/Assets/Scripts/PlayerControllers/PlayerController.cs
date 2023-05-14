@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-
-
 public class PlayerController : MonoBehaviour
+
 {
 
     #region ActionMap Variables
@@ -71,7 +70,7 @@ public class PlayerController : MonoBehaviour
     private float _totalDistance;
     private float _currentAmountTraveled;
     private float _startTime;
-    private Vector3 _holdForceMult = new Vector3(2.0f, 2.0f, 2.0f); 
+    private Vector3 _holdForceMult = new Vector3(5.0f, 5.0f, 5.0f);
 
 
     #endregion
@@ -89,8 +88,6 @@ public class PlayerController : MonoBehaviour
     //int layer = 10;
     public LayerMask LayerToHit;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -100,7 +97,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
+
         if (IsHolding)
         {
             HoldingObjectUpdateLookAt();
@@ -123,9 +120,6 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
-
-
 
     void Awake()
     {
@@ -207,10 +201,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
+
         //do this to prevent memory leaks
         //tells the input system that we arent taking input anymore
         #region Movement Map Disable
-        
+
         Move.performed -= ctx => Movement = ctx.ReadValue<Vector2>(); ;
         Move.Disable();
 
@@ -225,10 +220,11 @@ public class PlayerController : MonoBehaviour
 
         Interact.performed -= ctx => InteractFunction();
         Interact.Disable();
-        
+
         #endregion
         //Movement Input Maps
 
+        #region Pause Map Disable
 
         //Pause Input Maps        
         //Pause.performed -= ctx => PauseGame();
@@ -246,6 +242,8 @@ public class PlayerController : MonoBehaviour
         //Pause_MoveDown.performed -= ctx => Pause_MoveDownFunction();
         //Pause_MoveDown.Disable();
 
+        #endregion
+
 
         PlayerControl.Game_Movement.Disable();
         PlayerControl.Game_PauseMenu.Disable();
@@ -257,7 +255,8 @@ public class PlayerController : MonoBehaviour
     public void PortalFireCheck()
     {
 
-        if (LeftPortal.GetComponent<PortalScript>().HasBeenFired && RightPortal.GetComponent<PortalScript>().HasBeenFired || LeftPortal != null && RightPortal != null)
+
+        if (LeftPortal != null && RightPortal != null)
         {
             //update Render Texture
             //LEFT PORTAL
@@ -302,11 +301,10 @@ public class PlayerController : MonoBehaviour
             LeftPortal.GetComponent<Renderer>().material.SetTexture("_MainTex", RightViewTexture);
             LeftPortal.GetComponent<Renderer>().material.SetTexture("_BaseMap", RightViewTexture);
 
-
         }
         else
         {
-            if (LeftPortal.GetComponent<PortalScript>().HasBeenFired)
+            if (LeftPortal != null)
             {
 
 
@@ -320,14 +318,14 @@ public class PlayerController : MonoBehaviour
                 LeftViewTexture = new RenderTexture(Screen.width, Screen.height, 0);
                 //Render the Portals Camera to the View Texture
                 LeftPortal.GetComponent<PortalScript>().PortalCamera.targetTexture = LeftViewTexture;
-                //set the Other Portals Material Texture
-                RightPortal.GetComponent<Renderer>().material = LeftViewMat;
-                //Set the materials main texture
-                RightPortal.GetComponent<Renderer>().material.SetTexture("_MainTex", LeftViewTexture);
-                //set the Materials Base Map
-                RightPortal.GetComponent<Renderer>().material.SetTexture("_BaseMap", LeftViewTexture);
+                ////set the Other Portals Material Texture
+                //RightPortal.GetComponent<Renderer>().material = LeftViewMat;
+                ////Set the materials main texture
+                //RightPortal.GetComponent<Renderer>().material.SetTexture("_MainTex", LeftViewTexture);
+                ////set the Materials Base Map
+                //RightPortal.GetComponent<Renderer>().material.SetTexture("_BaseMap", LeftViewTexture);
             }
-            if (RightPortal.GetComponent<PortalScript>().HasBeenFired)
+            if (RightPortal != null)
             {
                 if (RightPortal.GetComponent<PortalScript>().PortalCamera.targetTexture != null)
                 {
@@ -339,11 +337,61 @@ public class PlayerController : MonoBehaviour
                 //Render the Portals Camera to the View Texture
                 RightPortal.GetComponent<PortalScript>().PortalCamera.targetTexture = RightViewTexture;
                 //set the Other Portals Material Texture
-                LeftPortal.GetComponent<Renderer>().material = RightViewMat;
-                LeftPortal.GetComponent<Renderer>().material.SetTexture("_MainTex", RightViewTexture);
-                LeftPortal.GetComponent<Renderer>().material.SetTexture("_BaseMap", RightViewTexture);
+                //LeftPortal.GetComponent<Renderer>().material = RightViewMat;
+                //LeftPortal.GetComponent<Renderer>().material.SetTexture("_MainTex", RightViewTexture);
+                //LeftPortal.GetComponent<Renderer>().material.SetTexture("_BaseMap", RightViewTexture);
             }
         }
+
+
+        //if (LeftPortal.GetComponent<PortalScript>().HasBeenFired && RightPortal.GetComponent<PortalScript>().HasBeenFired || LeftPortal != null && RightPortal != null)
+        //{
+        //    //update Render Texture
+        //    //LEFT PORTAL
+        //    //set materials
+        //    //Left Portal
+        //    //if the portal has not rendered...
+        //    LeftPortal.GetComponent<PortalScript>().PortalCamera.enabled = true;
+        //    LeftPortal.GetComponent<PortalScript>().PortalCamera.transform.position = LeftPortal.GetComponent<PortalScript>().CameraSetPos.transform.position;
+        //    if (LeftPortal.GetComponent<PortalScript>().PortalCamera.targetTexture != null)
+        //    {
+        //        //release the memory
+        //        LeftViewTexture.Release();
+        //    }
+        //    LeftPortal.GetComponent<PortalScript>().OtherPortal = RightPortal;
+        //    //Set the View Texture Resolution to the Screens
+        //    LeftViewTexture = new RenderTexture(Screen.width, Screen.height, 10);
+        //    //Render the Portals Camera to the View Texture
+        //    LeftPortal.GetComponent<PortalScript>().PortalCamera.targetTexture = LeftViewTexture;
+        //    //set the Other Portals Material Texture
+        //    RightPortal.GetComponent<Renderer>().material = RightViewMat;
+        //    //Set the materials main texture
+        //    RightPortal.GetComponent<Renderer>().material.SetTexture("_MainTex", LeftViewTexture);
+        //    //set the Materials Base Map
+        //    RightPortal.GetComponent<Renderer>().material.SetTexture("_BaseMap", LeftViewTexture);
+
+        //    //RIGHT PORTAL
+        //    //update the material
+        //    //Right Portal
+        //    RightPortal.GetComponent<PortalScript>().PortalCamera.enabled = true;
+        //    RightPortal.GetComponent<PortalScript>().PortalCamera.transform.position = RightPortal.GetComponent<PortalScript>().CameraSetPos.transform.position;
+        //    if (RightPortal.GetComponent<PortalScript>().PortalCamera.targetTexture != null)
+        //    {
+        //        RightViewTexture.Release();
+        //    }
+        //    RightPortal.GetComponent<PortalScript>().OtherPortal = LeftPortal;
+        //    //Set the View Texture Resolution to the Screens
+        //    RightViewTexture = new RenderTexture(Screen.width, Screen.height, 10);
+        //    //Render the Portals Camera to the View Texture
+        //    RightPortal.GetComponent<PortalScript>().PortalCamera.targetTexture = RightViewTexture;
+        //    //set the Other Portals Material Texture
+        //    LeftPortal.GetComponent<Renderer>().material = LeftViewMat;
+        //    LeftPortal.GetComponent<Renderer>().material.SetTexture("_MainTex", RightViewTexture);
+        //    LeftPortal.GetComponent<Renderer>().material.SetTexture("_BaseMap", RightViewTexture);
+
+
+        //}
+
     }
 
     #endregion
@@ -415,18 +463,19 @@ public class PlayerController : MonoBehaviour
                 LeftPortal.transform.rotation = Quaternion.LookRotation(-hit.normal);
                 //Set the Left Portal position using the hit information ( Takes the position hit in world space and adds an amplified normal vector to it)
                 LeftPortal.transform.position = hit.point + (hit.normal * 0.01f);
+                
                 //set the Portal Camera rotation
                 LeftPortal.GetComponent<PortalScript>().PortalCamera.transform.rotation = LeftPortal.GetComponent<PortalScript>().CameraSetPos.transform.rotation;
 
                 LeftPortal.GetComponent<PortalScript>().HasBeenFired = true;
-                
+
                 LeftPortal.GetComponent<PortalScript>().PortalCamera.enabled = false;
             }
 
             PortalFireCheck();
 
         }
-       
+
     }
 
     public void FireRightPortal()
@@ -473,7 +522,7 @@ public class PlayerController : MonoBehaviour
 
             PortalFireCheck();
         }
-       
+
     }
 
     public void InteractFunction()
@@ -513,7 +562,7 @@ public class PlayerController : MonoBehaviour
             switch (hit.collider.tag)
             {
                 case "HoldingObject":
-                   
+
                     //Save Object
                     HoldingObject = hit.rigidbody.gameObject;
                     //HoldingObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -550,7 +599,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResumeGame()
     {
-       // Call The LevelManagers ResumeGame Function
+        // Call The LevelManagers ResumeGame Function
         levelManager.GetComponent<LevelManager>().ResumeGame();
     }
 
@@ -736,7 +785,12 @@ public class PlayerController : MonoBehaviour
     {
 
         //Held Object Rotation
-        HoldingObject.transform.LookAt(this.transform.position);
+        //Vector3 lookAt = this.transform.position;
+        //lookAt.x = 0.0f;
+        //lookAt.z = 0.0f;
+        //HoldingObject.transform.LookAt(lookAt);
+        HoldingObject.transform.LookAt(-this.transform.position);
+        //  HoldingObject.transform.LookAt(this.transform.position, Vector3.up);
 
     }
 

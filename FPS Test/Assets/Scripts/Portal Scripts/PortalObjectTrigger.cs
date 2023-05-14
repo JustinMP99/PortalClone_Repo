@@ -14,6 +14,8 @@ public class PortalObjectTrigger : MonoBehaviour
         if (other.gameObject.tag == "HoldingObject")
         {
             Portal.GetComponent<PortalScript>().TouchingObject = other.gameObject;
+            Physics.IgnoreLayerCollision(3, 8, true);
+            //Physics.IgnoreLayerCollision(6, 8, true);
             Portal.GetComponent<PortalScript>().SetCheckDotState(true);
             Portal.GetComponent<PortalScript>().CreateReplicatedObject(other.gameObject);
             Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(true);
@@ -32,6 +34,9 @@ public class PortalObjectTrigger : MonoBehaviour
             {
                 //Delete Replicated
                 Destroy(Portal.GetComponent<PortalScript>().ReplicatedObject);
+                //Stop checking Dot And Updating Replicated 
+                Portal.GetComponent<PortalScript>().SetCheckDotState(false);
+                Portal.GetComponent<PortalScript>().SetUpdateReplicatedObject(false);
             }
             ////If In Back
             //else if (Portal.GetComponent<PortalScript>().GetTouchingDot() < 0 && !other.gameObject.GetComponent<BasePickup>().GetbeingHeld())

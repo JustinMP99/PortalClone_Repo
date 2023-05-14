@@ -80,7 +80,7 @@ public class PortalScript : MonoBehaviour
                 
             }
             //If Touching Object Is Behind The Portal
-            else if (dotForTouching < 0) 
+            else if (dotForTouching < -0.0001) 
             { 
             
                 //If The Touching Object Is Let Go
@@ -171,8 +171,8 @@ public class PortalScript : MonoBehaviour
 
             var newMatrix = Player.GetComponent<PlayerController>().FPSCamera.GetComponent<Camera>().CalculateObliqueMatrix(clipPlaneToCamera);
             PortalCamera.projectionMatrix = newMatrix;
-            
-            
+
+
 
             #endregion
 

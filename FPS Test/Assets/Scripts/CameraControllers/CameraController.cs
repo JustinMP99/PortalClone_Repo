@@ -74,7 +74,8 @@ public class CameraController : MonoBehaviour
         YRotation -= MousePosition.x * Sensitivity.y;
 
         //Apply Rotation Value
-        this.transform.localRotation = Quaternion.Euler(XRotation, -YRotation, 0.0f);
+        //this.transform.localRotation = Quaternion.Euler(XRotation, -YRotation, 0.0f);
+        this.transform.localEulerAngles = new Vector3(XRotation, -YRotation, 0.0f);  
 
         //rotate player   
         Player.transform.localRotation = Quaternion.Euler(0.0f, -YRotation, 0.0f);
