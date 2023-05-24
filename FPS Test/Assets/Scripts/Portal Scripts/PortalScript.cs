@@ -101,9 +101,19 @@ public class PortalScript : MonoBehaviour
                 
                 Heading.y = -Heading.y;
                 ReplicatedObject.transform.rotation = OtherPortal.transform.rotation;
-                ReplicatedObject.transform.position = OtherPortal.transform.position;
-                ReplicatedObject.transform.Translate(Heading);
-       
+                ReplicatedObject.transform.localPosition = OtherPortal.transform.position + Heading;
+
+                //Heading.x = -Heading.x;
+                //Heading.z = -Heading.z;
+                //ReplicatedObject.transform.localPosition += Heading;
+                //ReplicatedObject.transform.Translate(Heading);
+
+                //Vector3 tempPos = TouchingObject.transform.InverseTransformPoint(this.transform.position);
+
+                ////Set The Local Position Of The Camera At The Reflected Point On X And Z
+                //ReplicatedObject.transform.localPosition = new Vector3(-tempPos.x, tempPos.y, -tempPos.z);
+
+
             }
 
         }

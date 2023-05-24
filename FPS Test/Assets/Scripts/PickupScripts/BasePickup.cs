@@ -5,10 +5,8 @@ using UnityEngine;
 public class BasePickup : MonoBehaviour
 {
 
-    [SerializeField]
-    private bool beingHeld;
-    [SerializeField]
-    private int Weight;
+    [SerializeField] private bool _beingHeld;
+    [SerializeField] private int _weight;
 
 
     // Start is called before the first frame update
@@ -28,12 +26,12 @@ public class BasePickup : MonoBehaviour
 
     public bool GetbeingHeld()
     {
-        return beingHeld;
+        return _beingHeld;
     }
 
     public int GetWeight()
     {
-        return Weight;
+        return _weight;
     }
 
     #endregion
@@ -41,17 +39,17 @@ public class BasePickup : MonoBehaviour
     #region Setters
 
     /// <summary>
-    /// Sets The Value For beingHeld
+    /// Sets The Value For _beingHeld
     /// Used To Determine If The Pickup Is Being Held
     /// </summary>
     /// <param name="state"></param>
     public void SetbeingHeld(bool state)
     {
-        beingHeld = state;
+        _beingHeld = state;
     }
 
     /// <summary>
-    /// This Sets The Weight Of The Object
+    /// This Sets The _weight Of The Object
     /// </summary>
     /// <param name="newWeight"></param>
     public void SetWeight(int newWeight)

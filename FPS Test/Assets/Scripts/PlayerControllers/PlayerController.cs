@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -785,13 +786,11 @@ public class PlayerController : MonoBehaviour
     {
 
         //Held Object Rotation
-        //Vector3 lookAt = this.transform.position;
-        //lookAt.x = 0.0f;
-        //lookAt.z = 0.0f;
-        //HoldingObject.transform.LookAt(lookAt);
-        HoldingObject.transform.LookAt(-this.transform.position);
-        //  HoldingObject.transform.LookAt(this.transform.position, Vector3.up);
-
+        Vector3 lookAt = this.transform.position;
+        //This Allows The Object To Move Up And Down Without Rotating Up And Down
+        lookAt.y = HoldingObject.transform.position.y ;
+        HoldingObject.transform.LookAt(lookAt, Vector3.up);
+       
     }
 
 
