@@ -316,17 +316,30 @@ public class LevelManager : Manager
         MainCamera.fieldOfView = GameSettingsOBJ.GetComponent<GameSettings>().GetFOV();
         MainCamera.GetComponent<CameraController>().SetXYSensitivity(GameSettingsOBJ.GetComponent<GameSettings>().GetXSensitivity(), GameSettingsOBJ.GetComponent<GameSettings>().GetYSensitivity());
 
+        
+
+
     }
 
     public override void SetNewSettings()
     {
+
+        int tempXSensitivity = UIManager.GetComponent<LevelUIManager>().GetXSensitivity();
+        int tempYSensitivity = UIManager.GetComponent<LevelUIManager>().GetYSensitivity();
+        int tempFOV = (int)UIManager.GetComponent<LevelUIManager>().GetFOVValue();
         //Sets The Variables In The GameSetting
         //Set FOV
-        GameSettingsOBJ.GetComponent<GameSettings>().SetFOV((int)UIManager.GetComponent<LevelUIManager>().GetFOVValue());
+        GameSettingsOBJ.GetComponent<GameSettings>().SetFOV(tempFOV);
         //Get X Sensitivity
-        GameSettingsOBJ.GetComponent<GameSettings>().SetXSensitivity(UIManager.GetComponent<LevelUIManager>().GetXSensitivity());
+        GameSettingsOBJ.GetComponent<GameSettings>().SetXSensitivity(tempXSensitivity);
         //Get Y Sensitivity
-        GameSettingsOBJ.GetComponent<GameSettings>().SetYSensitivity(UIManager.GetComponent<LevelUIManager>().GetYSensitivity());
+        GameSettingsOBJ.GetComponent<GameSettings>().SetYSensitivity(tempYSensitivity);
+
+        //Set New Sensitivity On Main Camera
+        MainCamera.GetComponent<CameraController>().SetXYSensitivity(tempXSensitivity,tempYSensitivity);
+        //Set FOV On Main Camera
+        MainCamera.GetComponent<CameraController>().SetCameraFOV(tempFOV);
+
 
         Save_LoadScript.SaveGameSettings(GameSettingsOBJ);
 

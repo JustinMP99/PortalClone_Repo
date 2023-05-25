@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
     public float YRotation = 0.0f;
 
 
-    private Vector2 Sensitivity;
+    [SerializeField] private Vector2 Sensitivity;
     private float XSensitivity = 4.0f;
     private float YSensitivity = 4.0f;
 
@@ -67,18 +67,16 @@ public class CameraController : MonoBehaviour
     {
 
         //Create rotation Value
-        XRotation -= MousePosition.y * Sensitivity.x;
-        Xrot -= MousePosition.y;
+        XRotation -= MousePosition.y * Time.deltaTime * Sensitivity.x;
         XRotation = Mathf.Clamp(XRotation, -80.0f, 80.0f);
-
-        YRotation -= MousePosition.x * Sensitivity.y;
+        YRotation += MousePosition.x * Time.deltaTime * Sensitivity.y;
 
         //Apply Rotation Value
         //this.transform.localRotation = Quaternion.Euler(XRotation, -YRotation, 0.0f);
-        this.transform.localEulerAngles = new Vector3(XRotation, -YRotation, 0.0f);  
+        this.transform.localEulerAngles = new Vector3(XRotation, YRotation, 0.0f);  
 
         //rotate player   
-        Player.transform.localRotation = Quaternion.Euler(0.0f, -YRotation, 0.0f);
+        Player.transform.localRotation = Quaternion.Euler(0.0f, YRotation, 0.0f);
 
         //update cameras transform to follow player
         this.transform.position = CameraSetPosition.transform.position;
@@ -113,6 +111,9 @@ public class CameraController : MonoBehaviour
     }
 
 
-
+    public void SetCameraFOV(int newFOV)
+    {
+        this.GetComponent<Camera>().fieldOfView = (float)newFOV; 
+    }
 
 }
