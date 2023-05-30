@@ -1,4 +1,7 @@
 
+
+
+
 Shader "Unlit/ClipShader"
 {
     Properties
@@ -18,6 +21,7 @@ Shader "Unlit/ClipShader"
         //#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "UnityCG.cginc"
         ENDHLSL
+        
 
 
         Pass

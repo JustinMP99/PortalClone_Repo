@@ -198,6 +198,7 @@ public class PlayerController : MonoBehaviour
         //Pause_MoveDown.Enable();
 
         #endregion
+    
     }
 
     private void OnDisable()
@@ -248,7 +249,7 @@ public class PlayerController : MonoBehaviour
 
         PlayerControl.Game_Movement.Disable();
         PlayerControl.Game_PauseMenu.Disable();
-
+        
     }
 
     #region Other Functions
