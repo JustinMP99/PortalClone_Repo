@@ -569,7 +569,7 @@ public class PlayerController : MonoBehaviour
                     HoldingObject = hit.rigidbody.gameObject;
                     //HoldingObject.GetComponent<Rigidbody>().isKinematic = true;
                     //Parent the object
-                    HoldingObject.transform.parent = FPSCamera.transform;
+                    //HoldingObject.transform.parent = FPSCamera.transform;
                     //Set That The Object Is Being Held
                     HoldingObject.GetComponent<BasePickup>().SetbeingHeld(true);
                     //set IsHolding to True

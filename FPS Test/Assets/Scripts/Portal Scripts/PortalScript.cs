@@ -71,6 +71,10 @@ public class PortalScript : MonoBehaviour
         {
 
             Heading = this.transform.position - TouchingObject.transform.position;
+
+            
+
+            Debug.Log("Heading: " +  Heading);
             dotForTouching = Vector3.Dot(Heading, -TouchingObject.transform.forward);
             Debug.Log("The Dot Is: " + dotForTouching);
 
@@ -95,23 +99,24 @@ public class PortalScript : MonoBehaviour
 
             if (UpdateReplicatedObject)   
             {
-                //Vector3 tempPos = this.transform.InverseTransformPoint(TouchingObject.transform.position);
-                //ReplicatedObject.transform.position = new Vector3(OtherPortal.transform.position.x + tempPos.x, OtherPortal.transform.position.y + tempPos.y, OtherPortal.transform.position.z + tempPos.z);
-                
-                
-                Heading.y = -Heading.y;
+              
+                //Set Rotation
                 ReplicatedObject.transform.rotation = OtherPortal.transform.rotation;
-                ReplicatedObject.transform.localPosition = OtherPortal.transform.position + Heading;
+                ReplicatedObject.transform.Rotate(0.0f, 180.0f, 0.0f);
+
+                //Set Position 
+                //Vector3 tempPos = this.transform.InverseTransformPoint(TouchingObject.transform.position);
+                ////Debug.Log("tempPos: " + tempPos);
+                //ReplicatedObject.transform.localPosition = new Vector3(-tempPos.x, -tempPos.y, -tempPos.z);
+
+
+                ReplicatedObject.transform.position = OtherPortal.transform.position;
+                ReplicatedObject.transform.Translate(-Heading);
 
                 //Heading.x = -Heading.x;
+                //Heading.y = -Heading.y;
                 //Heading.z = -Heading.z;
-                //ReplicatedObject.transform.localPosition += Heading;
-                //ReplicatedObject.transform.Translate(Heading);
-
-                //Vector3 tempPos = TouchingObject.transform.InverseTransformPoint(this.transform.position);
-
-                ////Set The Local Position Of The Camera At The Reflected Point On X And Z
-                //ReplicatedObject.transform.localPosition = new Vector3(-tempPos.x, tempPos.y, -tempPos.z);
+                //ReplicatedObject.transform.position += Heading;
 
 
             }
@@ -130,7 +135,6 @@ public class PortalScript : MonoBehaviour
 
             //Get Players Position Relative To Other Portal
             //Transform Position From World Space To Local Space
-            //Vector3 tempPos = OtherPortal.transform.InverseTransformPoint(Player.transform.position);
             Vector3 tempPos = OtherPortal.transform.InverseTransformPoint(Player.GetComponent<PlayerController>().FPSCamera.transform.position);
 
             //Set The Local Position Of The Camera At The Reflected Point On X And Z

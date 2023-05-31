@@ -1168,8 +1168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FOV: 60
-  X_Sensitivity: 1
-  Y_Sensitivity: 1
+  X_Sensitivity: 7
+  Y_Sensitivity: 7
   MotionBlurState: 0
   ViewBobState: 0
 --- !u!114 &471721912 stripped
@@ -3452,7 +3452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.33349538, y: 0.11833364}
-  m_AnchoredPosition: {x: -2.0386963, y: -0.7767029}
+  m_AnchoredPosition: {x: -2.0386963, y: -0.7767334}
   m_SizeDelta: {x: -3.9178, y: -1.5534}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1341929442
@@ -5875,7 +5875,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3072947562780994706, guid: f1e08fe35f215cd4dbc82aa1d189a35b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.46299744
+      value: -0.46298218
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1e08fe35f215cd4dbc82aa1d189a35b, type: 3}
