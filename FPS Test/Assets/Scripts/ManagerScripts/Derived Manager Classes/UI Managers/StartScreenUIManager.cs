@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 //using UnityEngine.UIElements;
 using TMPro;
-
-
+using Unity.VisualScripting.Dependencies.NCalc;
+using System;
+using Unity.VisualScripting;
 
 public class StartScreenUIManager : UIManager
 {
@@ -13,23 +14,14 @@ public class StartScreenUIManager : UIManager
     [SerializeField]
     private TMP_Text GameTitle_TMP;
 
-
-
-
     #region Start Menu Variables
     [Header("START MENU VARIABLES")]
-
-    [SerializeField]
-    private GameObject StartMenu;
-    [SerializeField]
-    private GameObject StartMenuBackground;
-
-    [SerializeField]
-    //The parent object of the StartSelectorImages
-    private GameObject StartSelectors;
-    [SerializeField]
-    //Array of each StarSelectorImage
-    private GameObject[] StartSelectorImages;
+    [SerializeField] private GameObject StartMenu;
+    [SerializeField] private GameObject StartMenuBackground;
+    public Button NewGameButton;
+    [SerializeField] private Button LoadGameButton;
+    [SerializeField] private Button OptionsButton;
+    [SerializeField] private Button QuitButton;
 
     #endregion
 
@@ -68,9 +60,6 @@ public class StartScreenUIManager : UIManager
     void Start()
     {
 
-        //Activate The First Selector Image
-        StartSelectorImages[0].SetActive(true);
-
     }
 
     // Update is called once per frame
@@ -80,7 +69,16 @@ public class StartScreenUIManager : UIManager
     }
 
 
+    #region Set Button Functions
 
+    public void SetNewGameButtonFunction()
+    {
+
+    }
+
+
+
+    #endregion
 
     #region Main Menu Set State Functions
 
@@ -91,19 +89,7 @@ public class StartScreenUIManager : UIManager
 
     }
 
-    //Sets the state of the StartSelectorImages parent object
-    public void SetStartSelectorImages(bool state)
-    {
-        StartSelectors.SetActive(state);
-    }
-
-    //Sets the state of individual StartSelectorImages using an array index and state bool
-    public void SetStartSelectorImageState(bool state, int ImageNum)
-    {
-
-        StartSelectorImages[ImageNum].SetActive(state);
-
-    }
+   
    
 
     #endregion

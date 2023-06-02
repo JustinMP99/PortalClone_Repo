@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : Manager
 {
@@ -356,6 +357,19 @@ public class LevelManager : Manager
 
 
     #endregion
+
+
+    public override void Startup()
+    {
+        //Set This Scene To The Main Scene
+        SceneManager.SetActiveScene(this.gameObject.scene);
+        //Find UIManager
+        UIManager = GameObject.FindGameObjectWithTag("GameUIManager");
+        //Set Button Functionality
+
+
+
+    }
 
     // Start is called before the first frame update
     void Start()

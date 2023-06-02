@@ -14,6 +14,10 @@ TagManager:
   - LevelLoadingManager
   - HoldingObject
   - OtherPortalObject
+  - SceneManager
+  - BaseSceneManager
+  - MainMenuUIManager
+  - GameUIManager
   layers:
   - Default
   - TransparentFX

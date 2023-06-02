@@ -12,18 +12,16 @@ public abstract class Manager : MonoBehaviour
     protected GameObject UIManager;
     [SerializeField]
     protected GameObject levelLoadingManager;
-    //[SerializeField]
+    
     public StartScreenUIManager UIManagerScript;
-    [SerializeField]
-    protected GameObject GameSettingsOBJ;
-    [SerializeField]
-    protected GameSettingsScript GameSettingsScriptOBJ;
-    [SerializeField]
-    protected GameObject PlayerDataOBJ;
-    [SerializeField]
-    protected PlayerDataScript PlayerDataScriptObj;
+    [SerializeField] protected GameObject GameSettingsOBJ;
+    [SerializeField] protected GameSettingsScript GameSettingsScriptOBJ;
+    [SerializeField] protected GameObject PlayerDataOBJ;
+    [SerializeField] protected PlayerDataScript PlayerDataScriptObj;
 
+    [SerializeField] protected SceneLoadingManager _baseSceneManager;
 
+    [SerializeField] protected List<SceneID> ScenesToLoad;
 
 
     // Start is called before the first frame update
@@ -36,6 +34,23 @@ public abstract class Manager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetBaseSceneManager(SceneLoadingManager baseSceneManager)
+    {
+        _baseSceneManager = baseSceneManager;
+    }
+
+
+    /// <summary>
+    /// This Function Will Be Called After The Base Scene Manager Has Finished Loading The Scenes
+    /// </summary>
+    public virtual void Startup()
+    {
+       
+
+
+
     }
 
 
@@ -129,20 +144,7 @@ public abstract class Manager : MonoBehaviour
 
 
     //Sets The PlayerDataObj With Basic Data For The Creation Of A New Game Save File
-    public void SetNewGamePlayerData()
-    {
 
-        //PlayerDataObj = Instantiate(PlayerDataPrefab);
-
-        PlayerDataOBJ.GetComponent<PlayerData>().LastLevel = Levels.LEVEL_01;
-        PlayerDataOBJ.GetComponent<PlayerData>().LevelText = "Level 1";
-        PlayerDataOBJ.GetComponent<PlayerData>().LevelOneCompleted = false;
-        PlayerDataOBJ.GetComponent<PlayerData>().LevelTwoCompleted = false;
-        PlayerDataOBJ.GetComponent<PlayerData>().LevelThreeCompleted = false;
-        PlayerDataOBJ.GetComponent<PlayerData>().LevelFourCompleted = false;
-        PlayerDataOBJ.GetComponent<PlayerData>().LevelFiveCompleted = false;
-
-    }
 
 
     public void CopyPlayerDataScriptToPlayerData(PlayerData playerData, PlayerDataScript playerDataScript)
@@ -158,14 +160,6 @@ public abstract class Manager : MonoBehaviour
     }
 
 
-    //Load Into The First Level
-    public void NewGameFunction()
-    {
-        //create New Game player data
-        SetNewGamePlayerData();
-        //Load First Level 
-        LoadSelectedlevelAsync(Levels.LEVEL_01);
-    }
 
 
     public void LoadGameFunction(int SaveToLoad)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 
 public class StartScreenManager : Manager
@@ -45,13 +46,13 @@ public class StartScreenManager : Manager
 
     private void OnEnable()
     {
-        Start_Select_Up = PlayerControl.MainMenu.Start_Select_Up;
-        Start_Select_Up.performed += MoveStartMenuSelectorUp;
-        Start_Select_Up.Enable();
+        //Start_Select_Up = PlayerControl.MainMenu.Start_Select_Up;
+        //Start_Select_Up.performed += MoveStartMenuSelectorUp;
+        //Start_Select_Up.Enable();
 
-        Start_Select_Down = PlayerControl.MainMenu.Start_Select_Down;
-        Start_Select_Down.performed += MoveStartMenuSelectorDown;
-        Start_Select_Down.Enable();
+        //Start_Select_Down = PlayerControl.MainMenu.Start_Select_Down;
+        //Start_Select_Down.performed += MoveStartMenuSelectorDown;
+        //Start_Select_Down.Enable();
 
         Start_Select = PlayerControl.MainMenu.Start_Select;
         Start_Select.performed += StartMenuSelect;
@@ -62,8 +63,8 @@ public class StartScreenManager : Manager
     private void OnDisable()
     {
 
-        Start_Select_Up.Disable();
-        Start_Select_Down.Disable();
+        //Start_Select_Up.Disable();
+        //Start_Select_Down.Disable();
         Start_Select.Disable();
 
     }
@@ -73,23 +74,28 @@ public class StartScreenManager : Manager
     {
         //set cursor
         Cursor.lockState = CursorLockMode.None;
-        UIManagerScript = UIManager.GetComponent<StartScreenUIManager>();
+     
+    }
 
-        //set CurrentMenuIter
-        CurrentMenuIter = 0;
-        //set MaxMenuIter
-        MaxMenuIter = 4;
+    // Update is called once per frame
+    void Update()
+    {
 
-        //Set The StartMenuUI To Active
-        UIManagerScript.SetStartMenuState(true);
-        //Set The InStartMenu Bool To True
-        CurrentMenu = Menu.InStartMenu;
+    }
 
 
-       //Attempt to load game settings
+    public override void Startup()
+    {
+        //Set This Scene To The Main Scene
+        SceneManager.SetActiveScene(this.gameObject.scene);
+        //Find UIManager
+        UIManager = GameObject.FindGameObjectWithTag("MainMenuUIManager");
+        //Set Button Functionality
+        UIManager.GetComponent<StartScreenUIManager>().NewGameButton.onClick.AddListener(delegate { NewGameFunction(); }); 
+
+
+        //Set Up Game Settings
         GameSettingsScriptOBJ = Save_LoadScript.LoadGameSettings();
-
-        //check if GameSettingsScriptOBJ is null (null = no prior game settings
         if (GameSettingsScriptOBJ != null)
         {
             Debug.Log("Game Settings Data Found!");
@@ -118,61 +124,13 @@ public class StartScreenManager : Manager
 
         }
 
-        
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
 
     #region Main Menu Input
 
-    public void MoveStartMenuSelectorUp(InputAction.CallbackContext obj)
-    {
-        //if CurrentMenuIter equals Zero
-        if (GetCurrentMenuIter() == 0)
-        {
-            //set Previous selector off
-            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
-            //set CurrentMenuIter Value to the MaxMenuIter value
-            SetCurrentMenuIter(GetMaxMenuIter() - 1);
-            //set new Selector on
-            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
-        }
-        else
-        {
-            //set previous selector off
-            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
-            //subtract 1 from the currentMenuIter
-            SetCurrentMenuIter(GetCurrentMenuIter() - 1);
-            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
-        }
-
-
-    }
-
-    public void MoveStartMenuSelectorDown(InputAction.CallbackContext obj)
-    {
-
-        if (GetCurrentMenuIter() == (GetMaxMenuIter() - 1))
-        {
-            //set Previous selector off
-            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
-            //set CurrentMenuIter Value
-            SetCurrentMenuIter(0);
-            //set new Selector on
-            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
-        }
-        else
-        {
-            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
-            SetCurrentMenuIter(GetCurrentMenuIter() + 1);
-            UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
-        }
-    }
 
     public void StartMenuSelect(InputAction.CallbackContext obj)
     {
@@ -199,16 +157,37 @@ public class StartScreenManager : Manager
 
     }
 
-    public void StartMenuSetSelector(int MenuIter)
-    {
-        UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(false, CurrentMenuIter);
-        CurrentMenuIter = MenuIter;
-        UIManager.GetComponent<StartScreenUIManager>().SetStartSelectorImageState(true, CurrentMenuIter);
-    }
 
     #endregion
 
     #region Menu Transition Functions
+
+    //Load Into The First Level
+    void NewGameFunction()
+    {
+        //create New Game player data
+        SetNewGamePlayerData();
+        //Set Scenes To Load
+        ScenesToLoad.Add(SceneID.TestLevel);
+        ScenesToLoad.Add(SceneID.GameUI);
+        StartCoroutine(_baseSceneManager.SwitchScenes(ScenesToLoad));
+      
+    }
+
+    public void SetNewGamePlayerData()
+    {
+
+        //PlayerDataObj = Instantiate(PlayerDataPrefab);
+
+        PlayerDataOBJ.GetComponent<PlayerData>().LastLevel = Levels.LEVEL_01;
+        PlayerDataOBJ.GetComponent<PlayerData>().LevelText = "Level 1";
+        PlayerDataOBJ.GetComponent<PlayerData>().LevelOneCompleted = false;
+        PlayerDataOBJ.GetComponent<PlayerData>().LevelTwoCompleted = false;
+        PlayerDataOBJ.GetComponent<PlayerData>().LevelThreeCompleted = false;
+        PlayerDataOBJ.GetComponent<PlayerData>().LevelFourCompleted = false;
+        PlayerDataOBJ.GetComponent<PlayerData>().LevelFiveCompleted = false;
+
+    }
 
     public void ReturnToStartMenu()
     {
