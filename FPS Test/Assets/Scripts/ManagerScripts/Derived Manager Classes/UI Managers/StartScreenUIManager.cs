@@ -16,6 +16,7 @@ public class StartScreenUIManager : UIManager
 
     #region Start Menu Variables
     [Header("START MENU VARIABLES")]
+    [SerializeField] private GameObject UI;
     [SerializeField] private GameObject StartMenu;
     [SerializeField] private GameObject StartMenuBackground;
     
@@ -88,6 +89,9 @@ public class StartScreenUIManager : UIManager
     #endregion
 
     #region Main Menu Set State Functions
+
+   
+
 
     public void SetStartMenuState(bool state)
     {

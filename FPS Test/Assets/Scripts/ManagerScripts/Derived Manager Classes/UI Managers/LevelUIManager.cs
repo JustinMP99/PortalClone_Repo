@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelUIManager : UIManager
 {
@@ -12,16 +13,15 @@ public class LevelUIManager : UIManager
     private GameObject GameUI;
 
     [Header("------PauseUI------")]
-    [SerializeField]
-    private GameObject PauseUI;
-    [SerializeField]
-    private GameObject[] PauseSelectorImages;
+    [SerializeField] private GameObject PauseUI;
+    [SerializeField] public Button ResumeButton;
+    [SerializeField] public Button OptionsButton;
+    [SerializeField] public Button QuitButton;
+    [SerializeField] private GameObject[] PauseSelectorImages;
 
     [Header("------Save File UI------")]
-    [SerializeField]
-    private GameObject SaveUI;
-    [SerializeField]
-    private GameObject[] SaveFileUIs;
+    [SerializeField] private GameObject SaveUI;
+    [SerializeField] private GameObject[] SaveFileUIs;
 
     [Header("------Settings UI------")]
     [SerializeField]

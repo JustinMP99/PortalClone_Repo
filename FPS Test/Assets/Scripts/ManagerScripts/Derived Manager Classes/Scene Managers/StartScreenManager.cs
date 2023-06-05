@@ -91,6 +91,8 @@ public class StartScreenManager : Manager
         //Find UIManager
         UIManager = GameObject.FindGameObjectWithTag("MainMenuUIManager");
         UIManagerScript = UIManager.GetComponent<StartScreenUIManager>();
+        //Enable UI
+        UIManagerScript.SetStartMenuState(true);
         //Set Button Functionality
         //New Game Button
         UIManager.GetComponent<StartScreenUIManager>().NewGameButton.onClick.AddListener(delegate { NewGameFunction(); });
@@ -104,10 +106,6 @@ public class StartScreenManager : Manager
         UIManager.GetComponent<StartScreenUIManager>().ApplyButton.onClick.AddListener(delegate { SetNewSettings(); });
         //Go Back Button
         UIManager.GetComponent<StartScreenUIManager>().GoBackButton.onClick.AddListener(delegate { ReturnToStartMenu(); });
-
-
-
-
         //Set Up Game Settings
         GameSettingsScriptOBJ = Save_LoadScript.LoadGameSettings();
         if (GameSettingsScriptOBJ != null)

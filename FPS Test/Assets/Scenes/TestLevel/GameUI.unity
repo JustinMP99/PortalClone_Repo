@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -204,6 +204,39 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1999727391186022833, guid: f250850bf8adfee4f91b00ca7d174b6c, type: 3}
   m_PrefabInstance: {fileID: 34467503}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &34467508 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1999727391985904809, guid: f250850bf8adfee4f91b00ca7d174b6c, type: 3}
+  m_PrefabInstance: {fileID: 34467503}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &34467509 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1999727391303344867, guid: f250850bf8adfee4f91b00ca7d174b6c, type: 3}
+  m_PrefabInstance: {fileID: 34467503}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &34467510 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1999727391648151806, guid: f250850bf8adfee4f91b00ca7d174b6c, type: 3}
+  m_PrefabInstance: {fileID: 34467503}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &529792157
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,9 +563,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 34467506}
     - target: {fileID: 8072504416774538860, guid: ccd2360f209ee0843a72a07b5ce61ce0, type: 3}
+      propertyPath: QuitButton
+      value: 
+      objectReference: {fileID: 34467508}
+    - target: {fileID: 8072504416774538860, guid: ccd2360f209ee0843a72a07b5ce61ce0, type: 3}
       propertyPath: SettingsUI
       value: 
       objectReference: {fileID: 34467504}
+    - target: {fileID: 8072504416774538860, guid: ccd2360f209ee0843a72a07b5ce61ce0, type: 3}
+      propertyPath: ResumeButton
+      value: 
+      objectReference: {fileID: 34467510}
+    - target: {fileID: 8072504416774538860, guid: ccd2360f209ee0843a72a07b5ce61ce0, type: 3}
+      propertyPath: OptionsButton
+      value: 
+      objectReference: {fileID: 34467509}
     - target: {fileID: 8072504416774538861, guid: ccd2360f209ee0843a72a07b5ce61ce0, type: 3}
       propertyPath: m_RootOrder
       value: 0

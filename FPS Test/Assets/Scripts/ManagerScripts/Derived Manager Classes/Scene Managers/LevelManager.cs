@@ -86,7 +86,7 @@ public class LevelManager : Manager
         //Enable PauseMenu Map
         Player.GetComponent<PlayerController>().EnablePauseControlMap();
         //update selector UI
-        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+        //UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
 
 
     }
@@ -109,48 +109,48 @@ public class LevelManager : Manager
         Player.GetComponent<PlayerController>().EnablePlayerMovementMap();
 
         //reset Selector UI
-        UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        //UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
     }
 
 
     public void PauseMoveUp()
     {
-        if (GetCurrentMenuIter() == 0)
-        {
-            //set Previous selector off
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-            //set CurrentMenuIter Value
-            SetCurrentMenuIter(GetMaxMenuIter() - 1);
-            //set new Selector on
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-        }
-        else
-        {
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-            SetCurrentMenuIter(GetCurrentMenuIter() - 1);
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-        }
+        //if (GetCurrentMenuIter() == 0)
+        //{
+        //    //set Previous selector off
+        //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        //    //set CurrentMenuIter Value
+        //    SetCurrentMenuIter(GetMaxMenuIter() - 1);
+        //    //set new Selector on
+        //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+        //}
+        //else
+        //{
+        //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        //    SetCurrentMenuIter(GetCurrentMenuIter() - 1);
+        //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+        //}
     }
 
 
     public void PauseMoveDown()
     {
 
-        if (GetCurrentMenuIter() == (GetMaxMenuIter() - 1))
-        {
-            //set Previous selector off
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-            //set CurrentMenuIter Value
-            SetCurrentMenuIter(0);
-            //set new Selector on
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-        }
-        else
-        {
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
-            SetCurrentMenuIter(GetCurrentMenuIter() + 1);
-            UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-        }
+        //if (GetCurrentMenuIter() == (GetMaxMenuIter() - 1))
+        //{
+        //    //set Previous selector off
+        //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        //    //set CurrentMenuIter Value
+        //    SetCurrentMenuIter(0);
+        //    //set new Selector on
+        //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+        //}
+        //else
+        //{
+        //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
+        //    SetCurrentMenuIter(GetCurrentMenuIter() + 1);
+        //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
+        //}
     }
 
     public void PauseSelect()
@@ -187,9 +187,10 @@ public class LevelManager : Manager
 
     public void ToMainMenu()
     {
-
-        LoadSelectedlevelAsync(0);
-        DestroyGameSettingsOBJ();
+        //Set Scenes To Load
+        ScenesToLoad.Add(SceneID.MainMenuUI);
+        ScenesToLoad.Add(SceneID.MainMenu);
+        StartCoroutine(_baseSceneManager.SwitchScenes(ScenesToLoad));
     }
 
 
@@ -365,8 +366,19 @@ public class LevelManager : Manager
         SceneManager.SetActiveScene(this.gameObject.scene);
         //Find UIManager
         UIManager = GameObject.FindGameObjectWithTag("GameUIManager");
-        //Set Button Functionality
+        //UIManagerScript = UIManager.GetComponent<LevelUIManager>();
 
+        //Set Button Functionality
+        //Resume Button
+        UIManager.GetComponent<LevelUIManager>().ResumeButton.onClick.AddListener(delegate { ResumeGame(); });
+        //Save Game Button
+
+        //Load Game Button
+
+        //Options Button
+        UIManager.GetComponent<LevelUIManager>().OptionsButton.onClick.AddListener(delegate { OpenOptions(); });
+        //Quit Button
+        UIManager.GetComponent<LevelUIManager>().QuitButton.onClick.AddListener(delegate { ToMainMenu(); });
         //Find Player Data
         //PlayerDataObj = GameObject.FindGameObjectWithTag("PlayerDataObj");
         //Set Player Data

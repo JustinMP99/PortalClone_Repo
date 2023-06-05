@@ -112,7 +112,7 @@ public class SceneLoadingManager : MonoBehaviour
     public IEnumerator AfterScenesLoadOperations()
     {
         //Disable Load Screen
-        _baseSceneUIManager.GetComponent<UIManager>().SetLoadingScreenUIState(false);
+        _baseSceneUIManager.GetComponent<UIManager>().SetLoadingScreenUIState(false);       
         //Find The LevelManager Of The Loaded Scene
         _additiveSceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<Manager>();
         //Set The LevelManagers SceneLoadingManager To This
@@ -134,7 +134,9 @@ public class SceneLoadingManager : MonoBehaviour
         foreach (SceneID scene in newScene)
         {
             StartCoroutine(AsyncLoadLevel(scene.ToString()));
-            yield return new WaitForSeconds(0.1f);
+            //This is annoying
+            //Computer needs time to load so wait half a second ( Works fine on desktop but laptop requires 0.5f)
+            yield return new WaitForSeconds(0.5f);
         }
 
         StartCoroutine(AfterScenesLoadOperations());
