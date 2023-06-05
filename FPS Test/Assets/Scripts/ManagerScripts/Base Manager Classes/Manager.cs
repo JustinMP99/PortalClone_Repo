@@ -74,7 +74,7 @@ public abstract class Manager : MonoBehaviour
 
     #region Settings Functions
 
-    public virtual void OpenSettings()
+    public virtual void OpenOptions()
     {
 
     }

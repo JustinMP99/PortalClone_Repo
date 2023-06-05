@@ -30,8 +30,12 @@ public class SceneLoadingManager : MonoBehaviour
         //Disable This Scenes Event System
         _eventManager.SetActive(false);
         //Add Scenes To List
-        SceneList.Add(SceneID.MainMenu);
         SceneList.Add(SceneID.MainMenuUI);
+        SceneList.Add(SceneID.MainMenu);
+
+        //SceneList.Add(SceneID.GameUI);
+        //SceneList.Add(SceneID.TestLevel);
+
 
         //Start Main Loading Operation
         StartCoroutine(CompleteLoadOperation(SceneList));
@@ -49,11 +53,11 @@ public class SceneLoadingManager : MonoBehaviour
         //Set Loading Screen UI
         _baseSceneUIManager.GetComponent<BaseSceneUIManager>().SetLoadingScreenUIState(true);
         yield return new WaitForSeconds(0.1f);
-        //Load New Levels
-        StartCoroutine(CompleteLoadOperation(newScenes));
-        yield return new WaitForSeconds(0.1f);
         //Unload Current Levels
         StartCoroutine(CompleteUnloadOperation(SceneList));
+        yield return new WaitForSeconds(0.1f);
+        //Load New Levels
+        StartCoroutine(CompleteLoadOperation(newScenes));
         yield return new WaitForSeconds(0.1f);
 
         //Clear Scene List
@@ -126,6 +130,7 @@ public class SceneLoadingManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator CompleteLoadOperation(List<SceneID> newScene)
     {
+        //Go Through The Passed In List A Load Each Scene Specified
         foreach (SceneID scene in newScene)
         {
             StartCoroutine(AsyncLoadLevel(scene.ToString()));

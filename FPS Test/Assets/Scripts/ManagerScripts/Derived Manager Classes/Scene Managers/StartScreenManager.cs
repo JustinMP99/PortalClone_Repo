@@ -54,9 +54,9 @@ public class StartScreenManager : Manager
         //Start_Select_Down.performed += MoveStartMenuSelectorDown;
         //Start_Select_Down.Enable();
 
-        Start_Select = PlayerControl.MainMenu.Start_Select;
-        Start_Select.performed += StartMenuSelect;
-        Start_Select.Enable();
+        //Start_Select = PlayerControl.MainMenu.Start_Select;
+        //Start_Select.performed += StartMenuSelect;
+        //Start_Select.Enable();
 
     }
 
@@ -65,7 +65,7 @@ public class StartScreenManager : Manager
 
         //Start_Select_Up.Disable();
         //Start_Select_Down.Disable();
-        Start_Select.Disable();
+        //Start_Select.Disable();
 
     }
 
@@ -90,18 +90,32 @@ public class StartScreenManager : Manager
         SceneManager.SetActiveScene(this.gameObject.scene);
         //Find UIManager
         UIManager = GameObject.FindGameObjectWithTag("MainMenuUIManager");
+        UIManagerScript = UIManager.GetComponent<StartScreenUIManager>();
         //Set Button Functionality
-        UIManager.GetComponent<StartScreenUIManager>().NewGameButton.onClick.AddListener(delegate { NewGameFunction(); }); 
+        //New Game Button
+        UIManager.GetComponent<StartScreenUIManager>().NewGameButton.onClick.AddListener(delegate { NewGameFunction(); });
+        //Load Game Button
+
+        //Options Button
+        UIManager.GetComponent<StartScreenUIManager>().OptionsButton.onClick.AddListener(delegate { OpenOptions(); });
+        //Quit Button
+        UIManager.GetComponent<StartScreenUIManager>().QuitButton.onClick.AddListener(delegate { QuitGame(); });
+        //Apply Button
+        UIManager.GetComponent<StartScreenUIManager>().ApplyButton.onClick.AddListener(delegate { SetNewSettings(); });
+        //Go Back Button
+        UIManager.GetComponent<StartScreenUIManager>().GoBackButton.onClick.AddListener(delegate { ReturnToStartMenu(); });
+
+
 
 
         //Set Up Game Settings
         GameSettingsScriptOBJ = Save_LoadScript.LoadGameSettings();
         if (GameSettingsScriptOBJ != null)
         {
+
             Debug.Log("Game Settings Data Found!");
             //Copy To GameSettingsObject
             CopyGameSettingsScriptToGameSettings(GameSettingsOBJ, GameSettingsScriptOBJ);
-
 
         }
         else
@@ -168,8 +182,8 @@ public class StartScreenManager : Manager
         //create New Game player data
         SetNewGamePlayerData();
         //Set Scenes To Load
-        ScenesToLoad.Add(SceneID.TestLevel);
         ScenesToLoad.Add(SceneID.GameUI);
+        ScenesToLoad.Add(SceneID.TestLevel);
         StartCoroutine(_baseSceneManager.SwitchScenes(ScenesToLoad));
       
     }
@@ -191,7 +205,7 @@ public class StartScreenManager : Manager
 
     public void ReturnToStartMenu()
     {
-        UIManagerScript.SetChooseSaveMenuState(false);
+        //UIManagerScript.SetChooseSaveMenuState(false);
         UIManagerScript.SetSettingsMenuState(false);
         UIManagerScript.SetStartMenuState(true);
 
@@ -241,7 +255,7 @@ public class StartScreenManager : Manager
 
     }
 
-    public override void OpenSettings()
+    public override void OpenOptions()
     {
         //set CurrentMenuIter
         CurrentMenuIter = 0;

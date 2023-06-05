@@ -18,10 +18,17 @@ public class StartScreenUIManager : UIManager
     [Header("START MENU VARIABLES")]
     [SerializeField] private GameObject StartMenu;
     [SerializeField] private GameObject StartMenuBackground;
+    
+    //Main Menu Buttons
     public Button NewGameButton;
-    [SerializeField] private Button LoadGameButton;
-    [SerializeField] private Button OptionsButton;
-    [SerializeField] private Button QuitButton;
+    public Button LoadGameButton;
+    public Button OptionsButton;
+    public Button QuitButton;
+
+    //Options Menu Buttons
+    public Button ApplyButton;
+    public Button GoBackButton;
+
 
     #endregion
 
@@ -128,8 +135,6 @@ public class StartScreenUIManager : UIManager
 
     #region Set Value Functions
 
- 
-
     public void AccessSaveFileUIIsLoaded(int SaveFileUI, bool state)
     {
 
@@ -137,12 +142,10 @@ public class StartScreenUIManager : UIManager
 
     }
 
-
     #endregion
 
     #region Get Value Functions
 
-  
-
+ 
     #endregion
 }

@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ---UI---
       objectReference: {fileID: 0}
+    - target: {fileID: 1999727392731272507, guid: f250850bf8adfee4f91b00ca7d174b6c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f250850bf8adfee4f91b00ca7d174b6c, type: 3}
 --- !u!1 &34467504 stripped
@@ -508,6 +512,10 @@ PrefabInstance:
     - target: {fileID: 8072504416774538851, guid: ccd2360f209ee0843a72a07b5ce61ce0, type: 3}
       propertyPath: m_Name
       value: UI_Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072504416774538851, guid: ccd2360f209ee0843a72a07b5ce61ce0, type: 3}
+      propertyPath: m_TagString
+      value: GameUIManager
       objectReference: {fileID: 0}
     - target: {fileID: 8072504416774538860, guid: ccd2360f209ee0843a72a07b5ce61ce0, type: 3}
       propertyPath: GameUI

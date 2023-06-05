@@ -202,7 +202,7 @@ public class LevelManager : Manager
     /// <summary>
     /// This Function Opens The Settings Menu
     /// </summary>
-    public override void OpenSettings()
+    public override void OpenOptions()
     {
         //Set Menu Iterators
 
@@ -367,6 +367,14 @@ public class LevelManager : Manager
         UIManager = GameObject.FindGameObjectWithTag("GameUIManager");
         //Set Button Functionality
 
+        //Find Player Data
+        //PlayerDataObj = GameObject.FindGameObjectWithTag("PlayerDataObj");
+        //Set Player Data
+        SetPlayerData(PlayerDataObj);
+        //Find Game Settings Object
+        GameSettingsOBJ = GameObject.FindGameObjectWithTag("GameSettingsObj");
+        //Set Game Settings Data
+        SetGameSettingData();
 
 
     }
@@ -374,14 +382,7 @@ public class LevelManager : Manager
     // Start is called before the first frame update
     void Start()
     {
-        //Find Player Data
-        PlayerDataObj = GameObject.FindGameObjectWithTag("PlayerDataObj");
-        //Set Player Data
-        SetPlayerData(PlayerDataObj);
-        //Find Game Settings Object
-        GameSettingsOBJ = GameObject.FindGameObjectWithTag("GameSettingsObj");
-        //Set Game Settings Data
-        SetGameSettingData();
+       
        
     }
 

@@ -643,7 +643,7 @@ public class PlayerController : MonoBehaviour
 
     public void OpenSettings()
     {
-        levelManager.GetComponent<LevelManager>().OpenSettings();
+        levelManager.GetComponent<LevelManager>().OpenOptions();
 
     }
     public void CloseSettings()
