@@ -364,6 +364,9 @@ public class LevelManager : Manager
     {
         //Set This Scene To The Main Scene
         SceneManager.SetActiveScene(this.gameObject.scene);
+        //Enable Player Input
+
+
         //Find UIManager
         UIManager = GameObject.FindGameObjectWithTag("GameUIManager");
         //UIManagerScript = UIManager.GetComponent<LevelUIManager>();
