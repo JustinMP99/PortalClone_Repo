@@ -575,6 +575,17 @@
                     "action": "Pause_Return",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8c6fe207-0642-4d2a-9614-8807703c8308",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause_Return",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

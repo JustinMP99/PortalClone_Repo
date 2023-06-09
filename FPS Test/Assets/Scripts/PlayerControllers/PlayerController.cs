@@ -181,9 +181,9 @@ public class PlayerController : MonoBehaviour
 
         #region PauseMenu
 
-        //Pause_Return = PlayerControl.Game_PauseMenu.Pause_Return;
-        //Pause_Return.performed += ctx => ResumeGame();
-        //Pause_Return.Enable();
+        Pause_Return = PlayerControl.Game_PauseMenu.Pause_Return;
+        Pause_Return.performed += ctx => ResumeGame();
+        Pause_Return.Enable();
 
         //Pause_Select = PlayerControl.Game_PauseMenu.Pause_Select;
         //Pause_Select.performed += ctx => Pause_Selection();
@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
         //Pause_MoveDown.Enable();
 
         #endregion
-    
+
     }
 
     private void OnDisable()

@@ -112,7 +112,6 @@ public class LevelManager : Manager
         //UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(false, CurrentMenuIter);
     }
 
-
     public void PauseMoveUp()
     {
         //if (GetCurrentMenuIter() == 0)
@@ -131,7 +130,6 @@ public class LevelManager : Manager
         //    UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
         //}
     }
-
 
     public void PauseMoveDown()
     {
@@ -193,9 +191,7 @@ public class LevelManager : Manager
         StartCoroutine(_baseSceneManager.SwitchScenes(ScenesToLoad));
     }
 
-
     #endregion
-
 
     #region Player Settings Menu Functions
 
@@ -359,13 +355,11 @@ public class LevelManager : Manager
 
     #endregion
 
-
     public override void Startup()
     {
         //Set This Scene To The Main Scene
         SceneManager.SetActiveScene(this.gameObject.scene);
         //Enable Player Input
-
 
         //Find UIManager
         UIManager = GameObject.FindGameObjectWithTag("GameUIManager");

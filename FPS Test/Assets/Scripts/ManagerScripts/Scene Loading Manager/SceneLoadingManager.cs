@@ -193,7 +193,10 @@ public class SceneLoadingManager : MonoBehaviour
 
     #endregion
 
-
+    public void SetMainScene(SceneID newMainScene)
+    {
+        //SceneManager.SetActiveScene(newMainScene.ToString());
+    }
 
 
 
