@@ -16,9 +16,5 @@ public abstract class Base_InputManager : MonoBehaviour
         
     }
 
-     
-
-
-
-
+    
 }

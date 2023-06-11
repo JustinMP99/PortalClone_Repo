@@ -21,6 +21,10 @@ public abstract class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject SettingsMenu;
 
+    //Options Menu Buttons
+    public Button ApplyButton;
+    public Button GoBackButton;
+
     [SerializeField]
     private GameObject SettingsMenuBackground;
 

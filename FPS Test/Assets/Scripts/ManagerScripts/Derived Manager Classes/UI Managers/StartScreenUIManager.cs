@@ -26,9 +26,7 @@ public class StartScreenUIManager : UIManager
     public Button OptionsButton;
     public Button QuitButton;
 
-    //Options Menu Buttons
-    public Button ApplyButton;
-    public Button GoBackButton;
+  
 
 
     #endregion

@@ -87,7 +87,7 @@ public class LevelManager : Manager
         Player.GetComponent<PlayerController>().EnablePauseControlMap();
         //update selector UI
         //UIManager.GetComponent<LevelUIManager>().SetPauseMenuSelectorState(true, CurrentMenuIter);
-
+        
 
     }
 
@@ -185,6 +185,8 @@ public class LevelManager : Manager
 
     public void ToMainMenu()
     {
+        //Destroy Game Settings Object
+        Destroy(GameSettingsOBJ);
         //Set Scenes To Load
         ScenesToLoad.Add(SceneID.MainMenuUI);
         ScenesToLoad.Add(SceneID.MainMenu);
@@ -220,7 +222,7 @@ public class LevelManager : Manager
     /// <summary>
     /// This Function Closes The Settings Menu
     /// </summary>
-    public override void CloseSettings()
+    public override void CloseOptions()
     {
         //Set Setting UI State
         UIManager.GetComponent<LevelUIManager>().SetSettingsUIState(false);
@@ -376,6 +378,11 @@ public class LevelManager : Manager
         UIManager.GetComponent<LevelUIManager>().OptionsButton.onClick.AddListener(delegate { OpenOptions(); });
         //Quit Button
         UIManager.GetComponent<LevelUIManager>().QuitButton.onClick.AddListener(delegate { ToMainMenu(); });
+        //Apply Settings Button
+        UIManager.GetComponent<LevelUIManager>().ApplyButton.onClick.AddListener(delegate { SetNewSettings(); });
+        //Go Back Button
+        UIManager.GetComponent<LevelUIManager>().GoBackButton.onClick.AddListener(delegate { CloseOptions(); });
+
         //Find Player Data
         //PlayerDataObj = GameObject.FindGameObjectWithTag("PlayerDataObj");
         //Set Player Data

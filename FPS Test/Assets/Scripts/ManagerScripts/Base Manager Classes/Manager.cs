@@ -80,7 +80,7 @@ public abstract class Manager : MonoBehaviour
     }
 
 
-    public virtual void CloseSettings()
+    public virtual void CloseOptions()
     {
 
 

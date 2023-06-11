@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,19 +24,19 @@ public class SceneLoadingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         //Enable Loading Screen
         _baseSceneUIManager.GetComponent<UIManager>().SetLoadingScreenUIState(true);
+        
         //Disable This Scenes Camera
         _mainCamera.SetActive(false);
+        
         //Disable This Scenes Event System
         _eventManager.SetActive(false);
+        
         //Add Scenes To List
-        SceneList.Add(SceneID.MainMenuUI);
         SceneList.Add(SceneID.MainMenu);
-
-        //SceneList.Add(SceneID.GameUI);
-        //SceneList.Add(SceneID.TestLevel);
-
+        SceneList.Add(SceneID.MainMenuUI);
 
         //Start Main Loading Operation
         StartCoroutine(CompleteLoadOperation(SceneList));
@@ -48,30 +49,60 @@ public class SceneLoadingManager : MonoBehaviour
         
     }
 
+    public IEnumerator ClearSceneList()
+    {
+        //Clear Scene List
+        SceneList.Clear();
+        Debug.Log("SceneList cleared!");
+        yield return null;
+    }
+
+    public IEnumerator AddScenes(List<SceneID> newScenes)
+    {
+        foreach (SceneID newScene in newScenes)
+        {
+            SceneList.Add(newScene);
+            yield return null;
+        }
+        //SceneList.Add(newScenes[0]);
+        //SceneList.Add(newScenes[1]);
+        Debug.Log("New Scenes Loaded");
+        yield return null;
+    }
+
+
     public IEnumerator SwitchScenes(List<SceneID> newScenes)
     {
         //Set Loading Screen UI
         _baseSceneUIManager.GetComponent<BaseSceneUIManager>().SetLoadingScreenUIState(true);
-        yield return new WaitForSeconds(0.1f);
-        //Unload Current Levels
-        StartCoroutine(CompleteUnloadOperation(SceneList));
-        yield return new WaitForSeconds(0.1f);
-        //Load New Levels
-        StartCoroutine(CompleteLoadOperation(newScenes));
-        yield return new WaitForSeconds(0.1f);
+        yield return null;
 
-        //Clear Scene List
-        SceneList.Clear();
-        yield return new WaitForSeconds(0.1f);
-        //Set Scene List
-        for (int i = 0; i < newScenes.Count; i++)
+
+        //Unload Levels
+        foreach (SceneID scene in SceneList)
         {
-            SceneList.Add(newScenes[i]);
-            yield return null;
+            StartCoroutine(AsyncUnloadLevel(scene.ToString()));
+            Debug.Log("Unloading Finished!");
+            //yield return null;
         }
+
+        //Clear List
+        SceneList.Clear();
+        Debug.Log("List Cleared");
+
+
+        ////Set Scene List
+        Debug.Log("Setting Scene List!");
+        AddSceneToList(newScenes);
+        //yield return null;
+
+        //Load new Scenes
+       StartCoroutine(CompleteLoadOperation(SceneList));
+        yield return null; 
+     
     }
-  
-   
+
+
     #region Scene Loading
 
     public IEnumerator AsyncLoadLevel(string scene)
@@ -85,28 +116,13 @@ public class SceneLoadingManager : MonoBehaviour
         {
 
             float Progress = Mathf.Clamp01(LoadOperation.progress / 0.9f);
-            if (Progress >= 0.9)
-            {
-
-                if (scene == SceneID.MainMenuUI.ToString() || scene == SceneID.GameUI.ToString())
-                {
-                    _UISceneLoaded = true;
-                    //Debug.Log("Set True");
-
-                }
-                else
-                {
-                    _mainSceneLoaded = true;
-                }
-
-            }
             _baseSceneUIManager.GetComponent<UIManager>().SetLoadingSliderValue(Progress);
             yield return null;
         }
     }
 
     /// <summary>
-    /// This Finishes The Scene Loading Process 
+    /// This Finishes The Scene Loading Process By Setting Variables And Calling SceneManagers Startup Function
     /// </summary>
     /// <returns></returns>
     public IEnumerator AfterScenesLoadOperations()
@@ -139,8 +155,9 @@ public class SceneLoadingManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        StartCoroutine(AfterScenesLoadOperations());
-        yield return new WaitForSeconds(0.1f);
+        yield return StartCoroutine(AfterScenesLoadOperations());
+        //StartCoroutine(AfterScenesLoadOperations());
+        //yield return null;
 
     }
 
@@ -159,21 +176,6 @@ public class SceneLoadingManager : MonoBehaviour
         {
 
             float Progress = Mathf.Clamp01(LoadOperation.progress / 0.9f);
-            if (Progress >= 0.9)
-            {
-
-                if (scene == SceneID.MainMenuUI.ToString() || scene == SceneID.GameUI.ToString())
-                {
-                    _UISceneLoaded = true;
-                    //Debug.Log("Set True");
-
-                }
-                else
-                {
-                    _mainSceneLoaded = true;
-                }
-
-            }
             _baseSceneUIManager.GetComponent<UIManager>().SetLoadingSliderValue(Progress);
             yield return null;
         }
@@ -184,10 +186,8 @@ public class SceneLoadingManager : MonoBehaviour
         foreach(SceneID scene in oldScene)
         {
             StartCoroutine(AsyncUnloadLevel(scene.ToString()));
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        yield return new WaitForSeconds(0.1f);
+            yield return null;
+        }        
     }
 
 
@@ -198,15 +198,17 @@ public class SceneLoadingManager : MonoBehaviour
         //SceneManager.SetActiveScene(newMainScene.ToString());
     }
 
-
-
-
     /// <summary>
     /// Takes The Scenes ID Adds It To The List Of Loaded Scenes
     /// </summary>
-    public void AddSceneToList(int sceneId)
+    public void AddSceneToList(List<SceneID> newScenes)
     {
-        _loadedScenesId.Add(sceneId);
+        //_loadedScenesId.Add(sceneId);
+        for (int i = 0; i < newScenes.Count; i++)
+        {
+            SceneList.Add(newScenes[i]);
+        }
+        
     }
 
 

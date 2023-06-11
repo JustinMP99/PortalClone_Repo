@@ -649,7 +649,7 @@ public class PlayerController : MonoBehaviour
     public void CloseSettings()
     {
 
-        levelManager.GetComponent<LevelManager>().CloseSettings();
+        levelManager.GetComponent<LevelManager>().CloseOptions();
     }
 
     public void ApplySettings()
