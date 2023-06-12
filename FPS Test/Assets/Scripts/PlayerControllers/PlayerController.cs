@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
     private float _totalDistance;
     private float _currentAmountTraveled;
     private float _startTime;
-    private Vector3 _holdForceMult = new Vector3(5.0f, 5.0f, 5.0f);
+    private Vector3 _holdForceMult = new Vector3(50.0f, 50.0f, 50.0f);
 
 
     #endregion
