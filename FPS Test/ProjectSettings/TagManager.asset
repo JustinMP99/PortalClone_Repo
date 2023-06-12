@@ -28,7 +28,7 @@ TagManager:
   - Portal
   - Player
   - PickUp
-  - 
+  - HeldPickUp
   - Level
   - 
   - 

@@ -534,6 +534,8 @@ public class PlayerController : MonoBehaviour
         {
             //release held object
 
+            //Set Holding Object
+            HoldingObject.gameObject.layer = 8;
             //unfreeze rotation
             HoldingObject.GetComponent<Rigidbody>().useGravity = true;
             HoldingObject.GetComponent<Rigidbody>().freezeRotation = false;
@@ -545,6 +547,7 @@ public class PlayerController : MonoBehaviour
             //set holding object to null
             HoldingObject = null;
 
+            
             //set is holding to false
             IsHolding = false;
 
@@ -574,7 +577,8 @@ public class PlayerController : MonoBehaviour
                     HoldingObject.GetComponent<BasePickup>().SetbeingHeld(true);
                     //set IsHolding to True
                     IsHolding = true;
-
+                    //Set Holding Object Layer
+                    HoldingObject.gameObject.layer = 9;
                     //set StartTime
                     _startTime = Time.time;
                     //Get Total Distance
