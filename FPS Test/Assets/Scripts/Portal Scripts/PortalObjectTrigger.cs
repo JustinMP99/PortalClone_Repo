@@ -14,7 +14,7 @@ public class PortalObjectTrigger : MonoBehaviour
         if (other.gameObject.tag == "HoldingObject")
         {
             Portal.GetComponent<PortalScript>().TouchingObject = other.gameObject;
-            Physics.IgnoreLayerCollision(3, 8, true);
+            Physics.IgnoreLayerCollision(3, 9, true);
             //Physics.IgnoreLayerCollision(6, 8, true);
             Portal.GetComponent<PortalScript>().SetCheckDotState(true);
             Portal.GetComponent<PortalScript>().CreateReplicatedObject(other.gameObject);

@@ -54,15 +54,13 @@ public class PortalScript : MonoBehaviour
     Vector3 Heading = Vector3.zero;
     Vector3 temp = Vector3.up;
 
+    Quaternion Rotate180 = Quaternion.Euler(0.0f, 180.0f, 0.0f);
     // Start is called before the first frame update
     void Start()
     {
-       
-
-
+      
     }
      
-
     private void Update()
     {
         
@@ -71,8 +69,6 @@ public class PortalScript : MonoBehaviour
         {
 
             Heading = this.transform.position - TouchingObject.transform.position;
-
-            
 
             Debug.Log("Heading: " +  Heading);
             dotForTouching = Vector3.Dot(Heading, -TouchingObject.transform.forward);
@@ -103,21 +99,21 @@ public class PortalScript : MonoBehaviour
                 //Set Rotation
                 ReplicatedObject.transform.rotation = OtherPortal.transform.rotation;
                 ReplicatedObject.transform.Rotate(0.0f, 180.0f, 0.0f);
-
                 //Set Position 
+                //ReplicatedObject.transform.position = OtherPortal.transform.position;
+                //ReplicatedObject.transform.Translate(-Heading);
+
+                //Get relative position
+                Vector3 temp = this.transform.InverseTransformPoint(TouchingObject.transform.position);
+                //rotate 180
+                temp =  Rotate180 * temp; 
+                //set replicated object position
+                ReplicatedObject.transform.position = OtherPortal.transform.TransformPoint(temp);
+
+                //Transform Position From World Space To Local Space
                 //Vector3 tempPos = this.transform.InverseTransformPoint(TouchingObject.transform.position);
-                ////Debug.Log("tempPos: " + tempPos);
-                //ReplicatedObject.transform.localPosition = new Vector3(-tempPos.x, -tempPos.y, -tempPos.z);
-
-
-                ReplicatedObject.transform.position = OtherPortal.transform.position;
-                ReplicatedObject.transform.Translate(-Heading);
-
-                //Heading.x = -Heading.x;
-                //Heading.y = -Heading.y;
-                //Heading.z = -Heading.z;
-                //ReplicatedObject.transform.position += Heading;
-
+                //ReplicatedObject.transform.position = OtherPortal.transform.position;
+                //ReplicatedObject.transform.Translate(tempPos);
 
             }
 
@@ -128,6 +124,7 @@ public class PortalScript : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+
         if (OtherPortal != null)
         {
 
@@ -174,7 +171,6 @@ public class PortalScript : MonoBehaviour
 
 
             #endregion
-
 
             #region Create Oblique Projection Matrix
 
@@ -351,11 +347,11 @@ public class PortalScript : MonoBehaviour
         Destroy(TouchingObject);
         //Set Touching Object To Null
         TouchingObject = null;
-       
         //Set Replicate Object Tag To "HoldingObject"
         ReplicatedObject.tag = "HoldingObject";
         //Set Replicated Object To Null
         ReplicatedObject = null;
+
     }
 
     #region Getters
