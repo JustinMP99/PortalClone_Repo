@@ -392,7 +392,6 @@ public class LevelManager : Manager
         //Set Game Settings Data
         SetGameSettingData();
 
-
     }
 
     // Start is called before the first frame update

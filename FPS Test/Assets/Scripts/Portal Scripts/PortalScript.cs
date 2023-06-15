@@ -55,6 +55,7 @@ public class PortalScript : MonoBehaviour
     Vector3 temp = Vector3.up;
 
     Quaternion Rotate180 = Quaternion.Euler(0.0f, 180.0f, 0.0f);
+
     // Start is called before the first frame update
     void Start()
     {
