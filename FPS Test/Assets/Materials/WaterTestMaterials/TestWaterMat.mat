@@ -27,7 +27,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -95,6 +95,7 @@ Material:
     - _Blend: 0
     - _BlendOp: 0
     - _BumpScale: 1
+    - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -112,20 +113,25 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RefractionScale: 2.74
+    - _RefractionSpeed: 0.05
+    - _RefractionStrength: 0.71
     - _SampleGI: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WaterDepth: 10
+    - _WaterDepth: 5
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DeepWater: {r: 0, g: 0.036231995, b: 1, a: 1}
+    - _DeepWater: {r: 0.611472, g: 0.7066772, b: 0.8584906, a: 0.14901961}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShallowWater: {r: 0, g: 0.6322994, b: 1, a: 1}
+    - _ShallowWater: {r: 1, g: 1, b: 1, a: 0.101960786}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
