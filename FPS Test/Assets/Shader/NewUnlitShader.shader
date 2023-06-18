@@ -1,8 +1,9 @@
-Shader "Unlit/NewUnlitShader"
+Shader"Unlit/NewUnlitShader"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Color("Color", Color) = (0,0,0,0)
     }
     SubShader
     {
